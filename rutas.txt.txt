@@ -1,0 +1,27 @@
+# Rutas para Bookings
+GET /bookings         - Obtener una lista de todas las reservas
+GET /bookings/:id     - Obtener detalles de una reserva específica
+POST /bookings        - Crear una nueva reserva
+PUT /bookings/:id     - Actualizar una reserva existente
+DELETE /bookings/:id  - Eliminar una reserva
+
+# Rutas para Rooms
+GET /rooms            - Obtener una lista de todas las habitaciones
+GET /rooms/:id        - Obtener detalles de una habitación específica
+POST /rooms           - Crear una nueva habitación
+PUT /rooms/:id        - Actualizar una habitación existente
+DELETE /rooms/:id     - Eliminar una habitación
+
+# Rutas para Users
+GET /users            - Obtener una lista de todos los usuarios
+GET /users/:id        - Obtener detalles de un usuario específico
+POST /users           - Crear un nuevo usuario
+PUT /users/:id        - Actualizar un usuario existente
+DELETE /users/:id     - Eliminar un usuario
+
+# Rutas para Contact
+GET /contacts         - Obtener una lista de todos los contactos
+GET /contacts/:id     - Obtener detalles de un contacto específico
+POST /contacts        - Crear un nuevo contacto
+PUT /contacts/:id     - Actualizar un contacto existente
+DELETE /contacts/:id  - Eliminar un contacto
