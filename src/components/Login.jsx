@@ -1,7 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  return <h1>Login Page</h1>;
+const Login = ({ setAuth }) => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const masterEmail = 'admin@admin.com';
+    const masterPassword = 'admin1234';
+
+    if (email === masterEmail && password === masterPassword) {
+      localStorage.setItem('auth', 'true');
+      setAuth(true);
+      navigate('/rooms');
+    } else {
+      alert('Invalid credentials');
+    }
+  };
+
+  return (
+    <div>
+      <h1>Login Page</h1>
+      <p>Email: admin@admin.com</p>
+      <p>Password: admin1234</p>
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
 };
 
 export default Login;
