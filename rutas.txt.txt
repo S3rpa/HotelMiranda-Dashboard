@@ -20,8 +20,5 @@ PUT /users/:id        - Actualizar un usuario existente
 DELETE /users/:id     - Eliminar un usuario
 
 # Rutas para Contact
-GET /contacts         - Obtener una lista de todos los contactos
-GET /contacts/:id     - Obtener detalles de un contacto específico
 POST /contacts        - Crear un nuevo contacto
-PUT /contacts/:id     - Actualizar un contacto existente
-DELETE /contacts/:id  - Eliminar un contacto
+
