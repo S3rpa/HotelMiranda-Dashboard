@@ -9,14 +9,14 @@ import { PiBuildingFill } from "react-icons/pi";
 import profilePic from '../assets/profilepic.jpg';
 
 const SidebarContainer = styled.div`
-  width: ${(props) => (props.$isopen ? '18.625rem' : '0')}; /* 250px */
+  width: ${(props) => (props.$isopen ? '18.625rem' : '0')};
   height: 100vh;
   background-color: #FFFFFF;
-  box-shadow: ${(props) => (props.$isopen ? '0.125rem 0 0.3125rem rgba(0, 0, 0, 0.1)' : 'none')}; /* 2px 0 5px */
+  box-shadow: ${(props) => (props.$isopen ? '0.125rem 0 0.3125rem rgba(0, 0, 0, 0.1)' : 'none')}; 
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: ${(props) => (props.$isopen ? '2.85rem 0' : '0')}; /* Mantener en rem */
+  padding: ${(props) => (props.$isopen ? '2.85rem 0' : '0')}; 
   overflow: hidden;
   transition: width 0.3s, padding 0.3s;
 `;
@@ -55,7 +55,7 @@ const LogoSubtitle = styled.h4`
 
 const Menu = styled.ul`
   list-style: none;
-  padding: 0;
+  padding-left: 5rem;
   width: 100%;
 `;
 
@@ -84,15 +84,26 @@ const StyledNavLink = styled(NavLink)`
   color: inherit;
   width: 100%;
   padding: 0.5rem 1rem;
-  border-radius: 0.25rem; /* 4px */
+  border-radius: 0.25rem;
   transition: background-color 0.3s;
+  position: relative;
 
   &.active {
-    border-left: 0.3125rem solid #E23428; /* 5px */
     color: #E23428;
 
     ${MenuIcon} {
-      color: #E23428; 
+      color: #E23428;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -2.5rem;
+      top: 0;
+      height: 100%;
+      width: 0.3125rem;
+      background-color: #E23428;
+      border-radius: 0 0.25rem 0.25rem 0;
     }
   }
 
@@ -104,10 +115,10 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const ProfileSection = styled.div`
-  top: 36.8125rem; /* 589px */
-  left: 3.5rem; /* 56px */
-  width: 12.5rem; /* 200px */
-  height: 13.8125rem; /* 221px */
+  top: 36.8125rem; 
+  left: 3.5rem; 
+  width: 12.5rem; 
+  height: 13.8125rem; 
   margin-top: auto;
   display: ${(props) => (props.$isopen ? 'flex' : 'none')};
   flex-direction: column;
@@ -116,15 +127,15 @@ const ProfileSection = styled.div`
   background-color: #FFFFFF;
   border-radius: 1rem;
   text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.14) 0px 1.25rem 1.88rem; /* 6px 12px 35px 8px */
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1.25rem 1.88rem; 
 `;
 
 const ProfileImage = styled.img`
-  top: 36.8125rem; /* 589px */
-  left: 8.625rem; /* 138px */
-  width: 4.375rem; /* 70px */
-  height: 4.375rem; /* 70px */
-  border-radius: 0.5rem; /* 8px */
+  top: 36.8125rem; 
+  left: 8.625rem; 
+  width: 4.375rem;
+  height: 4.375rem; 
+  border-radius: 0.5rem; 
   opacity: 1;
   object-fit: cover;
 `;
@@ -141,12 +152,12 @@ const ProfileEmail = styled.p`
 
 const ContactButton = styled.button`
   background: #EBF1EF 0% 0% no-repeat padding-box;
-  border-radius: 0.5rem; /* 8px */
+  border-radius: 0.5rem;
   opacity: 1;
-  top: 46.1875rem; /* 739px */
-  left: 6rem; /* 96px */
-  width: 9.875rem; /* 158px */
-  height: 2.9375rem; /* 47px */
+  top: 46.1875rem; 
+  left: 6rem;
+  width: 9.875rem; 
+  height: 2.9375rem; 
   color: #135846;
   padding: 0.5rem 1rem;
   border: none;
@@ -177,6 +188,12 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
             <MenuIcon><LuLayoutDashboard /></MenuIcon>
             <MenuText>Dashboard</MenuText>
           </StyledNavLink>
+        </MenuItem>  
+        <MenuItem>
+          <StyledNavLink to="/bookings">
+            <MenuIcon><LuCalendarCheck2 /></MenuIcon>
+            <MenuText>Bookings</MenuText>
+          </StyledNavLink>
         </MenuItem>
         <MenuItem>
           <StyledNavLink to="/rooms">
@@ -185,21 +202,15 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
           </StyledNavLink>
         </MenuItem>
         <MenuItem>
-          <StyledNavLink to="/bookings">
-            <MenuIcon><LuCalendarCheck2 /></MenuIcon>
-            <MenuText>Bookings</MenuText>
-          </StyledNavLink>
-        </MenuItem>
-        <MenuItem>
-          <StyledNavLink to="/guests">
+          <StyledNavLink to="/contact">
             <MenuIcon><IoPersonOutline /></MenuIcon>
-            <MenuText>Guest</MenuText>
+            <MenuText>Contact</MenuText>
           </StyledNavLink>
         </MenuItem>
         <MenuItem>
-          <StyledNavLink to="/concierge">
+          <StyledNavLink to="/users">
             <MenuIcon><PiPuzzlePiece /></MenuIcon>
-            <MenuText>Concierge</MenuText>
+            <MenuText>Users</MenuText>
           </StyledNavLink>
         </MenuItem>
       </Menu>
@@ -207,7 +218,7 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
         <ProfileImage src={profilePic}/>
         <ProfileName>William Johanson</ProfileName>
         <ProfileEmail>williamjohn@mail.com</ProfileEmail>
-        <ContactButton>Contact Us</ContactButton>
+        <ContactButton>Edit</ContactButton>
       </ProfileSection>
       <Footer>
         <p>Travl Hotel Admin Dashboard</p>

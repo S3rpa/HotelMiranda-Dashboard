@@ -35,11 +35,10 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
 
   const pageTitles = {
     '/index': 'Dashboard',
-    '/rooms': 'Room',
+    '/rooms': 'Rooms',
     '/bookings': 'Bookings',
-    '/guests': 'Guest',
-    '/concierge': 'Concierge',
-   
+    '/contact': 'Contact',
+    '/users': 'Users',
   };
 
   const handleLogout = () => {

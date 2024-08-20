@@ -30,14 +30,14 @@ const ProtectedRoutes = ({ auth, setAuth, isSidebarOpen, toggleSidebar }) => (
       <NavBar setAuth={setAuth} toggleSidebar={toggleSidebar} />
       <Routes>
         <Route path="/index" element={<Index setAuth={setAuth} />} />
-        <Route path="/rooms" element={<Room setAuth={setAuth} />} />
-        <Route path="/rooms/:id" element={<RoomDetail setAuth={setAuth} />} />
         <Route path="/bookings" element={<Booking setAuth={setAuth} />} />
         <Route path="/bookings/:id" element={<BookingDetail setAuth={setAuth} />} />
+        <Route path="/rooms" element={<Room setAuth={setAuth} />} />
+        <Route path="/rooms/:id" element={<RoomDetail setAuth={setAuth} />} />
         <Route path="/contact" element={<Contact setAuth={setAuth} />} />
         <Route path="/contact/:id" element={<ContactDetail setAuth={setAuth} />} />
-        <Route path="/guests" element={<Users setAuth={setAuth} />} />
-        <Route path="/concierge" element={<Contact setAuth={setAuth} />} />
+        <Route path="/users" element={<Users setAuth={setAuth} />} />
+        <Route path="/users/:id" element={<UsersDetail setAuth={setAuth} />} />
         <Route path="*" element={<Navigate to="/index" />} />
       </Routes>
     </AppContent>
