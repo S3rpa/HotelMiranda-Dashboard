@@ -31,7 +31,7 @@ const TableCell = styled.td`
   padding: 1rem;
 `;
 
-const GuestTable = ({ guests, handleSort }) => {
+const GuestTable = ({ guests, handleSort, onSpecialRequestClick }) => {
   return (
     <Table>
       <TableHead>
@@ -57,7 +57,7 @@ const GuestTable = ({ guests, handleSort }) => {
             <TableCell>{new Date(guest.checkIn).toLocaleString()}</TableCell>
             <TableCell>{new Date(guest.checkOut).toLocaleString()}</TableCell>
             <TableCell>
-              <button onClick={() => alert(guest.specialRequest)}>View Notes</button>
+              <button onClick={() => onSpecialRequestClick(guest.specialRequest)}>View Notes</button>
             </TableCell>
             <TableCell>{guest.roomType}</TableCell>
             <TableCell style={{ color: guest.status === 'Booked' ? 'green' : guest.status === 'Cancelled' ? 'red' : guest.status === 'Pending' ? 'yellow' : 'white' }}>
