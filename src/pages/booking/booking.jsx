@@ -14,11 +14,6 @@ const Header = styled.div`
   margin-bottom: 1rem;
 `;
 
-const Title = styled.h1`
-  font-size: 1.5rem;
-  color: #ffffff;
-`;
-
 const SearchInput = styled.input`
   padding: 0.5rem;
   font-size: 1rem;
@@ -72,12 +67,51 @@ const PaginationButton = styled.button`
   }
 `;
 
+const SpecialRequestPopup = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 400px;
+  max-width: 90%;
+  color: #333;
+  text-align: left;
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #135846;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+`;
+
 const Users = () => {
   const [guests, setGuests] = useState([]);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: 'orderDate', direction: 'desc' });
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   const guestsPerPage = 10;
 
@@ -135,6 +169,14 @@ const Users = () => {
     }
   };
 
+  const handleSpecialRequestClick = (request) => {
+    setSelectedRequest(request);
+  };
+
+  const closePopup = () => {
+    setSelectedRequest(null);
+  };
+
   return (
     <Container>
       <Header>
@@ -152,7 +194,7 @@ const Users = () => {
         <Tab $active={filter === 'cancelled'} onClick={() => setFilter('cancelled')}>Cancelled</Tab>
         <Tab $active={filter === 'refund'} onClick={() => setFilter('refund')}>Refund</Tab>
       </Tabs>
-      <GuestTable guests={paginatedGuests} handleSort={handleSort} />
+      <GuestTable guests={paginatedGuests} handleSort={handleSort} onSpecialRequestClick={handleSpecialRequestClick} />
       <Pagination>
         <PaginationButton
           onClick={() => handlePageChange('prev')}
@@ -168,6 +210,16 @@ const Users = () => {
           Next
         </PaginationButton>
       </Pagination>
+      
+      {selectedRequest && (
+        <>
+          <Overlay onClick={closePopup} />
+          <SpecialRequestPopup onClick={(e) => e.stopPropagation()}>
+            <h2>View Notes</h2>
+            <p>{selectedRequest}</p>
+          </SpecialRequestPopup>
+        </>
+      )}
     </Container>
   );
 };
