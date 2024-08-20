@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
 const StatsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 1.5rem; /* Añade espacio entre las tarjetas */
+  gap: 1.5rem;
   margin-bottom: 2rem;
 `;
 
@@ -37,12 +37,19 @@ const StatCard = styled.div`
 `;
 
 const IconContainer = styled.div`
-  background-color: #ffeceb;
+  background-color: rgb(255, 237, 236);
   padding: 0.75rem;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: rgb(226, 52, 40);
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: rgb(226, 52, 40);
+    color: white;
+  }
 `;
 
 const StatText = styled.div`
@@ -60,6 +67,31 @@ const StatLabel = styled.p`
   font-size: 1rem;
   color: #686868;
   margin: 0;
+`;
+
+const CardContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+`;
+
+const CalendarCard = styled.div`
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 48%;
+  height: 300px;
+`;
+
+const StatsCard = styled.div`
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 48%;
+  height: 300px;
 `;
 
 const Dashboard = () => {
@@ -91,25 +123,25 @@ const Dashboard = () => {
         <StatsContainer>
           <StatCard>
             <IconContainer>
-              <IoBed size={28} color="#E23428" />
+              <IoBed size={28} />
             </IconContainer>
             <StatText>
               <StatValue>{stats.bookings}</StatValue>
-              <StatLabel>Bookings</StatLabel>
+              <StatLabel>New Booking</StatLabel>
             </StatText>
           </StatCard>
           <StatCard>
             <IconContainer>
-              <BsFillHouseFill size={28} color="#E23428" />
+              <BsFillHouseFill size={28} />
             </IconContainer>
             <StatText>
               <StatValue>{stats.scheduledRooms}%</StatValue>
-              <StatLabel>Scheduled Rooms</StatLabel>
+              <StatLabel>Scheduled Room</StatLabel>
             </StatText>
           </StatCard>
           <StatCard>
             <IconContainer>
-              <MdOutlineLogin size={28} color="#E23428" />
+              <MdOutlineLogin size={28} />
             </IconContainer>
             <StatText>
               <StatValue>{stats.checkIns}</StatValue>
@@ -118,7 +150,7 @@ const Dashboard = () => {
           </StatCard>
           <StatCard>
             <IconContainer>
-              <MdLogout size={28} color="#E23428" /> {/* Uso del icono correcto para "Check Out" */}
+              <MdLogout size={28} />
             </IconContainer>
             <StatText>
               <StatValue>{stats.checkOuts}</StatValue>
@@ -126,6 +158,11 @@ const Dashboard = () => {
             </StatText>
           </StatCard>
         </StatsContainer>
+
+        <CardContainer>
+          <CalendarCard />
+          <StatsCard />
+        </CardContainer>
       </ContentContainer>
     </MainContainer>
   );
