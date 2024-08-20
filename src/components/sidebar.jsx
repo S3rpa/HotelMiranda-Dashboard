@@ -91,16 +91,14 @@ const StyledNavLink = styled(NavLink)`
   transition: background-color 0.3s;
 
   &.active {
-    border-left:#E23428 solid 5px;
+    border-left: #E23428 solid 5px;
     color: #E23428;
 
     ${MenuIcon} {
-      color: white;
-    }
+      color: #E23428; 
   }
 
   &:hover {
-
     ${MenuIcon} {
       color: #E23428;
     }
@@ -123,13 +121,14 @@ const ProfileSection = styled.div`
   box-shadow: 6px 12px 35px 8px rgba(0,0,0,0.26);
 `;
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   top: 589px;
   left: 138px;
   width: 70px;
   height: 70px;
   border-radius: 8px;
   opacity: 1;
+  object-fit: cover;
 `;
 
 const ProfileName = styled.h2`
