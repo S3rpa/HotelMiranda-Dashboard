@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import guestsData from '../../data/guest';
+import GuestTable from '../../components/GuestsTable';
 
 const Container = styled.div`
   padding: 2rem;
@@ -33,7 +34,7 @@ const Tabs = styled.div`
 
 const Tab = styled.button`
   background-color: ${(props) => (props.active ? '#135846' : 'transparent')};
-  color: #ffffff ${(props) => (props.active ? 'white' : '#333')};
+  color: ${(props) => (props.active ? 'white' : '#333')};
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -44,37 +45,6 @@ const Tab = styled.button`
     background-color: #0a3c29;
     color: white;
   }
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const TableHead = styled.thead`
-  background-color: #f5f5f5;
-  color: black;
-`;
-
-const TableRow = styled.tr`
-  border-bottom: 1px solid #ddd;
-`;
-
-const TableHeader = styled.th`
-  padding: 1rem;
-  text-align: left;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #eaeaea;
-  }
-`;
-
-const TableBody = styled.tbody`
-`;
-
-const TableCell = styled.td`
-  padding: 1rem;
 `;
 
 const Pagination = styled.div`
@@ -177,46 +147,13 @@ const Users = () => {
         />
       </Header>
       <Tabs>
-      <Tab active={filter === 'all'} onClick={() => setFilter('all')}>All Guests</Tab>
+        <Tab active={filter === 'all'} onClick={() => setFilter('all')}>All Guests</Tab>
         <Tab active={filter === 'pending'} onClick={() => setFilter('pending')}>Pending</Tab>
         <Tab active={filter === 'booked'} onClick={() => setFilter('booked')}>Booked</Tab>
         <Tab active={filter === 'cancelled'} onClick={() => setFilter('cancelled')}>Cancelled</Tab>
         <Tab active={filter === 'refund'} onClick={() => setFilter('refund')}>Refund</Tab>
-
       </Tabs>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader onClick={() => handleSort('name')}>Guest</TableHeader>
-            <TableHeader onClick={() => handleSort('orderDate')}>Order Date</TableHeader>
-            <TableHeader onClick={() => handleSort('checkIn')}>Check In</TableHeader>
-            <TableHeader onClick={() => handleSort('checkOut')}>Check Out</TableHeader>
-            <TableHeader>Special Request</TableHeader>
-            <TableHeader>Room Type</TableHeader>
-            <TableHeader>Status</TableHeader>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {paginatedGuests.map((guest) => (
-            <TableRow key={guest.id}>
-              <TableCell>
-                {guest.name}
-                <br />
-                <small>{`#${guest.id}`}</small>
-              </TableCell>
-              <TableCell>{new Date(guest.orderDate).toLocaleString()}</TableCell>
-              <TableCell>{new Date(guest.checkIn).toLocaleString()}</TableCell>
-              <TableCell>{new Date(guest.checkOut).toLocaleString()}</TableCell>
-              <TableCell>
-                <button onClick={() => alert(guest.specialRequest)}>View Notes</button>
-              </TableCell>
-              <TableCell>{guest.roomType}</TableCell>
-              <TableCell style={{ color: guest.status === 'Booked' ? 'green' : guest.status === 'Cancelled' ? 'red' : guest.status === 'Pending' ? 'yellow' : 'white' }}>                {guest.status}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <GuestTable guests={paginatedGuests} handleSort={handleSort} />
       <Pagination>
         <PaginationButton
           onClick={() => handlePageChange('prev')}
