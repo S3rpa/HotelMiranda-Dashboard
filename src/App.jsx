@@ -25,7 +25,7 @@ const AppContent = styled.div`
 
 const ProtectedRoutes = ({ auth, setAuth, isSidebarOpen, toggleSidebar }) => (
   <AppContainer>
-    {auth && <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />}
+    {auth && <Sidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar} />} 
     <AppContent>
       <NavBar setAuth={setAuth} toggleSidebar={toggleSidebar} />
       <Routes>

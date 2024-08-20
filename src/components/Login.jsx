@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaHotel } from "react-icons/fa";
-import PropTypes from 'prop-types'; // Add this line to import PropTypes
-
+import PropTypes from 'prop-types';
 
 const colors = {
   primary: '#135846',
@@ -70,13 +69,16 @@ const RegisterLink = styled.a`
 `;
 
 const Login = ({ setAuth }) => {
-  // Add prop validation for setAuth
-  Login.propTypes = {
-    setAuth: PropTypes.func.isRequired,
-  };
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('auth');
+    if (isAuthenticated) {
+      navigate('/index');
+    }
+  }, [navigate]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -111,10 +113,14 @@ const Login = ({ setAuth }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit">Login</Button>
-        <RegisterLink href="/register"> Don&apos;t have an account? Register</RegisterLink>
+        <RegisterLink href="/register">Don't have an account? Register</RegisterLink>
       </LoginForm>
     </LoginContainer>
   );
+};
+
+Login.propTypes = {
+  setAuth: PropTypes.func.isRequired,
 };
 
 export default Login;
