@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { LuLayoutDashboard } from "react-icons/lu";
@@ -7,24 +6,23 @@ import { LuCalendarCheck2 } from "react-icons/lu";
 import { IoPersonOutline } from "react-icons/io5";
 import { PiPuzzlePiece } from "react-icons/pi";
 import { PiBuildingFill } from "react-icons/pi";
-import { GiStarsStack } from "react-icons/gi";
 import profilePic from '../assets/profilepic.jpg';
 
 const SidebarContainer = styled.div`
-  width: ${(props) => (props.isOpen ? '250px' : '0')};
+  width: ${(props) => (props.$isopen ? '18.625rem' : '0')}; /* 250px */
   height: 100vh;
   background-color: #FFFFFF;
-  box-shadow: ${(props) => (props.isOpen ? '2px 0 5px rgba(0, 0, 0, 0.1)' : 'none')};
+  box-shadow: ${(props) => (props.$isopen ? '0.125rem 0 0.3125rem rgba(0, 0, 0, 0.1)' : 'none')}; /* 2px 0 5px */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: ${(props) => (props.isOpen ? '2rem 0rem' : '0')};
+  padding: ${(props) => (props.$isopen ? '2.85rem 0' : '0')}; /* Mantener en rem */
   overflow: hidden;
   transition: width 0.3s, padding 0.3s;
 `;
 
 const Logo = styled.div`
-  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+  display: ${(props) => (props.$isopen ? 'flex' : 'none')};
   align-items: center;
   margin-bottom: 2rem;
   padding-left: 1.5rem;
@@ -34,7 +32,6 @@ const LogoIcon = styled(PiBuildingFill)`
   font-size: 2rem;
   color: #135846;
   margin-right: 0.5rem;
-  
 `;
 
 const LogoText = styled.div`
@@ -87,15 +84,16 @@ const StyledNavLink = styled(NavLink)`
   color: inherit;
   width: 100%;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: 0.25rem; /* 4px */
   transition: background-color 0.3s;
 
   &.active {
-    border-left: #E23428 solid 5px;
+    border-left: 0.3125rem solid #E23428; /* 5px */
     color: #E23428;
 
     ${MenuIcon} {
       color: #E23428; 
+    }
   }
 
   &:hover {
@@ -106,27 +104,27 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const ProfileSection = styled.div`
-  top: 589px;
-  left: 56px;
-  width: 200px;
-  height: 221px;
+  top: 36.8125rem; /* 589px */
+  left: 3.5rem; /* 56px */
+  width: 12.5rem; /* 200px */
+  height: 13.8125rem; /* 221px */
   margin-top: auto;
-  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+  display: ${(props) => (props.$isopen ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
   padding: 1rem;
   background-color: #FFFFFF;
   border-radius: 1rem;
   text-align: center;
-  box-shadow: 6px 12px 35px 8px rgba(0,0,0,0.26);
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1.25rem 1.88rem; /* 6px 12px 35px 8px */
 `;
 
 const ProfileImage = styled.img`
-  top: 589px;
-  left: 138px;
-  width: 70px;
-  height: 70px;
-  border-radius: 8px;
+  top: 36.8125rem; /* 589px */
+  left: 8.625rem; /* 138px */
+  width: 4.375rem; /* 70px */
+  height: 4.375rem; /* 70px */
+  border-radius: 0.5rem; /* 8px */
   opacity: 1;
   object-fit: cover;
 `;
@@ -143,12 +141,12 @@ const ProfileEmail = styled.p`
 
 const ContactButton = styled.button`
   background: #EBF1EF 0% 0% no-repeat padding-box;
-  border-radius: 8px;
+  border-radius: 0.5rem; /* 8px */
   opacity: 1;
-  top: 739px;
-  left: 96px;
-  width: 158px;
-  height: 47px;
+  top: 46.1875rem; /* 739px */
+  left: 6rem; /* 96px */
+  width: 9.875rem; /* 158px */
+  height: 2.9375rem; /* 47px */
   color: #135846;
   padding: 0.5rem 1rem;
   border: none;
@@ -163,10 +161,10 @@ const Footer = styled.div`
   margin-top: auto;
 `;
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isopen, toggleSidebar }) => {
   return (
-    <SidebarContainer isOpen={isOpen}>
-      <Logo isOpen={isOpen}>
+    <SidebarContainer $isopen={isopen}>
+      <Logo $isopen={isopen}>
         <LogoIcon />
         <LogoText>
           <LogoTitle>travl</LogoTitle>
@@ -205,7 +203,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </StyledNavLink>
         </MenuItem>
       </Menu>
-      <ProfileSection isOpen={isOpen}>
+      <ProfileSection $isopen={isopen}>
         <ProfileImage src={profilePic}/>
         <ProfileName>William Johanson</ProfileName>
         <ProfileEmail>williamjohn@mail.com</ProfileEmail>

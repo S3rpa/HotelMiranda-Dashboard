@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoLogOutOutline } from "react-icons/io5";
 
@@ -24,7 +24,24 @@ const IconButton = styled.button`
   }
 `;
 
+const PageTitle = styled.div`
+  font-size: 1.2rem;
+  color: #333;
+  margin-left: 1rem;
+`;
+
 const TopBar = ({ setAuth, toggleSidebar }) => {
+  const location = useLocation(); // Obtiene la ubicación actual
+
+  const pageTitles = {
+    '/index': 'Dashboard',
+    '/rooms': 'Room',
+    '/bookings': 'Bookings',
+    '/guests': 'Guest',
+    '/concierge': 'Concierge',
+   
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('auth');
     setAuth(false);
@@ -32,9 +49,12 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
 
   return (
     <TopBarContainer>
-      <IconButton onClick={toggleSidebar}>
-        <HiMenuAlt2 />
-      </IconButton>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <IconButton onClick={toggleSidebar}>
+          <HiMenuAlt2 />
+        </IconButton>
+        <PageTitle>{pageTitles[location.pathname]}</PageTitle>
+      </div>
       <IconButton onClick={handleLogout}>
         <IoLogOutOutline />
       </IconButton>

@@ -60,7 +60,7 @@ const GuestTable = ({ guests, handleSort }) => {
               <button onClick={() => alert(guest.specialRequest)}>View Notes</button>
             </TableCell>
             <TableCell>{guest.roomType}</TableCell>
-            <TableCell style={{ color: guest.status === 'Booked' ? 'green' : guest.status === 'Cancelled' ? 'red' : guest.status === 'Pending' ? 'yellow' : 'black' }}>
+            <TableCell style={{ color: guest.status === 'Booked' ? 'green' : guest.status === 'Cancelled' ? 'red' : guest.status === 'Pending' ? 'yellow' : 'white' }}>
               {guest.status}
             </TableCell>
           </TableRow>
