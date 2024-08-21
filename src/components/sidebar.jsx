@@ -9,8 +9,8 @@ import { PiBuildingFill } from "react-icons/pi";
 import profilePic from '../assets/profilepic.jpg';
 
 const SidebarContainer = styled.div`
-  width: ${(props) => (props.$isopen ? '18.625rem' : '0')};
-  height: 100vh;
+  width: ${(props) => (props.$isopen ? '20.625rem' : '0')};
+  height: 109vh;
   background-color: #FFFFFF;
   box-shadow: ${(props) => (props.$isopen ? '0.125rem 0 0.3125rem rgba(0, 0, 0, 0.1)' : 'none')}; 
   display: flex;
@@ -188,7 +188,7 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
             <MenuIcon><LuLayoutDashboard /></MenuIcon>
             <MenuText>Dashboard</MenuText>
           </StyledNavLink>
-        </MenuItem>  
+        </MenuItem>
         <MenuItem>
           <StyledNavLink to="/bookings">
             <MenuIcon><LuCalendarCheck2 /></MenuIcon>
@@ -215,7 +215,7 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
         </MenuItem>
       </Menu>
       <ProfileSection $isopen={isopen}>
-        <ProfileImage src={profilePic}/>
+        <ProfileImage src={profilePic} />
         <ProfileName>William Johanson</ProfileName>
         <ProfileEmail>williamjohn@mail.com</ProfileEmail>
         <ContactButton>Edit</ContactButton>
