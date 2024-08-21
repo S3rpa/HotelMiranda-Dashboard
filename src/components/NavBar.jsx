@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { HiMenuAlt2 } from "react-icons/hi";
-import { IoLogOutOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoArrowBack } from "react-icons/io5";
 
 const TopBarContainer = styled.div`
   display: flex;
@@ -24,14 +24,21 @@ const IconButton = styled.button`
   }
 `;
 
-const PageTitle = styled.div`
-  font-size: 1.2rem;
-  color: #333;
+const PageTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
   margin-left: 1rem;
 `;
 
+const PageTitle = styled.div`
+  font-size: 1.2rem;
+  color: #333;
+  margin-left: 0.5rem; /* Espacio entre la flecha y el título */
+`;
+
 const TopBar = ({ setAuth, toggleSidebar }) => {
-  const location = useLocation(); // Obtiene la ubicación actual
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const pageTitles = {
     '/index': 'Dashboard',
@@ -41,9 +48,21 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
     '/users': 'Users',
   };
 
+  // Función para determinar el título de la página
+  const getPageTitle = () => {
+    if (location.pathname.startsWith('/bookings/')) {
+      return 'Booking Details';
+    }
+    return pageTitles[location.pathname] || 'Unknown Page';
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('auth');
     setAuth(false);
+  };
+
+  const handleBackClick = () => {
+    navigate('/bookings');
   };
 
   return (
@@ -52,7 +71,14 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
         <IconButton onClick={toggleSidebar}>
           <HiMenuAlt2 />
         </IconButton>
-        <PageTitle>{pageTitles[location.pathname]}</PageTitle>
+        <PageTitleContainer>
+          {location.pathname.startsWith('/bookings/') && (
+            <IconButton onClick={handleBackClick}>
+              <IoArrowBack />
+            </IconButton>
+          )}
+          <PageTitle>{getPageTitle()}</PageTitle>
+        </PageTitleContainer>
       </div>
       <IconButton onClick={handleLogout}>
         <IoLogOutOutline />

@@ -14,6 +14,7 @@ import Sidebar from './components/sidebar';
 import Index from './pages/index/index';
 import NavBar from './components/NavBar';
 import styled from 'styled-components';
+import BookingDetails from './pages/booking/bookingDetails';
 
 const AppContainer = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const ProtectedRoutes = ({ auth, setAuth, isSidebarOpen, toggleSidebar }) => (
       <Routes>
         <Route path="/index" element={<Index setAuth={setAuth} />} />
         <Route path="/bookings" element={<Booking setAuth={setAuth} />} />
-        <Route path="/bookings/:id" element={<BookingDetail setAuth={setAuth} />} />
+        <Route path="/bookings/:id" element={<BookingDetails setAuth={setAuth} />} />
         <Route path="/rooms" element={<Room setAuth={setAuth} />} />
         <Route path="/rooms/:id" element={<RoomDetail setAuth={setAuth} />} />
         <Route path="/contact" element={<Contact setAuth={setAuth} />} />
