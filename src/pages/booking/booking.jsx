@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirigir
+import { useNavigate } from 'react-router-dom';
 import guestsData from '../../data/guest';
 import GuestTable from '../../components/GuestsTable';
 
@@ -120,14 +120,14 @@ const Overlay = styled.div`
   z-index: 999;
 `;
 
-const Users = () => {
+const Booking = () => {
   const [guests, setGuests] = useState([]);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: 'orderDate', direction: 'desc' });
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const navigate = useNavigate(); // Para redirigir al hacer clic en "New Booking"
+  const navigate = useNavigate();
 
   const guestsPerPage = 10;
 
@@ -135,23 +135,27 @@ const Users = () => {
     setGuests(guestsData);
   }, []);
 
-  const filteredGuests = Array.isArray(guests) ? guests.filter((guest) => {
-    if (filter === 'pending') {
-      return guest.status === 'Pending';
-    }
-    if (filter === 'booked') {
-      return guest.status === 'Booked';
-    }
-    if (filter === 'cancelled') {
-      return guest.status === 'Cancelled';
-    }
-    if (filter === 'refund') {
-      return guest.status === 'Refund';
-    }
-    return true;
-  }).filter((guest) => {
-    return guest.name.toLowerCase().includes(searchTerm.toLowerCase());
-  }) : [];
+  const filteredGuests = Array.isArray(guests)
+    ? guests
+      .filter((guest) => {
+        if (filter === 'pending') {
+          return guest.status === 'Pending';
+        }
+        if (filter === 'booked') {
+          return guest.status === 'Booked';
+        }
+        if (filter === 'cancelled') {
+          return guest.status === 'Cancelled';
+        }
+        if (filter === 'refund') {
+          return guest.status === 'Refund';
+        }
+        return true;
+      })
+      .filter((guest) => {
+        return guest.name.toLowerCase().includes(searchTerm.toLowerCase());
+      })
+    : [];
 
   const sortedGuests = filteredGuests.sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -163,7 +167,10 @@ const Users = () => {
     return 0;
   });
 
-  const paginatedGuests = sortedGuests.slice((currentPage - 1) * guestsPerPage, currentPage * guestsPerPage);
+  const paginatedGuests = sortedGuests.slice(
+    (currentPage - 1) * guestsPerPage,
+    currentPage * guestsPerPage
+  );
 
   const handleSort = (key) => {
     let direction = 'asc';
@@ -189,19 +196,15 @@ const Users = () => {
     setSelectedRequest(request);
   };
 
+  const handleDelete = (guestId) => {
+    const updatedGuests = guests.filter(guest => guest.id !== guestId);
+    setGuests(updatedGuests);
+    alert("Booking eliminada correctamente.");
+  };
+
   const closePopup = () => {
     setSelectedRequest(null);
   };
-  const handleDelete = (id) => {
-    const updatedGuests = guests.filter(guest => guest.id !== id);
-    setGuests(updatedGuests);
-    alert('Booking eliminado');
-  };
-
-  const handleUpdate = (id) => {
-    navigate(`/bookings/update/${id}`);
-  };
-
 
   return (
     <Container>
@@ -217,18 +220,28 @@ const Users = () => {
         </NewBookingButton>
       </Header>
       <Tabs>
-        <Tab $active={filter === 'all'} onClick={() => setFilter('all')}>All Guests</Tab>
-        <Tab $active={filter === 'pending'} onClick={() => setFilter('pending')}>Pending</Tab>
-        <Tab $active={filter === 'booked'} onClick={() => setFilter('booked')}>Booked</Tab>
-        <Tab $active={filter === 'cancelled'} onClick={() => setFilter('cancelled')}>Cancelled</Tab>
-        <Tab $active={filter === 'refund'} onClick={() => setFilter('refund')}>Refund</Tab>
+        <Tab $active={filter === 'all'} onClick={() => setFilter('all')}>
+          All Guests
+        </Tab>
+        <Tab $active={filter === 'pending'} onClick={() => setFilter('pending')}>
+          Pending
+        </Tab>
+        <Tab $active={filter === 'booked'} onClick={() => setFilter('booked')}>
+          Booked
+        </Tab>
+        <Tab $active={filter === 'cancelled'} onClick={() => setFilter('cancelled')}>
+          Cancelled
+        </Tab>
+        <Tab $active={filter === 'refund'} onClick={() => setFilter('refund')}>
+          Refund
+        </Tab>
       </Tabs>
-      <GuestTable 
-        guests={paginatedGuests} 
-        handleSort={handleSort} 
-        onSpecialRequestClick={handleSpecialRequestClick} 
-        onDeleteClick={handleDelete} 
-        onUpdateClick={handleUpdate}  />
+      <GuestTable
+        guests={paginatedGuests}
+        handleSort={handleSort}
+        onSpecialRequestClick={handleSpecialRequestClick}
+        onDeleteClick={handleDelete}
+      />
       <Pagination>
         <PaginationButton
           onClick={() => handlePageChange('prev')}
@@ -258,4 +271,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Booking;
