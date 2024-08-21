@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para redirigir
 import guestsData from '../../data/guest';
 import GuestTable from '../../components/GuestsTable';
 
@@ -20,6 +21,20 @@ const SearchInput = styled.input`
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-left: 1rem;
+`;
+
+const NewBookingButton = styled.button`
+  background-color: #135846;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: #0a3c29;
+  }
 `;
 
 const Tabs = styled.div`
@@ -112,6 +127,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: 'orderDate', direction: 'desc' });
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const navigate = useNavigate(); // Para redirigir al hacer clic en "New Booking"
 
   const guestsPerPage = 10;
 
@@ -186,6 +202,9 @@ const Users = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
+        <NewBookingButton onClick={() => navigate('/bookings/new')}>
+          New Booking
+        </NewBookingButton>
       </Header>
       <Tabs>
         <Tab $active={filter === 'all'} onClick={() => setFilter('all')}>All Guests</Tab>
