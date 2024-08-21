@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Asegúrate de que useState y useEffect estén importados
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Booking from './pages/booking/booking';
-import BookingDetail from './pages/booking/bookingDetails';
+import UpdateBooking from './pages/booking/UpdateBooking';
+import NewBooking from './pages/booking/NewBooking';
+import BookingDetails from './pages/booking/bookingDetails';
 import Room from './pages/room/room';
 import RoomDetail from './pages/room/roomDetails';
 import Users from './pages/users/users';
@@ -14,7 +16,6 @@ import Sidebar from './components/sidebar';
 import Index from './pages/index/index';
 import NavBar from './components/NavBar';
 import styled from 'styled-components';
-import BookingDetails from './pages/booking/bookingDetails';
 
 const AppContainer = styled.div`
   display: flex;
@@ -32,6 +33,8 @@ const ProtectedRoutes = ({ auth, setAuth, isSidebarOpen, toggleSidebar }) => (
       <Routes>
         <Route path="/index" element={<Index setAuth={setAuth} />} />
         <Route path="/bookings" element={<Booking setAuth={setAuth} />} />
+        <Route path="/bookings/new" element={<NewBooking />} />
+        <Route path="/bookings/update/:id" element={<UpdateBooking />} />
         <Route path="/bookings/:id" element={<BookingDetails setAuth={setAuth} />} />
         <Route path="/rooms" element={<Room setAuth={setAuth} />} />
         <Route path="/rooms/:id" element={<RoomDetail setAuth={setAuth} />} />
@@ -39,7 +42,7 @@ const ProtectedRoutes = ({ auth, setAuth, isSidebarOpen, toggleSidebar }) => (
         <Route path="/contact/:id" element={<ContactDetail setAuth={setAuth} />} />
         <Route path="/users" element={<Users setAuth={setAuth} />} />
         <Route path="/users/:id" element={<UsersDetail setAuth={setAuth} />} />
-        <Route path="*" element={<Navigate to="/index" />} />
+        <Route path="*" element={<Navigate to="/bookings" />} />
       </Routes>
     </AppContent>
   </AppContainer>
