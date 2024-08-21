@@ -192,6 +192,16 @@ const Users = () => {
   const closePopup = () => {
     setSelectedRequest(null);
   };
+  const handleDelete = (id) => {
+    const updatedGuests = guests.filter(guest => guest.id !== id);
+    setGuests(updatedGuests);
+    alert('Booking eliminado');
+  };
+
+  const handleUpdate = (id) => {
+    navigate(`/bookings/update/${id}`);
+  };
+
 
   return (
     <Container>
@@ -213,7 +223,12 @@ const Users = () => {
         <Tab $active={filter === 'cancelled'} onClick={() => setFilter('cancelled')}>Cancelled</Tab>
         <Tab $active={filter === 'refund'} onClick={() => setFilter('refund')}>Refund</Tab>
       </Tabs>
-      <GuestTable guests={paginatedGuests} handleSort={handleSort} onSpecialRequestClick={handleSpecialRequestClick} />
+      <GuestTable 
+        guests={paginatedGuests} 
+        handleSort={handleSort} 
+        onSpecialRequestClick={handleSpecialRequestClick} 
+        onDeleteClick={handleDelete} 
+        onUpdateClick={handleUpdate}  />
       <Pagination>
         <PaginationButton
           onClick={() => handlePageChange('prev')}

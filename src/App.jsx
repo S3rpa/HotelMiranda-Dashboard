@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'; // Asegúrate de que useState y useEffect estén importados
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Booking from './pages/booking/booking';
-import NewBooking from './pages/booking/NewBooking'; // Importa la nueva página
+import UpdateBooking from './pages/booking/UpdateBooking';
+import NewBooking from './pages/booking/NewBooking';
 import BookingDetails from './pages/booking/bookingDetails';
 import Room from './pages/room/room';
 import RoomDetail from './pages/room/roomDetails';
@@ -33,6 +34,7 @@ const ProtectedRoutes = ({ auth, setAuth, isSidebarOpen, toggleSidebar }) => (
         <Route path="/index" element={<Index setAuth={setAuth} />} />
         <Route path="/bookings" element={<Booking setAuth={setAuth} />} />
         <Route path="/bookings/new" element={<NewBooking />} />
+        <Route path="/bookings/update/:id" element={<UpdateBooking />} />
         <Route path="/bookings/:id" element={<BookingDetails setAuth={setAuth} />} />
         <Route path="/rooms" element={<Room setAuth={setAuth} />} />
         <Route path="/rooms/:id" element={<RoomDetail setAuth={setAuth} />} />
