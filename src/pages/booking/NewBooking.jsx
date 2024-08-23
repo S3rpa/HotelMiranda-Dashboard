@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import guestsData from '../../data/guest';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { CreateBooking } from '../../../features/bookings/bookingThunk';
 
 const Container = styled.div`
   padding: 2rem;
@@ -38,6 +39,7 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+
   &:hover {
     background-color: #0a3c29;
   }
@@ -52,11 +54,11 @@ const NewBooking = () => {
   const [status, setStatus] = useState('Booked');
   const [description, setDescription] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newBooking = {
-      id: guestsData.length + 1,
       name,
       orderDate,
       checkIn,
@@ -65,14 +67,18 @@ const NewBooking = () => {
       status,
       description,
       price: 'Euro',
-      amenities: [] 
+      amenities: [],
     };
 
-    guestsData.push(newBooking);
-
-    alert('Booking added successfully!');
-
-    navigate('/bookings');
+    dispatch(CreateBooking(newBooking))
+      .then(() => {
+        alert('Booking added successfully!');
+        navigate('/bookings');
+      })
+      .catch((error) => {
+        console.error('Error adding booking:', error);
+        alert('Failed to add booking.');
+      });
   };
 
   return (

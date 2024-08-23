@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import guestsData from '../../data/guest';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetBookings, DeleteBooking, EditBooking } from '../../../features/bookings/bookingThunk';
 import GuestTable from '../../components/GuestsTable';
 
 const Container = styled.div`
@@ -121,22 +122,26 @@ const Overlay = styled.div`
 `;
 
 const Booking = () => {
-  const [guests, setGuests] = useState([]);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: 'orderDate', direction: 'desc' });
   const [selectedRequest, setSelectedRequest] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const bookings = useSelector((state) => state.bookings.data);
+  const bookingsStatus = useSelector((state) => state.bookings.status);
 
   const guestsPerPage = 10;
 
   useEffect(() => {
-    setGuests(guestsData);
-  }, []);
+    if (bookingsStatus === 'idle') {
+      dispatch(GetBookings());
+    }
+  }, [dispatch, bookingsStatus]);
 
-  const filteredGuests = Array.isArray(guests)
-    ? guests
+  const filteredGuests = Array.isArray(bookings)
+    ? bookings
       .filter((guest) => {
         if (filter === 'pending') {
           return guest.status === 'Pending';
@@ -197,8 +202,7 @@ const Booking = () => {
   };
 
   const handleDelete = (guestId) => {
-    const updatedGuests = guests.filter(guest => guest.id !== guestId);
-    setGuests(updatedGuests);
+    dispatch(DeleteBooking(guestId));
     alert("Booking eliminada correctamente.");
   };
 
