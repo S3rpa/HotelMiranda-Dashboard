@@ -144,20 +144,6 @@ const GuestTable = () => {
 
     return (
         <>
-            <FilterContainer>
-                <SearchInput
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                />
-                <Button $active={filterStatus === 'ALL'} onClick={() => handleFilterChange('ALL')}>All Bookings</Button>
-                <Button $active={filterStatus === 'CHECK-IN'} onClick={() => handleFilterChange('CHECK-IN')}>Checking In</Button>
-                <Button $active={filterStatus === 'CHECK-OUT'} onClick={() => handleFilterChange('CHECK-OUT')}>Checking Out</Button>
-                <Button $active={filterStatus === 'IN-PROGRESS'} onClick={() => handleFilterChange('IN-PROGRESS')}>In Progress</Button>
-                <AddButton onClick={() => navigate('/bookings/add')}>Add Booking</AddButton>
-            </FilterContainer>
-
             {filteredBookings.length > 0 ? (
                 <Table>
                     <TableHead>
