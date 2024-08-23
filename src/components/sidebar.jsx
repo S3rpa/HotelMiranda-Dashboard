@@ -1,5 +1,7 @@
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { AuthContext } from './authContext';
 import { LuLayoutDashboard } from "react-icons/lu";
 import { BiKey } from "react-icons/bi";
 import { LuCalendarCheck2 } from "react-icons/lu";
@@ -173,60 +175,68 @@ const Footer = styled.div`
 `;
 
 const Sidebar = ({ isopen, toggleSidebar }) => {
-  return (
-    <SidebarContainer $isopen={isopen}>
-      <Logo $isopen={isopen}>
-        <LogoIcon />
-        <LogoText>
-          <LogoTitle>travl</LogoTitle>
-          <LogoSubtitle>Hotel Admin Dashboard</LogoSubtitle>
-        </LogoText>
-      </Logo>
-      <Menu>
-        <MenuItem>
-          <StyledNavLink to="/index">
-            <MenuIcon><LuLayoutDashboard /></MenuIcon>
-            <MenuText>Dashboard</MenuText>
-          </StyledNavLink>
-        </MenuItem>
-        <MenuItem>
-          <StyledNavLink to="/bookings">
-            <MenuIcon><LuCalendarCheck2 /></MenuIcon>
-            <MenuText>Bookings</MenuText>
-          </StyledNavLink>
-        </MenuItem>
-        <MenuItem>
-          <StyledNavLink to="/rooms">
-            <MenuIcon><BiKey /></MenuIcon>
-            <MenuText>Room</MenuText>
-          </StyledNavLink>
-        </MenuItem>
-        <MenuItem>
-          <StyledNavLink to="/contact">
-            <MenuIcon><IoPersonOutline /></MenuIcon>
-            <MenuText>Contact</MenuText>
-          </StyledNavLink>
-        </MenuItem>
-        <MenuItem>
-          <StyledNavLink to="/users">
-            <MenuIcon><PiPuzzlePiece /></MenuIcon>
-            <MenuText>Users</MenuText>
-          </StyledNavLink>
-        </MenuItem>
-      </Menu>
-      <ProfileSection $isopen={isopen}>
-        <ProfileImage src={profilePic} />
-        <ProfileName>William Johanson</ProfileName>
-        <ProfileEmail>williamjohn@mail.com</ProfileEmail>
-        <ContactButton>Edit</ContactButton>
-      </ProfileSection>
-      <Footer>
-        <p>Travl Hotel Admin Dashboard</p>
-        <p>© 2020 All Rights Reserved</p>
-        <p>Made with ♥ by Peterdraw</p>
-      </Footer>
-    </SidebarContainer>
-  );
+    const { state } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const userId = state.user?.id;
+
+    const handleEditProfile = () => {
+        navigate(`/users/edit/${userId}`);
+    };
+
+    return (
+        <SidebarContainer $isopen={isopen}>
+            <Logo $isopen={isopen}>
+                <LogoIcon />
+                <LogoText>
+                    <LogoTitle>travl</LogoTitle>
+                    <LogoSubtitle>Hotel Admin Dashboard</LogoSubtitle>
+                </LogoText>
+            </Logo>
+            <Menu>
+                <MenuItem>
+                    <StyledNavLink to="/index">
+                        <MenuIcon><LuLayoutDashboard /></MenuIcon>
+                        <MenuText>Dashboard</MenuText>
+                    </StyledNavLink>
+                </MenuItem>
+                <MenuItem>
+                    <StyledNavLink to="/bookings">
+                        <MenuIcon><LuCalendarCheck2 /></MenuIcon>
+                        <MenuText>Bookings</MenuText>
+                    </StyledNavLink>
+                </MenuItem>
+                <MenuItem>
+                    <StyledNavLink to="/rooms">
+                        <MenuIcon><BiKey /></MenuIcon>
+                        <MenuText>Room</MenuText>
+                    </StyledNavLink>
+                </MenuItem>
+                <MenuItem>
+                    <StyledNavLink to="/contact">
+                        <MenuIcon><IoPersonOutline /></MenuIcon>
+                        <MenuText>Contact</MenuText>
+                    </StyledNavLink>
+                </MenuItem>
+                <MenuItem>
+                    <StyledNavLink to="/users">
+                        <MenuIcon><PiPuzzlePiece /></MenuIcon>
+                        <MenuText>Users</MenuText>
+                    </StyledNavLink>
+                </MenuItem>
+            </Menu>
+            <ProfileSection $isopen={isopen}>
+                <ProfileImage src={profilePic} />
+                <ProfileName>{state.user?.name || 'William Johanson'}</ProfileName>
+                <ProfileEmail>{state.user?.email || 'williamjohn@mail.com'}</ProfileEmail>
+                <ContactButton onClick={handleEditProfile}>Edit</ContactButton>
+            </ProfileSection>
+            <Footer>
+                <p>Travl Hotel Admin Dashboard</p>
+                <p>© 2020 All Rights Reserved</p>
+                <p>Made with ♥ by Peterdraw</p>
+            </Footer>
+        </SidebarContainer>
+    );
 };
 
 export default Sidebar;

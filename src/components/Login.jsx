@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { AuthContext } from './authContext';
 import { FaHotel } from "react-icons/fa";
-import PropTypes from 'prop-types';
+import usersData from '../data/users.js';
 
 const colors = {
   primary: '#135846',
@@ -68,26 +69,22 @@ const RegisterLink = styled.a`
   }
 `;
 
-const Login = ({ setAuth }) => {
+const Login = () => {
+  const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem('auth');
-    if (isAuthenticated) {
-      navigate('/index');
-    }
-  }, [navigate]);
-
   const handleLogin = (e) => {
     e.preventDefault();
-    const masterEmail = 'admin';
-    const masterPassword = 'admin';
 
-    if (email === masterEmail && password === masterPassword) {
-      localStorage.setItem('auth', 'true');
-      setAuth(true);
+    const user = usersData.find(user => user.email === email && user.password === password);
+
+    if (user) {
+      dispatch({
+        type: 'LOGIN',
+        payload: user,
+      });
       navigate('/index');
     } else {
       alert('Invalid credentials');
@@ -117,10 +114,6 @@ const Login = ({ setAuth }) => {
       </LoginForm>
     </LoginContainer>
   );
-};
-
-Login.propTypes = {
-  setAuth: PropTypes.func.isRequired,
 };
 
 export default Login;
