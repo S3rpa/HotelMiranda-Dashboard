@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Booking from './pages/booking/booking';
 import UpdateBooking from './pages/booking/UpdateBooking';
@@ -17,7 +17,9 @@ import Sidebar from './components/sidebar';
 import Index from './pages/index/index';
 import NavBar from './components/NavBar';
 import styled from 'styled-components';
-import { AuthProvider, AuthContext } from './components/authContext';
+import { AuthProvider } from './components/authContext';
+import { Provider } from 'react-redux';
+import { store } from '../app/store';
 
 const AppContainer = styled.div`
   display: flex;
@@ -59,14 +61,16 @@ const App = () => {
   };
 
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/*" element={<PrivateRoute><ProtectedRoutes isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /></PrivateRoute>} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <Provider store={store}> 
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/*" element={<PrivateRoute><ProtectedRoutes isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /></PrivateRoute>} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </Provider>
   );
 };
 

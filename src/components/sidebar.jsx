@@ -177,10 +177,15 @@ const Footer = styled.div`
 const Sidebar = ({ isopen, toggleSidebar }) => {
     const { state } = useContext(AuthContext);
     const navigate = useNavigate();
-    const userId = state.user?.id;
+    
+    const userId = state?.user?.id;
 
     const handleEditProfile = () => {
-        navigate(`/users/edit/${userId}`);
+        if (userId) {
+            navigate(`/users/edit/${userId}`);
+        } else {
+            console.error("User ID is not available");
+        }
     };
 
     return (
@@ -224,12 +229,14 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
                     </StyledNavLink>
                 </MenuItem>
             </Menu>
-            <ProfileSection $isopen={isopen}>
-                <ProfileImage src={profilePic} />
-                <ProfileName>{state.user?.name || 'William Johanson'}</ProfileName>
-                <ProfileEmail>{state.user?.email || 'williamjohn@mail.com'}</ProfileEmail>
-                <ContactButton onClick={handleEditProfile}>Edit</ContactButton>
-            </ProfileSection>
+            {state?.user && (
+                <ProfileSection $isopen={isopen}>
+                    <ProfileImage src={profilePic} />
+                    <ProfileName>{state.user.name}</ProfileName>
+                    <ProfileEmail>{state.user.email}</ProfileEmail>
+                    <ContactButton onClick={handleEditProfile}>Edit</ContactButton>
+                </ProfileSection>
+            )}
             <Footer>
                 <p>Travl Hotel Admin Dashboard</p>
                 <p>© 2020 All Rights Reserved</p>
