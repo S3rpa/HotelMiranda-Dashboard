@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, matchPath } from 'react-router-dom';
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoLogOutOutline, IoArrowBack } from "react-icons/io5";
 
@@ -48,12 +48,19 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
     '/users': 'Users',
   };
 
-  // Función para determinar el título de la página
   const getPageTitle = () => {
-    if (location.pathname.startsWith('/bookings/')) {
+    if (matchPath('/bookings/:id', location.pathname)) {
       return 'Booking Details';
+    } else if (matchPath('/users/edit/:id', location.pathname)) {
+      return 'Edit User';
+    } else {
+      return pageTitles[location.pathname] || 'Unknown Page';
     }
-    return pageTitles[location.pathname] || 'Unknown Page';
+  };
+
+  const shouldShowBackButton = () => {
+    return matchPath('/bookings/:id', location.pathname) || 
+           matchPath('/users/edit/:id', location.pathname);
   };
 
   const handleLogout = () => {
@@ -62,7 +69,7 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
   };
 
   const handleBackClick = () => {
-    navigate('/bookings');
+    navigate(-1); 
   };
 
   return (
@@ -72,7 +79,7 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
           <HiMenuAlt2 />
         </IconButton>
         <PageTitleContainer>
-          {location.pathname.startsWith('/bookings/') && (
+          {shouldShowBackButton() && (
             <IconButton onClick={handleBackClick}>
               <IoArrowBack />
             </IconButton>
