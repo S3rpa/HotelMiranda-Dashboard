@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
-import guest from '../../../db.json';
+import { useSelector, useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { EditBooking } from '../../../features/bookings/bookingThunk';
 
 const Container = styled.div`
   padding: 2rem;
@@ -44,27 +46,32 @@ const Button = styled.button`
 const UpdateBooking = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [booking, setBooking] = useState(null);
+  const guests = useSelector((state) => state.bookings.data);
 
   useEffect(() => {
-    const foundBooking = guest.find((guest) => guest.id === parseInt(id));
+    const foundBooking = guests.find((g) => g.id === parseInt(id));
     if (foundBooking) {
       setBooking(foundBooking);
     }
-  }, [id]);
+  }, [id, guests]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBooking({ ...booking, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const index = guest.findIndex((guest) => guest.id === parseInt(id));
-    if (index !== -1) {
-      guest[index] = booking;
+    try {
+      const resultAction = await dispatch(EditBooking(booking));
+      unwrapResult(resultAction);
       alert('Booking updated successfully!');
       navigate('/bookings');
+    } catch (error) {
+      console.error('Failed to update booking:', error);
+      alert('Failed to update booking.');
     }
   };
 

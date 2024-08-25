@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from './authContext';
 import { FaHotel } from "react-icons/fa";
-import users from '../../users.json';
+import {users} from '../../db.json';
 
 const colors = {
   primary: '#135846',

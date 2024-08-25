@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import guest from '../../../db.json';
+import { useSelector } from 'react-redux';
 import room1 from '../../assets/room1.jpg';
 import room2 from '../../assets/room2.jpg';
 import room3 from '../../assets/room3.jpg';
@@ -103,8 +103,6 @@ const ShortDescription = styled.p`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
-
-
 const Amenities = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -172,7 +170,8 @@ const CarouselButton = styled.button`
 
 const BookingDetails = () => {
   const { id } = useParams();
-  const guest = guestData.find((guest) => guest.id === parseInt(id));
+  const guests = useSelector((state) => state.bookings.data);
+  const guest = guests.find((guest) => guest.id === parseInt(id));
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!guest) {
@@ -202,7 +201,6 @@ const BookingDetails = () => {
     );
   };
 
-  // Usar el campo description y acortarlo a 100 caracteres si es necesario
   const shortDescription = guest.description
     ? guest.description.length > 100
       ? guest.description.substring(0, 100) + '...'
@@ -264,4 +262,3 @@ const BookingDetails = () => {
 };
 
 export default BookingDetails;
-

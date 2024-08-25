@@ -61,158 +61,63 @@
         {},
         {}
       ]
-    },
+    }
+  ],
+  "users": [
     {
-      "id": 5,
-      "name": "Tammie Mongain",
-      "orderDate": "10/6/2020",
-      "checkIn": "11/1/2020",
-      "checkOut": "11/1/2020",
-      "roomType": "Deluxe A - 03",
-      "status": "Refund",
-      "description": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.\n\nCurabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.\n\nPhasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
-      "price": "Kyat",
-      "amenities": []
-    },
-    {
-      "id": 6,
-      "name": "Iona Balas",
-      "orderDate": "10/27/2020",
-      "checkIn": "11/1/2020",
-      "checkOut": "11/2/2020",
-      "roomType": "Deluxe A - 03",
-      "status": "Refund",
-      "description": "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.\n\nInteger tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.\n\nPraesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.",
-      "price": "Yuan Renminbi",
-      "amenities": [
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    {
-      "id": 7,
-      "name": "Danie Cours",
-      "orderDate": "10/10/2020",
-      "checkIn": "11/2/2020",
-      "checkOut": "11/1/2020",
-      "roomType": "Deluxe A - 03",
-      "status": "Booked",
-      "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
-      "price": "Yuan Renminbi",
-      "amenities": [
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    {
-      "id": 8,
-      "name": "Lynea Royds",
-      "orderDate": "10/5/2020",
-      "checkIn": "11/3/2020",
-      "checkOut": "11/2/2020",
-      "roomType": "Superior C - 07",
-      "status": "Cancelled",
-      "description": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.\n\nSed ante. Vivamus tortor. Duis mattis egestas metus.",
-      "price": "Euro",
-      "amenities": [
-        {}
-      ]
-    },
-    {
-      "id": 9,
-      "name": "Brandy Alfonsetto",
-      "orderDate": "10/19/2020",
-      "checkIn": "11/3/2020",
-      "checkOut": "11/1/2020",
-      "roomType": "Superior C - 07",
-      "status": "Booked",
-      "description": "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\n\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.\n\nNullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.",
-      "price": "Yuan Renminbi",
-      "amenities": [
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    {
-      "id": 10,
-      "name": "Jaye Stiger",
-      "orderDate": "10/2/2020",
-      "checkIn": "11/2/2020",
-      "checkOut": "11/3/2020",
-      "roomType": "Standard B - 05",
-      "status": "Refund",
-      "description": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
-      "price": "Peso",
-      "amenities": []
-    },
-    {
-      "id": 11,
-      "name": "Chicky Heynen",
-      "orderDate": "10/12/2020",
-      "checkIn": "11/2/2020",
-      "checkOut": "11/1/2020",
-      "roomType": "Superior C - 07",
-      "status": "Refund",
-      "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
-      "price": "Euro",
-      "amenities": [
-        {}
-      ]
-    },
-    {
-      "id": 12,
-      "name": "Udell Broxup",
-      "orderDate": "10/24/2020",
-      "checkIn": "11/2/2020",
-      "checkOut": "11/1/2020",
-      "roomType": "Superior C - 07",
-      "status": "Cancelled",
-      "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.\n\nMaecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.\n\nNullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.",
-      "price": "Ruble",
-      "amenities": [
-        {}
-      ]
-    },
-    {
-      "id": 13,
-      "name": "Sheila Shalloo",
-      "orderDate": "10/26/2020",
-      "checkIn": "11/3/2020",
-      "checkOut": "11/2/2020",
-      "roomType": "Superior C - 07",
-      "status": "Pending",
+      "id": 0,
+      "name": "Michael Jordan",
+      "work": "Database Administrator IV",
+      "email": "admin",
+      "telephone": "889-317-2899",
+      "start_date": "12/9/2004",
       "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      "price": "Krona",
-      "amenities": [
-        {},
-        {},
-        {}
-      ]
+      "state": null,
+      "password": "admin"
     },
     {
-      "id": 14,
-      "name": "Donella Cauley",
-      "orderDate": "10/3/2020",
-      "checkIn": "11/1/2020",
-      "checkOut": "11/3/2020",
-      "roomType": "Standard B - 05",
-      "status": "Pending",
-      "description": "Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.\n\nFusce consequat. Nulla nisl. Nunc nisl.\n\nDuis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.",
-      "price": "Hryvnia",
-      "amenities": [
-        {},
-        {},
-        {},
-        {}
-      ]
+      "id": 1,
+      "name": "Haslett Churm",
+      "work": "Database Administrator IV",
+      "email": "hchurm0@com.com",
+      "telephone": "889-317-2899",
+      "start_date": "12/9/2004",
+      "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      "state": null,
+      "password": "$2a$04$keFvqxPvsLj5xUdoSH0rturHho0fUKXiej2ljHsV9tUIyry6ajw8O"
+    },
+    {
+      "id": 2,
+      "name": "Darnell Chevers",
+      "work": "Speech Pathologist",
+      "email": "dchevers1@issuu.com",
+      "telephone": "400-915-5096",
+      "start_date": "7/23/2022",
+      "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
+      "state": null,
+      "password": "$2a$04$.qkrz9RBpobPUdOAuwFl7uEgiAG2CxVSpEMzwl8CxdHM/qLxBdTgO"
+    },
+    {
+      "id": 3,
+      "name": "Isac Petcher",
+      "work": "Financial Analyst",
+      "email": "ipetcher2@phoca.cz",
+      "telephone": "373-863-7808",
+      "start_date": "4/6/2021",
+      "description": "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+      "state": null,
+      "password": "$2a$04$kUJfpqtVg2gFDT5UE.jbc.ykY0J7GpUZBz5e52zBHkrfSxWhYfq1S"
+    },
+    {
+      "id": 4,
+      "name": "Hinze Buff",
+      "work": "Software Test Engineer I",
+      "email": "hbuff3@domainmarket.com",
+      "telephone": "918-945-5470",
+      "start_date": "5/16/2011",
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.",
+      "state": null,
+      "password": "$2a$04$Tb3VZnCmJXUDO0KH12lCg.zlbRUg2QKgwYF/xZcxbXQGJton3M7ze"
     }
   ]
 }
