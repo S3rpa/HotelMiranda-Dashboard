@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/authContext';
-import usersData from '../../data/users';
+import users from '../../../users.json';
 
 const Container = styled.div`
   padding: 2rem;
@@ -56,7 +56,7 @@ const UsersEdit = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const foundUser = usersData.find((u) => u.id === parseInt(id));
+        const foundUser = users.find((u) => u.id === parseInt(id));
         setUser(foundUser);
     }, [id]);
 
@@ -71,7 +71,7 @@ const UsersEdit = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (user) {
-            usersData[user.id - 1] = user;
+            users[user.id - 1] = user;
             dispatch({ type: 'UPDATE_USER', payload: user });
             alert('Perfil actualizado!');
             navigate('/index');

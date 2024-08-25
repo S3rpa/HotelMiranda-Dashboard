@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
-import guestsData from '../../data/guest';
+import guest from '../../../guest.json';
 
 const Container = styled.div`
   padding: 2rem;
@@ -47,7 +47,7 @@ const UpdateBooking = () => {
   const [booking, setBooking] = useState(null);
 
   useEffect(() => {
-    const foundBooking = guestsData.find((guest) => guest.id === parseInt(id));
+    const foundBooking = guest.find((guest) => guest.id === parseInt(id));
     if (foundBooking) {
       setBooking(foundBooking);
     }
@@ -60,9 +60,9 @@ const UpdateBooking = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const index = guestsData.findIndex((guest) => guest.id === parseInt(id));
+    const index = guest.findIndex((guest) => guest.id === parseInt(id));
     if (index !== -1) {
-      guestsData[index] = booking;
+      guest[index] = booking;
       alert('Booking updated successfully!');
       navigate('/bookings');
     }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from './authContext';
 import { FaHotel } from "react-icons/fa";
-import usersData from '../data/users.js';
+import users from '../../users.json';
 
 const colors = {
   primary: '#135846',
@@ -78,7 +78,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const user = usersData.find(user => user.email === email && user.password === password);
+    const user = users.find(user => user.email === email && user.password === password);
 
     if (user) {
       dispatch({

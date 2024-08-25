@@ -4,7 +4,7 @@ import { FaTrashAlt, FaEllipsisV } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetBookings, DeleteBooking } from '../../features/bookings/bookingThunk';
-import NewBooking from '/src/pages/booking/NewBooking.jsx';  // Verifica que esta ruta sea correcta
+import NewBooking from '/src/pages/booking/NewBooking.jsx';
 
 // Styled Components
 const Table = styled.table`
@@ -57,33 +57,6 @@ const ActionIcons = styled.div`
   }
 `;
 
-const FilterContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
-
-const SearchInput = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  margin: 0 0.5rem;
-  background-color: ${props => (props.$active ? '#333' : '#fff')};
-  color: ${props => (props.$active ? '#fff' : '#333')};
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const AddButton = styled(Button)`
-  background-color: #28a745;
-  color: white;
-`;
-
 const NoResults = styled.div`
   padding: 1rem;
   text-align: center;
@@ -99,6 +72,7 @@ const GuestTable = () => {
     
     const bookings = useSelector((state) => state.bookings.data);
     const bookingsStatus = useSelector((state) => state.bookings.status);
+    const bookingsError = useSelector((state) => state.bookings.error);
 
     useEffect(() => {
         if (bookingsStatus === 'idle') {
@@ -114,14 +88,6 @@ const GuestTable = () => {
         navigate(`/bookings/update/${id}`);
     };
 
-    const handleFilterChange = (newFilter) => {
-        setFilterStatus(newFilter);
-    };
-
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value.toLowerCase());
-    };
-
     const handleSpecialRequestClick = (description) => {
         alert(description);
     };
@@ -134,13 +100,21 @@ const GuestTable = () => {
         .filter(booking => {
             if (filterStatus !== 'ALL' && booking.status !== filterStatus) return false;
             const combinedString = JSON.stringify(booking).toLowerCase();
-            return combinedString.includes(searchTerm);
+            return combinedString.includes(searchTerm.toLowerCase());
         })
         .sort((a, b) => {
             const dateA = new Date(a.orderDate);
             const dateB = new Date(b.orderDate);
             return dateB - dateA;
         });
+
+    if (bookingsStatus === 'loading') {
+        return <div>Loading bookings...</div>;
+    }
+
+    if (bookingsStatus === 'failed') {
+        return <div>Error loading bookings: {bookingsError}</div>;
+    }
 
     return (
         <>
