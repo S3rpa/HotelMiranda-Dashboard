@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../../components/sidebar';
-import guests from '../../data/guest';
+import guest from '../../../guest.json'
 import { BsFillHouseFill } from 'react-icons/bs';
 import { IoBed } from 'react-icons/io5';
 import { MdLogout, MdOutlineLogin } from 'react-icons/md';
@@ -103,10 +103,10 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    const totalBookings = guests.length;
-    const scheduledRooms = (guests.filter(guest => guest.status === 'Booked').length / totalBookings) * 100;
-    const checkIns = guests.filter(guest => new Date(guest.checkIn) <= new Date() && new Date(guest.checkOut) >= new Date()).length;
-    const checkOuts = guests.filter(guest => new Date(guest.checkOut) < new Date()).length;
+    const totalBookings = guest.length;
+    const scheduledRooms = (guest.filter(guest => guest.status === 'Booked').length / totalBookings) * 100;
+    const checkIns = guest.filter(guest => new Date(guest.checkIn) <= new Date() && new Date(guest.checkOut) >= new Date()).length;
+    const checkOuts = guest.filter(guest => new Date(guest.checkOut) < new Date()).length;
 
     setStats({
       bookings: totalBookings,
