@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
-import guest from '../../../guest.json';
+import guest from '../../../db.json';
 
 const Container = styled.div`
   padding: 2rem;

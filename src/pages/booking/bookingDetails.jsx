@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import guest from '../../../guest.json';
+import guest from '../../../db.json';
 import room1 from '../../assets/room1.jpg';
 import room2 from '../../assets/room2.jpg';
 import room3 from '../../assets/room3.jpg';
