@@ -78,7 +78,8 @@ const GuestTable = () => {
         if (bookingsStatus === 'idle') {
             dispatch(GetBookings());
         }
-    }, [dispatch, bookingsStatus]);
+        console.log('Current bookings:', bookings);
+    }, [dispatch, bookingsStatus, bookings]);
 
     const handleRowClick = (id) => {
         navigate(`/bookings/${id}`);
@@ -96,26 +97,30 @@ const GuestTable = () => {
         dispatch(DeleteBooking(id));
     };
 
-    const filteredBookings = bookings
-        .filter(booking => {
-            if (filterStatus !== 'ALL' && booking.status !== filterStatus) return false;
-            const combinedString = JSON.stringify(booking).toLowerCase();
-            return combinedString.includes(searchTerm.toLowerCase());
-        })
-        .sort((a, b) => {
-            const dateA = new Date(a.orderDate);
-            const dateB = new Date(b.orderDate);
-            return dateB - dateA;
-        });
+    const filteredBookings = Array.isArray(bookings)
+    ? bookings.filter(booking => {
+        if (filterStatus !== 'ALL' && booking.status !== filterStatus) return false;
+        const combinedString = JSON.stringify(booking).toLowerCase();
+        return combinedString.includes(searchTerm.toLowerCase());
+    })
+    .sort((a, b) => {
+        const dateA = new Date(a.orderDate);
+        const dateB = new Date(b.orderDate);
+        return dateB - dateA;
+    })
+    : [];
 
     if (bookingsStatus === 'loading') {
         return <div>Loading bookings...</div>;
     }
-
+    
     if (bookingsStatus === 'failed') {
         return <div>Error loading bookings: {bookingsError}</div>;
     }
-
+    
+    if (!Array.isArray(bookings)) {
+        return <div>No bookings available.</div>;
+    }
     return (
         <>
             {filteredBookings.length > 0 ? (

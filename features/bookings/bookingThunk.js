@@ -5,13 +5,7 @@ const baseURL = 'https://my-json-server.typicode.com/S3rpa/HotelMiranda-Dashboar
 export const GetBookings = createAsyncThunk(
     "bookings/getBookings",
     async () => {
-        const response = await fetch(`${baseURL}/guest`, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: "cors",
-            dataType: 'json',
-        })
+        const response = await fetch(`${baseURL}/guest`)
             .then((response) => {
                 if (response.status >= 400) {
                     throw new Error("Could not reach server: " + response.status);
@@ -21,9 +15,11 @@ export const GetBookings = createAsyncThunk(
             .catch((error) => {
                 throw new Error(error);
             });
+        console.log('Response from server:', response);
         return response;
     }
 );
+
 
 export const EditBooking = createAsyncThunk(
     "bookings/editBooking",
