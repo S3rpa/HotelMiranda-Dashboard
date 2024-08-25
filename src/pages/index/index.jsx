@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../../components/sidebar';
-import guest from '../../../db.json'
+import { guest } from '../../../db.json'
 import { BsFillHouseFill } from 'react-icons/bs';
 import { IoBed } from 'react-icons/io5';
 import { MdLogout, MdOutlineLogin } from 'react-icons/md';

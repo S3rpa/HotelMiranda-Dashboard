@@ -4,7 +4,6 @@ import { FaTrashAlt, FaEllipsisV } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetBookings, DeleteBooking } from '../../features/bookings/bookingThunk';
-import NewBooking from '/src/pages/booking/NewBooking.jsx';
 
 // Styled Components
 const Table = styled.table`
@@ -63,13 +62,82 @@ const NoResults = styled.div`
   color: #888;
 `;
 
-// GuestTable Component
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  color: black;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+const ModalTitle = styled.h2`
+  margin: 0;
+  font-size: 1.5rem;
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+`;
+
+const ModalBody = styled.div`
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  color: #333;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const CloseButtonFooter = styled.button`
+  padding: 0.5rem 1rem;
+  background-color: #FF385C;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e63950;
+  }
+`;
+
 const GuestTable = () => {
     const [filterStatus, setFilterStatus] = useState('ALL');
     const [searchTerm, setSearchTerm] = useState('');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+
     const bookings = useSelector((state) => state.bookings.data);
     const bookingsStatus = useSelector((state) => state.bookings.status);
     const bookingsError = useSelector((state) => state.bookings.error);
@@ -78,51 +146,70 @@ const GuestTable = () => {
         if (bookingsStatus === 'idle') {
             dispatch(GetBookings());
         }
-        console.log('Current bookings:', bookings);
-    }, [dispatch, bookingsStatus, bookings]);
+    }, [dispatch, bookingsStatus]);
 
     const handleRowClick = (id) => {
         navigate(`/bookings/${id}`);
     };
 
-    const handleUpdateClick = (id) => {
-        navigate(`/bookings/update/${id}`);
+    const handleUpdateClick = (id, e) => {
+        e.stopPropagation();
     };
 
-    const handleSpecialRequestClick = (description) => {
-        alert(description);
-    };
-
-    const handleDeleteClick = (id) => {
+    const handleDeleteClick = (id, e) => {
+        e.stopPropagation();
+        console.log('Deleting booking with ID:', id);
         dispatch(DeleteBooking(id));
     };
 
+
+    const handleSpecialRequestClick = (description) => {
+        setModalContent(description);
+        setModalOpen(true);
+    };
+
+
     const filteredBookings = Array.isArray(bookings)
-    ? bookings.filter(booking => {
-        if (filterStatus !== 'ALL' && booking.status !== filterStatus) return false;
-        const combinedString = JSON.stringify(booking).toLowerCase();
-        return combinedString.includes(searchTerm.toLowerCase());
-    })
-    .sort((a, b) => {
-        const dateA = new Date(a.orderDate);
-        const dateB = new Date(b.orderDate);
-        return dateB - dateA;
-    })
-    : [];
+        ? bookings.filter(booking => {
+            if (filterStatus !== 'ALL' && booking.status !== filterStatus) return false;
+            const combinedString = JSON.stringify(booking).toLowerCase();
+            return combinedString.includes(searchTerm.toLowerCase());
+        })
+            .sort((a, b) => {
+                const dateA = new Date(a.orderDate);
+                const dateB = new Date(b.orderDate);
+                return dateB - dateA;
+            })
+        : [];
 
     if (bookingsStatus === 'loading') {
         return <div>Loading bookings...</div>;
     }
-    
+
     if (bookingsStatus === 'failed') {
         return <div>Error loading bookings: {bookingsError}</div>;
     }
-    
+
     if (!Array.isArray(bookings)) {
         return <div>No bookings available.</div>;
     }
+
     return (
         <>
+            {modalOpen && (
+                <ModalOverlay onClick={() => setModalOpen(false)}>
+                    <ModalContent onClick={(e) => e.stopPropagation()}>
+                        <ModalHeader>
+                            <ModalTitle>Special Request</ModalTitle>
+                            <CloseButton onClick={() => setModalOpen(false)}>&times;</CloseButton>
+                        </ModalHeader>
+                        <ModalBody>{modalContent}</ModalBody>
+                        <ModalFooter>
+                            <CloseButtonFooter onClick={() => setModalOpen(false)}>Close</CloseButtonFooter>
+                        </ModalFooter>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
             {filteredBookings.length > 0 ? (
                 <Table>
                     <TableHead>
@@ -165,10 +252,10 @@ const GuestTable = () => {
                                             guest.status === 'Booked'
                                                 ? 'green'
                                                 : guest.status === 'Cancelled'
-                                                ? 'red'
-                                                : guest.status === 'Pending'
-                                                ? 'orange'
-                                                : 'white',
+                                                    ? 'red'
+                                                    : guest.status === 'Pending'
+                                                        ? 'orange'
+                                                        : 'white',
                                     }}
                                 >
                                     {guest.status}
@@ -176,16 +263,10 @@ const GuestTable = () => {
                                 <TableCell>
                                     <ActionIcons>
                                         <FaTrashAlt
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDeleteClick(guest.id);
-                                            }}
+                                            onClick={(e) => handleDeleteClick(guest.id, e)}
                                         />
                                         <FaEllipsisV
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleUpdateClick(guest.id);
-                                            }}
+                                            onClick={(e) => handleUpdateClick(guest.id, e)}
                                         />
                                     </ActionIcons>
                                 </TableCell>

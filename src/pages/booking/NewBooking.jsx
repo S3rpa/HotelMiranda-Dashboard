@@ -70,15 +70,20 @@ const NewBooking = () => {
       amenities: [],
     };
 
-    dispatch(CreateBooking(newBooking))
-      .then(() => {
+   
+
+dispatch(CreateBooking(newBooking))
+    .then(unwrapResult)
+    .then((response) => {
+        console.log('New booking created:', response); // Aquí puedes verificar la respuesta del servidor
         alert('Booking added successfully!');
         navigate('/bookings');
-      })
-      .catch((error) => {
+    })
+    .catch((error) => {
         console.error('Error adding booking:', error);
         alert('Failed to add booking.');
-      });
+    });
+
   };
 
   return (

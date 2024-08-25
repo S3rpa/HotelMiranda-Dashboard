@@ -15,7 +15,6 @@ export const GetBookings = createAsyncThunk(
             .catch((error) => {
                 throw new Error(error);
             });
-        console.log('Response from server:', response);
         return response;
     }
 );
@@ -81,16 +80,14 @@ export const CreateBooking = createAsyncThunk(
             mode: "cors",
             dataType: 'json',
             body: JSON.stringify(newBooking)
-        })
-            .then((response) => {
-                if (response.status >= 400) {
-                    throw new Error("Could not reach server: " + response.status);
-                }
-                return response.json();
-            })
-            .catch((error) => {
-                throw new Error(error);
-            });
-        return response;
+        });
+
+        if (response.status >= 400) {
+            throw new Error("Could not reach server: " + response.status);
+        }
+
+        const createdBooking = await response.json();
+        return createdBooking;
     }
 );
+
