@@ -9,6 +9,7 @@ import RoomDetail from './pages/room/roomDetails';
 import Users from './pages/users/users';
 import UsersDetail from './pages/users/usersDetails';
 import UsersEdit from './pages/users/usersEdit';
+import NewUser from './pages/users/NewUser'; // Importar el nuevo componente
 import Contact from './pages/contact/contact';
 import ContactDetail from './pages/contact/contactDetails';
 import Login from './components/Login';
@@ -45,6 +46,7 @@ const ProtectedRoutes = ({ isSidebarOpen, toggleSidebar }) => (
         <Route path="/contact" element={<Contact />} />
         <Route path="/contact/:id" element={<ContactDetail />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/users/new" element={<NewUser />} /> 
         <Route path="/users/edit/:id" element={<UsersEdit />} />
         <Route path="/users/:id" element={<UsersDetail />} />
         <Route path="*" element={<Navigate to="/bookings" />} />
