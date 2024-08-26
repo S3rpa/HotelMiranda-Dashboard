@@ -14,6 +14,7 @@ const authReducer = (state, action) => {
                 user: action.payload,
             };
         case 'LOGOUT':
+            localStorage.removeItem('user');
             return {
                 ...state,
                 isAuthenticated: false,
@@ -22,7 +23,7 @@ const authReducer = (state, action) => {
         case 'UPDATE_USER':
             return {
                 ...state,
-                user: { ...state.user, ...action.payload },
+                user: action.payload,
             };
         default:
             return state;
@@ -36,6 +37,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
+        console.log("Stored User:", storedUser);
         if (storedUser) {
             dispatch({ type: 'LOGIN', payload: storedUser });
         }

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/authContext';
-import users from '../../../users.json';
+import { users } from '../../../db.json';
 
 const Container = styled.div`
   padding: 2rem;
@@ -50,67 +50,75 @@ const Button = styled.button`
 `;
 
 const UsersEdit = () => {
-    const { state, dispatch } = useContext(AuthContext);
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+  const { state, dispatch } = useContext(AuthContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (id) {
         const foundUser = users.find((u) => u.id === parseInt(id));
-        setUser(foundUser);
-    }, [id]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setUser((prevUser) => ({
-            ...prevUser,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (user) {
-            users[user.id - 1] = user;
-            dispatch({ type: 'UPDATE_USER', payload: user });
-            alert('Perfil actualizado!');
-            navigate('/index');
+        if (foundUser) {
+            setUser(foundUser);
+        } else {
+            console.error("User not found with ID:", id);
         }
-    };
-
-    if (!user) {
-        return <p>Cargando datos del usuario...</p>;
+    } else {
+        console.error("No ID provided in URL");
     }
+}, [id]);
 
-    return (
-        <Container>
-            <Title>Edit User</Title>
-            <Form onSubmit={handleSubmit}>
-                <Label>Nombre:</Label>
-                <Input
-                    type="text"
-                    name="name"
-                    value={user.name}
-                    onChange={handleChange}
-                />
-                <Label>Email:</Label>
-                <Input
-                    type="email"
-                    name="email"
-                    value={user.email}
-                    onChange={handleChange}
-                />
-                <Label>Teléfono:</Label>
-                <Input
-                    type="tel"
-                    name="phone"
-                    value={user.phone}
-                    onChange={handleChange}
-                />
-                <Button type="submit">Actualizar Perfil</Button>
-            </Form>
-        </Container>
-    );
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (user) {
+      users[user.id - 1] = user;
+      dispatch({ type: 'UPDATE_USER', payload: user });
+      alert('Perfil actualizado!');
+      navigate('/index');
+    }
+  };
+
+  if (!user) {
+    return <p>Cargando datos del usuario...</p>;
+  }
+
+  return (
+    <Container>
+      <Title>Edit User</Title>
+      <Form onSubmit={handleSubmit}>
+        <Label>Nombre:</Label>
+        <Input
+          type="text"
+          name="name"
+          value={user.name}
+          onChange={handleChange}
+        />
+        <Label>Email:</Label>
+        <Input
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+        />
+        <Label>Teléfono:</Label>
+        <Input
+          type="tel"
+          name="phone"
+          value={user.phone}
+          onChange={handleChange}
+        />
+        <Button type="submit">Actualizar Perfil</Button>
+      </Form>
+    </Container>
+  );
 };
 
 export default UsersEdit;
