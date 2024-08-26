@@ -19,7 +19,6 @@ export const GetBookings = createAsyncThunk(
     }
 );
 
-
 export const EditBooking = createAsyncThunk(
     "bookings/editBooking",
     async (updatedBooking) => {
