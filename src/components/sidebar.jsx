@@ -175,75 +175,77 @@ const Footer = styled.div`
 `;
 
 const Sidebar = ({ isopen, toggleSidebar }) => {
-    const { state } = useContext(AuthContext);
-    const navigate = useNavigate();
-    
-    const userId = state?.user?.id;
+  const { state } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const handleEditProfile = () => {
-        if (userId) {
-            navigate(`/users/edit/${userId}`);
-        } else {
-            console.error("User ID is not available");
-        }
-    };
+  const userId = state?.user?.id;
+  console.log("User ID:", userId);
+  // Verifica si se está obteniendo el ID correcto
 
-    return (
-        <SidebarContainer $isopen={isopen}>
-            <Logo $isopen={isopen}>
-                <LogoIcon />
-                <LogoText>
-                    <LogoTitle>travl</LogoTitle>
-                    <LogoSubtitle>Hotel Admin Dashboard</LogoSubtitle>
-                </LogoText>
-            </Logo>
-            <Menu>
-                <MenuItem>
-                    <StyledNavLink to="/index">
-                        <MenuIcon><LuLayoutDashboard /></MenuIcon>
-                        <MenuText>Dashboard</MenuText>
-                    </StyledNavLink>
-                </MenuItem>
-                <MenuItem>
-                    <StyledNavLink to="/bookings">
-                        <MenuIcon><LuCalendarCheck2 /></MenuIcon>
-                        <MenuText>Bookings</MenuText>
-                    </StyledNavLink>
-                </MenuItem>
-                <MenuItem>
-                    <StyledNavLink to="/rooms">
-                        <MenuIcon><BiKey /></MenuIcon>
-                        <MenuText>Room</MenuText>
-                    </StyledNavLink>
-                </MenuItem>
-                <MenuItem>
-                    <StyledNavLink to="/contact">
-                        <MenuIcon><IoPersonOutline /></MenuIcon>
-                        <MenuText>Contact</MenuText>
-                    </StyledNavLink>
-                </MenuItem>
-                <MenuItem>
-                    <StyledNavLink to="/users">
-                        <MenuIcon><PiPuzzlePiece /></MenuIcon>
-                        <MenuText>Users</MenuText>
-                    </StyledNavLink>
-                </MenuItem>
-            </Menu>
-            {state?.user && (
-                <ProfileSection $isopen={isopen}>
-                    <ProfileImage src={profilePic} />
-                    <ProfileName>{state.user.name}</ProfileName>
-                    <ProfileEmail>{state.user.email}</ProfileEmail>
-                    <ContactButton onClick={handleEditProfile}>Edit</ContactButton>
-                </ProfileSection>
-            )}
-            <Footer>
-                <p>Travl Hotel Admin Dashboard</p>
-                <p>© 2020 All Rights Reserved</p>
-                <p>Made with ♥ by Peterdraw</p>
-            </Footer>
-        </SidebarContainer>
-    );
+  const handleEditProfile = () => {
+    if (userId && userId !== 0) {
+      navigate(`/users/edit/${userId}`);
+    } else {
+      console.error("User ID is not available or invalid");
+    }
+  };
+
+  return (
+    <SidebarContainer $isopen={isopen}>
+      <Logo $isopen={isopen}>
+        <LogoIcon />
+        <LogoText>
+          <LogoTitle>travl</LogoTitle>
+          <LogoSubtitle>Hotel Admin Dashboard</LogoSubtitle>
+        </LogoText>
+      </Logo>
+      <Menu>
+        <MenuItem>
+          <StyledNavLink to="/index">
+            <MenuIcon><LuLayoutDashboard /></MenuIcon>
+            <MenuText>Dashboard</MenuText>
+          </StyledNavLink>
+        </MenuItem>
+        <MenuItem>
+          <StyledNavLink to="/bookings">
+            <MenuIcon><LuCalendarCheck2 /></MenuIcon>
+            <MenuText>Bookings</MenuText>
+          </StyledNavLink>
+        </MenuItem>
+        <MenuItem>
+          <StyledNavLink to="/rooms">
+            <MenuIcon><BiKey /></MenuIcon>
+            <MenuText>Room</MenuText>
+          </StyledNavLink>
+        </MenuItem>
+        <MenuItem>
+          <StyledNavLink to="/contact">
+            <MenuIcon><IoPersonOutline /></MenuIcon>
+            <MenuText>Contact</MenuText>
+          </StyledNavLink>
+        </MenuItem>
+        <MenuItem>
+          <StyledNavLink to="/users">
+            <MenuIcon><PiPuzzlePiece /></MenuIcon>
+            <MenuText>Users</MenuText>
+          </StyledNavLink>
+        </MenuItem>
+      </Menu>
+      {state?.user && (
+        <ProfileSection $isopen={isopen}>
+          <ProfileImage src={profilePic} />
+          <ProfileName>{state.user.name}</ProfileName>
+          <ProfileEmail>{state.user.email}</ProfileEmail>
+          <ContactButton onClick={handleEditProfile}>Edit</ContactButton>
+        </ProfileSection>
+      )}
+      <Footer>
+        <p>Travl Hotel Admin Dashboard</p>
+        <p>© 2020 All Rights Reserved</p>
+        <p>Made with ♥ by Peterdraw</p>
+      </Footer>
+    </SidebarContainer>
+  );
 };
 
 export default Sidebar;
