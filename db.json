@@ -83,7 +83,7 @@
       "telephone": "889-317-2899",
       "start_date": "12/9/2004",
       "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-      "state": null,
+      "state": "Active",
       "password": "$2a$04$keFvqxPvsLj5xUdoSH0rturHho0fUKXiej2ljHsV9tUIyry6ajw8O"
     },
     {
@@ -94,7 +94,7 @@
       "telephone": "400-915-5096",
       "start_date": "7/23/2022",
       "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
-      "state": null,
+      "state": "Active",
       "password": "$2a$04$.qkrz9RBpobPUdOAuwFl7uEgiAG2CxVSpEMzwl8CxdHM/qLxBdTgO"
     },
     {
@@ -116,7 +116,7 @@
       "telephone": "918-945-5470",
       "start_date": "5/16/2011",
       "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.",
-      "state": null,
+      "state": "Active",
       "password": "$2a$04$Tb3VZnCmJXUDO0KH12lCg.zlbRUg2QKgwYF/xZcxbXQGJton3M7ze"
     }
   ]
