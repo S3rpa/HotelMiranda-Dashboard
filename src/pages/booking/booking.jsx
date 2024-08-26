@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetBookings, DeleteBooking, EditBooking } from '../../../features/bookings/bookingThunk';
+import { GetBookings, DeleteBooking } from '../../../features/bookings/bookingThunk';
 import GuestTable from '../../components/GuestsTable';
 
 const Container = styled.div`
@@ -144,16 +144,16 @@ const Booking = () => {
     ? bookings
       .filter((guest) => {
         if (filter === 'pending') {
-          return guest.status === 'Pending';
+          return guest.status.toLowerCase() === 'pending';
         }
         if (filter === 'booked') {
-          return guest.status === 'Booked';
+          return guest.status.toLowerCase() === 'booked';
         }
         if (filter === 'cancelled') {
-          return guest.status === 'Cancelled';
+          return guest.status.toLowerCase() === 'cancelled';
         }
         if (filter === 'refund') {
-          return guest.status === 'Refund';
+          return guest.status.toLowerCase() === 'refund';
         }
         return true;
       })

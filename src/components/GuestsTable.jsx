@@ -130,69 +130,19 @@ const CloseButtonFooter = styled.button`
   }
 `;
 
-const GuestTable = () => {
-    const [filterStatus, setFilterStatus] = useState('ALL');
-    const [searchTerm, setSearchTerm] = useState('');
+const GuestTable = ({ guests, handleSort, onSpecialRequestClick, onDeleteClick }) => {
+    const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState('');
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const bookings = useSelector((state) => state.bookings.data);
-    const bookingsStatus = useSelector((state) => state.bookings.status);
-    const bookingsError = useSelector((state) => state.bookings.error);
-
-    useEffect(() => {
-        if (bookingsStatus === 'idle') {
-            dispatch(GetBookings());
-        }
-    }, [dispatch, bookingsStatus]);
 
     const handleRowClick = (id) => {
         navigate(`/bookings/${id}`);
     };
 
-    const handleUpdateClick = (id, e) => {
-        e.stopPropagation();
-    };
-
-    const handleDeleteClick = (id, e) => {
-        e.stopPropagation();
-        console.log('Deleting booking with ID:', id);
-        dispatch(DeleteBooking(id));
-    };
-
-
     const handleSpecialRequestClick = (description) => {
         setModalContent(description);
         setModalOpen(true);
     };
-
-
-    const filteredBookings = Array.isArray(bookings)
-        ? bookings.filter(booking => {
-            if (filterStatus !== 'ALL' && booking.status !== filterStatus) return false;
-            const combinedString = JSON.stringify(booking).toLowerCase();
-            return combinedString.includes(searchTerm.toLowerCase());
-        })
-            .sort((a, b) => {
-                const dateA = new Date(a.orderDate);
-                const dateB = new Date(b.orderDate);
-                return dateB - dateA;
-            })
-        : [];
-
-    if (bookingsStatus === 'loading') {
-        return <div>Loading bookings...</div>;
-    }
-
-    if (bookingsStatus === 'failed') {
-        return <div>Error loading bookings: {bookingsError}</div>;
-    }
-
-    if (!Array.isArray(bookings)) {
-        return <div>No bookings available.</div>;
-    }
 
     return (
         <>
@@ -210,22 +160,22 @@ const GuestTable = () => {
                     </ModalContent>
                 </ModalOverlay>
             )}
-            {filteredBookings.length > 0 ? (
+            {guests.length > 0 ? (
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableHeader>Guest</TableHeader>
-                            <TableHeader>Order Date</TableHeader>
-                            <TableHeader>Check In</TableHeader>
-                            <TableHeader>Check Out</TableHeader>
+                            <TableHeader onClick={() => handleSort('name')}>Guest</TableHeader>
+                            <TableHeader onClick={() => handleSort('orderDate')}>Order Date</TableHeader>
+                            <TableHeader onClick={() => handleSort('checkIn')}>Check In</TableHeader>
+                            <TableHeader onClick={() => handleSort('checkOut')}>Check Out</TableHeader>
                             <TableHeader>Special Request</TableHeader>
-                            <TableHeader>Room Type</TableHeader>
-                            <TableHeader>Status</TableHeader>
+                            <TableHeader onClick={() => handleSort('roomType')}>Room Type</TableHeader>
+                            <TableHeader onClick={() => handleSort('status')}>Status</TableHeader>
                             <TableHeader>Actions</TableHeader>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredBookings.map((guest) => (
+                        {guests.map((guest) => (
                             <TableRow key={guest.id} onClick={() => handleRowClick(guest.id)}>
                                 <TableCell>
                                     {guest.name}
@@ -263,10 +213,16 @@ const GuestTable = () => {
                                 <TableCell>
                                     <ActionIcons>
                                         <FaTrashAlt
-                                            onClick={(e) => handleDeleteClick(guest.id, e)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onDeleteClick(guest.id);
+                                            }}
                                         />
                                         <FaEllipsisV
-                                            onClick={(e) => handleUpdateClick(guest.id, e)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigate(`/bookings/edit/${guest.id}`);
+                                            }}
                                         />
                                     </ActionIcons>
                                 </TableCell>

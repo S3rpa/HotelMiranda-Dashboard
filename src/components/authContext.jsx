@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
-        console.log("Stored User:", storedUser);
+        
         if (storedUser) {
             dispatch({ type: 'LOGIN', payload: storedUser });
         }

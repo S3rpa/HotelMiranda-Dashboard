@@ -179,8 +179,6 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
   const navigate = useNavigate();
 
   const userId = state?.user?.id;
-  console.log("User ID:", userId);
-  // Verifica si se está obteniendo el ID correcto
 
   const handleEditProfile = () => {
     if (userId && userId !== 0) {
