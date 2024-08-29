@@ -77,20 +77,21 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
+  
     const user = users.find(user => user.email === email && user.password === password);
-
+  
     if (user) {
       dispatch({
         type: 'LOGIN',
         payload: user,
       });
+      localStorage.setItem('user', JSON.stringify(user));
       navigate('/index');
     } else {
       alert('Invalid credentials');
     }
   };
-
+  
   return (
     <LoginContainer>
       <LoginForm onSubmit={handleLogin}>

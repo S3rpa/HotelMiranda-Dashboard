@@ -1,7 +1,9 @@
-import styled from 'styled-components';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate, matchPath } from 'react-router-dom';
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoLogOutOutline, IoArrowBack } from "react-icons/io5";
+import { AuthContext } from './authContext'; 
+import styled from 'styled-components';
 
 const TopBarContainer = styled.div`
   display: flex;
@@ -33,11 +35,12 @@ const PageTitleContainer = styled.div`
 const PageTitle = styled.div`
   font-size: 1.2rem;
   color: #333;
-  margin-left: 0.5rem; /* Espacio entre la flecha y el título */
+  margin-left: 0.5rem;
 `;
 
-const TopBar = ({ setAuth, toggleSidebar }) => {
+const TopBar = ({ toggleSidebar }) => { 
   const location = useLocation();
+  const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const pageTitles = {
@@ -64,8 +67,8 @@ const TopBar = ({ setAuth, toggleSidebar }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('auth');
-    setAuth(false);
+    dispatch({ type: 'LOGOUT' });
+    navigate('/');
   };
 
   const handleBackClick = () => {
