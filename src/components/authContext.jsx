@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from 'react';
+import { createContext, useReducer, useEffect, useState } from 'react';
 
 const initialState = {
     isAuthenticated: false,
@@ -20,11 +20,6 @@ const authReducer = (state, action) => {
                 isAuthenticated: false,
                 user: null,
             };
-        case 'UPDATE_USER':
-            return {
-                ...state,
-                user: action.payload,
-            };
         default:
             return state;
     }
@@ -34,20 +29,20 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
-        
+
         if (storedUser) {
             dispatch({ type: 'LOGIN', payload: storedUser });
         }
+        setLoading(false);
     }, []);
 
-    useEffect(() => {
-        if (state.isAuthenticated) {
-            localStorage.setItem('user', JSON.stringify(state.user));
-        }
-    }, [state.user]);
+    if (loading) {
+        return null;
+    }
 
     return (
         <AuthContext.Provider value={{ state, dispatch }}>
