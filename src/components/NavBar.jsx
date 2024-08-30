@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import styled from 'styled-components';
 import { useLocation, useNavigate, matchPath } from 'react-router-dom';
 import { HiMenuAlt2 } from "react-icons/hi";
 import { IoLogOutOutline, IoArrowBack } from "react-icons/io5";
-import { AuthContext } from './authContext'; 
-import styled from 'styled-components';
+import { AuthContext } from './authContext';
+import ThemeToggleSwitch from './buttonNight';
 
 const TopBarContainer = styled.div`
   display: flex;
@@ -38,10 +39,17 @@ const PageTitle = styled.div`
   margin-left: 0.5rem;
 `;
 
-const TopBar = ({ toggleSidebar }) => { 
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+`;
+
+const TopBar = ({ toggleSidebar }) => {
   const location = useLocation();
   const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const pageTitles = {
     '/index': 'Dashboard',
@@ -62,8 +70,8 @@ const TopBar = ({ toggleSidebar }) => {
   };
 
   const shouldShowBackButton = () => {
-    return matchPath('/bookings/:id', location.pathname) || 
-           matchPath('/users/edit/:id', location.pathname);
+    return matchPath('/bookings/:id', location.pathname) ||
+      matchPath('/users/edit/:id', location.pathname);
   };
 
   const handleLogout = () => {
@@ -72,7 +80,12 @@ const TopBar = ({ toggleSidebar }) => {
   };
 
   const handleBackClick = () => {
-    navigate(-1); 
+    navigate(-1);
+  };
+
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => !prevMode);
+    document.body.style.backgroundColor = isDarkMode ? '#F7F7F7' : '#2D2D2D';
   };
 
   return (
@@ -90,9 +103,12 @@ const TopBar = ({ toggleSidebar }) => {
           <PageTitle>{getPageTitle()}</PageTitle>
         </PageTitleContainer>
       </div>
-      <IconButton onClick={handleLogout}>
-        <IoLogOutOutline />
-      </IconButton>
+      <ButtonGroup>
+        <ThemeToggleSwitch isDarkMode={isDarkMode} onToggle={toggleTheme} />
+        <IconButton onClick={handleLogout}>
+          <IoLogOutOutline />
+        </IconButton>
+      </ButtonGroup>
     </TopBarContainer>
   );
 };

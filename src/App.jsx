@@ -9,7 +9,7 @@ import RoomDetail from './pages/room/roomDetails';
 import Users from './pages/users/users';
 import UsersDetail from './pages/users/usersDetails';
 import UsersEdit from './pages/users/usersEdit';
-import NewUser from './pages/users/NewUser'; // Importar el nuevo componente
+import NewUser from './pages/users/NewUser';
 import Contact from './pages/contact/contact';
 import ContactDetail from './pages/contact/contactDetails';
 import Login from './components/Login';
@@ -17,7 +17,7 @@ import PrivateRoute from './components/privateRoute';
 import Sidebar from './components/sidebar';
 import Index from './pages/index/index';
 import NavBar from './components/NavBar';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { AuthProvider } from './components/authContext';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
@@ -30,45 +30,71 @@ const AppContent = styled.div`
   flex-grow: 1;
 `;
 
-const ProtectedRoutes = ({ isSidebarOpen, toggleSidebar }) => (
-  <AppContainer>
-    <Sidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-    <AppContent>
-      <NavBar toggleSidebar={toggleSidebar} />
-      <Routes>
-        <Route path="/index" element={<Index />} />
-        <Route path="/bookings" element={<Booking />} />
-        <Route path="/bookings/new" element={<NewBooking />} />
-        <Route path="/bookings/update/:id" element={<UpdateBooking />} />
-        <Route path="/bookings/:id" element={<BookingDetails />} />
-        <Route path="/rooms" element={<Room />} />
-        <Route path="/rooms/:id" element={<RoomDetail />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/contact/:id" element={<ContactDetail />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/new" element={<NewUser />} /> 
-        <Route path="/users/edit/:id" element={<UsersEdit />} />
-        <Route path="/users/:id" element={<UsersDetail />} />
-        <Route path="*" element={<Navigate to="/bookings" />} />
-      </Routes>
-    </AppContent>
-  </AppContainer>
+const lightTheme = {
+  backgroundColor: '#F7F7F7',
+  color: '#333',
+};
+
+const darkTheme = {
+  backgroundColor: '#2D2D2D',
+  color: '#F7F7F7',
+};
+
+const ProtectedRoutes = ({ isSidebarOpen, toggleSidebar, theme, toggleTheme }) => (
+  <ThemeProvider theme={theme}>
+    <AppContainer>
+      <Sidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <AppContent>
+        <NavBar toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
+        <Routes>
+          <Route path="/index" element={<Index />} />
+          <Route path="/bookings" element={<Booking />} />
+          <Route path="/bookings/new" element={<NewBooking />} />
+          <Route path="/bookings/update/:id" element={<UpdateBooking />} />
+          <Route path="/bookings/:id" element={<BookingDetails />} />
+          <Route path="/rooms" element={<Room />} />
+          <Route path="/rooms/:id" element={<RoomDetail />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact/:id" element={<ContactDetail />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/new" element={<NewUser />} />
+          <Route path="/users/edit/:id" element={<UsersEdit />} />
+          <Route path="/users/:id" element={<UsersDetail />} />
+          <Route path="*" element={<Navigate to="/bookings" />} />
+        </Routes>
+      </AppContent>
+    </AppContainer>
+  </ThemeProvider>
 );
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
-    <Provider store={store}> 
+    <Provider store={store}>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/*" element={<PrivateRoute><ProtectedRoutes isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /></PrivateRoute>} />
+            <Route path="/*" element={
+              <PrivateRoute>
+                <ProtectedRoutes 
+                  isSidebarOpen={isSidebarOpen} 
+                  toggleSidebar={toggleSidebar} 
+                  theme={isDarkMode ? darkTheme : lightTheme}
+                  toggleTheme={toggleTheme}
+                />
+              </PrivateRoute>
+            } />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

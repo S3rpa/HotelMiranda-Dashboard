@@ -1,65 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 
-const ToggleButton = styled.button<{themeMode: 'light' | 'dark'}>`
-  border-radius: 0.5em;
-  border: none;
-  padding: 0.8em;
-  padding-inline: 4em;
+const SwitchContainer = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 3.75em;
+  height: 2.125em; 
+`;
 
-  ${props => props.themeMode === 'light' ? `
-    background: #EBF1EF;
-    color: #135846;
-    ` : `
-    background: #135846;
-    color: white;
-    `
-  }
+const SwitchToggle = styled.span`
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${(props) => (props.theme === 'light' ? '#ccc' : '#135846')};
+  border-radius: 2.125em;
 
-  &:hover {
-    cursor: pointer;
+  &::before {
+    position: absolute;
+    content: "";
+     height: 1.625em;
+    width: 1.625em;   
+    left: 0.25em;     
+    bottom: 0.25em;   
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+    transform: ${(props) => (props.theme === 'light' ? 'translateX(0)' : 'translateX(26px)')};
   }
 `;
 
-const lightTheme = {
-  bodyBackground: '#FFFFFF',
-  bodyColor: '#000000',
-};
-
-const darkTheme = {
-  bodyBackground: '#333333',
-  bodyColor: '#FFFFFF',
-};
-
-const ThemeToggleButton = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark' ? 'dark' : 'light';
-  });
-
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.body.style.backgroundColor = darkTheme.bodyBackground;
-      document.body.style.color = darkTheme.bodyColor;
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.body.style.backgroundColor = lightTheme.bodyBackground;
-      document.body.style.color = lightTheme.bodyColor;
-      localStorage.setItem('theme', 'light');
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
+const ThemeToggleSwitch = ({ isDarkMode, onToggle }) => {
   return (
-    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-      <ToggleButton themeMode={theme} onClick={toggleTheme}>
-        {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
-      </ToggleButton>
-    </ThemeProvider>
+    <SwitchContainer onClick={onToggle}>
+      <SwitchToggle theme={isDarkMode ? 'dark' : 'light'} />
+    </SwitchContainer>
   );
 };
 
-export default ThemeToggleButton;
+export default ThemeToggleSwitch;
