@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import { SwitchToggle } from './Button'
+import { SwitchToggle } from './Button.ts'
 
 test('The switch should have the background color #ccc for light theme', () => {
     render(<SwitchToggle role="switch" theme="light" />);
