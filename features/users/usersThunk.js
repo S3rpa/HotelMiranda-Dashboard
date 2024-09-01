@@ -12,7 +12,7 @@ export const GetUsers = createAsyncThunk('users/getUsers', async () => {
     }
 });
 
-// Función para obtener un usuario por su ID
+
 export const GetUser = createAsyncThunk('users/getUser', async (id) => {
     const response = await fetch(`${baseURL}/users/${id}`);
     if (response.ok) {
