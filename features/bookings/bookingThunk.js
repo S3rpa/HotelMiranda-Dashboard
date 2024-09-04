@@ -1,92 +1,59 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
-const baseURL = 'https://my-json-server.typicode.com/S3rpa/HotelMiranda-Dashboard';
+import guest from '../../src/data/guest';
 
 export const GetBookings = createAsyncThunk(
     "bookings/getBookings",
     async () => {
-        const response = await fetch(`${baseURL}/guest`)
-            .then((response) => {
-                if (response.status >= 400) {
-                    throw new Error("Could not reach server: " + response.status);
-                }
-                return response.json();
-            })
-            .catch((error) => {
-                throw new Error(error);
-            });
-        return response;
+        return [...guest];
     }
 );
 
 export const EditBooking = createAsyncThunk(
     "bookings/editBooking",
-    async (updatedBooking) => {
-        const response = await fetch(`${baseURL}/guest/${updatedBooking.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: "cors",
-            dataType: 'json',
-            body: JSON.stringify(updatedBooking)
-        })
-            .then((response) => {
-                if (response.status >= 400) {
-                    throw new Error("Could not reach server: " + response.status);
-                }
-                return response.json();
-            })
-            .catch((error) => {
-                throw new Error(error);
-            });
-        return response;
+    async (updatedBooking, { rejectWithValue }) => {
+        try {
+            const index = guest.findIndex(booking => booking.id === updatedBooking.id);
+            if (index !== -1) {
+                const updatedGuests = [...guest];
+                updatedGuests[index] = updatedBooking;
+                return updatedBooking;
+            } else {
+                throw new Error(`Failed to update booking with id ${updatedBooking.id}`);
+            }
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
     }
 );
 
 export const DeleteBooking = createAsyncThunk(
     "bookings/deleteBooking",
-    async (bookingId) => {
-        const response = await fetch(`${baseURL}/guest/${bookingId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: "cors",
-            dataType: 'json',
-        })
-            .then((response) => {
-                if (response.status >= 400) {
-                    throw new Error("Could not reach server: " + response.status);
-                }
-                return bookingId;
-            })
-            .catch((error) => {
-                throw new Error(error);
-            });
-        return response;
+    async (bookingId, { rejectWithValue }) => {
+        try {
+            const index = guest.findIndex(booking => booking.id === bookingId);
+            if (index !== -1) {
+                const updatedGuests = guest.filter(booking => booking.id !== bookingId);
+                return bookingId; 
+            } else {
+                throw new Error(`Failed to delete booking with id ${bookingId}`);
+            }
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
     }
 );
 
 export const CreateBooking = createAsyncThunk(
     "bookings/createBooking",
-    async (newBooking) => {
-        const response = await fetch(`${baseURL}/guest`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: "cors",
-            dataType: 'json',
-            body: JSON.stringify(newBooking)
-        });
+    async (newBooking, { rejectWithValue }) => {
+        try {
+            const newId = guest.length ? guest[guest.length - 1].id + 1 : 1;
+            const bookingToAdd = { ...newBooking, id: newId };
 
-        if (response.status >= 400) {
-            throw new Error("Could not reach server: " + response.status);
+            const updatedGuests = [...guest, bookingToAdd];
+            return bookingToAdd;
+        } catch (error) {
+            return rejectWithValue(error.message);
         }
-
-        const createdBooking = await response.json();
-        return createdBooking;
     }
 );
-

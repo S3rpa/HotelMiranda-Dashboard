@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { CreateBooking } from '../../../features/bookings/bookingThunk';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const Container = styled.div`
   padding: 2rem;
@@ -70,20 +71,16 @@ const NewBooking = () => {
       amenities: [],
     };
 
-   
-
-dispatch(CreateBooking(newBooking))
-    .then(unwrapResult)
-    .then((response) => {
-        console.log('New booking created:', response); // Aquí puedes verificar la respuesta del servidor
+    dispatch(CreateBooking(newBooking))
+      .then(unwrapResult)
+      .then((response) => {
         alert('Booking added successfully!');
         navigate('/bookings');
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error('Error adding booking:', error);
         alert('Failed to add booking.');
-    });
-
+      });
   };
 
   return (

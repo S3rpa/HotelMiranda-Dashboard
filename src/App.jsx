@@ -15,7 +15,7 @@ import ContactDetail from './pages/contact/contactDetails';
 import Login from './components/Login';
 import PrivateRoute from './components/privateRoute';
 import Sidebar from './components/sidebar';
-import Index from './pages/index/index';
+import Dashboard from './pages/dashboard/dashboard';
 import NavBar from './components/NavBar';
 import styled, { ThemeProvider } from 'styled-components';
 import { AuthProvider } from './components/authContext';
@@ -47,7 +47,7 @@ const ProtectedRoutes = ({ isSidebarOpen, toggleSidebar, theme, toggleTheme }) =
       <AppContent>
         <NavBar toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
         <Routes>
-          <Route path="/index" element={<Index />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/bookings" element={<Booking />} />
           <Route path="/bookings/new" element={<NewBooking />} />
           <Route path="/bookings/update/:id" element={<UpdateBooking />} />

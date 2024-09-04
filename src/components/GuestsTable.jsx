@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaTrashAlt, FaEllipsisV } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetBookings, DeleteBooking } from '../../features/bookings/bookingThunk';
 
-// Styled Components
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -130,111 +127,111 @@ const CloseButtonFooter = styled.button`
   }
 `;
 
-const GuestTable = ({ guests, handleSort, onSpecialRequestClick, onDeleteClick }) => {
-    const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalContent, setModalContent] = useState('');
+const GuestTable = ({ guests, handleSort, onSpecialRequestClick, onDeleteClick, onEditClick }) => {
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
 
-    const handleRowClick = (id) => {
-        navigate(`/bookings/${id}`);
-    };
+  const handleRowClick = (id) => {
+    navigate(`/bookings/${id}`);
+  };
 
-    const handleSpecialRequestClick = (description) => {
-        setModalContent(description);
-        setModalOpen(true);
-    };
+  const handleSpecialRequestClick = (description) => {
+    setModalContent(description);
+    setModalOpen(true);
+  };
 
-    return (
-        <>
-            {modalOpen && (
-                <ModalOverlay onClick={() => setModalOpen(false)}>
-                    <ModalContent onClick={(e) => e.stopPropagation()}>
-                        <ModalHeader>
-                            <ModalTitle>Special Request</ModalTitle>
-                            <CloseButton onClick={() => setModalOpen(false)}>&times;</CloseButton>
-                        </ModalHeader>
-                        <ModalBody>{modalContent}</ModalBody>
-                        <ModalFooter>
-                            <CloseButtonFooter onClick={() => setModalOpen(false)}>Close</CloseButtonFooter>
-                        </ModalFooter>
-                    </ModalContent>
-                </ModalOverlay>
-            )}
-            {guests.length > 0 ? (
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableHeader onClick={() => handleSort('name')}>Guest</TableHeader>
-                            <TableHeader onClick={() => handleSort('orderDate')}>Order Date</TableHeader>
-                            <TableHeader onClick={() => handleSort('checkIn')}>Check In</TableHeader>
-                            <TableHeader onClick={() => handleSort('checkOut')}>Check Out</TableHeader>
-                            <TableHeader>Special Request</TableHeader>
-                            <TableHeader onClick={() => handleSort('roomType')}>Room Type</TableHeader>
-                            <TableHeader onClick={() => handleSort('status')}>Status</TableHeader>
-                            <TableHeader>Actions</TableHeader>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {guests.map((guest) => (
-                            <TableRow key={guest.id} onClick={() => handleRowClick(guest.id)}>
-                                <TableCell>
-                                    {guest.name}
-                                    <br />
-                                    <small>{`#${guest.id}`}</small>
-                                </TableCell>
-                                <TableCell>{new Date(guest.orderDate).toLocaleString()}</TableCell>
-                                <TableCell>{new Date(guest.checkIn).toLocaleString()}</TableCell>
-                                <TableCell>{new Date(guest.checkOut).toLocaleString()}</TableCell>
-                                <TableCell>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleSpecialRequestClick(guest.specialRequest || guest.description);
-                                        }}
-                                    >
-                                        View Notes
-                                    </button>
-                                </TableCell>
-                                <TableCell>{guest.roomType}</TableCell>
-                                <TableCell
-                                    style={{
-                                        color:
-                                            guest.status === 'Booked'
-                                                ? 'green'
-                                                : guest.status === 'Cancelled'
-                                                    ? 'red'
-                                                    : guest.status === 'Pending'
-                                                        ? 'orange'
-                                                        : 'white',
-                                    }}
-                                >
-                                    {guest.status}
-                                </TableCell>
-                                <TableCell>
-                                    <ActionIcons>
-                                        <FaTrashAlt
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onDeleteClick(guest.id);
-                                            }}
-                                        />
-                                        <FaEllipsisV
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                navigate(`/bookings/edit/${guest.id}`);
-                                            }}
-                                        />
-                                    </ActionIcons>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            ) : (
-                <NoResults>No search results found</NoResults>
-            )}
-        </>
-    );
+  return (
+    <>
+      {modalOpen && (
+        <ModalOverlay onClick={() => setModalOpen(false)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalHeader>
+              <ModalTitle>Special Request</ModalTitle>
+              <CloseButton onClick={() => setModalOpen(false)}>&times;</CloseButton>
+            </ModalHeader>
+            <ModalBody>{modalContent}</ModalBody>
+            <ModalFooter>
+              <CloseButtonFooter onClick={() => setModalOpen(false)}>Close</CloseButtonFooter>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+      {guests.length > 0 ? (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeader onClick={() => handleSort('name')}>Guest</TableHeader>
+              <TableHeader onClick={() => handleSort('orderDate')}>Order Date</TableHeader>
+              <TableHeader onClick={() => handleSort('checkIn')}>Check In</TableHeader>
+              <TableHeader onClick={() => handleSort('checkOut')}>Check Out</TableHeader>
+              <TableHeader>Special Request</TableHeader>
+              <TableHeader onClick={() => handleSort('roomType')}>Room Type</TableHeader>
+              <TableHeader onClick={() => handleSort('status')}>Status</TableHeader>
+              <TableHeader>Actions</TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {guests.map((guest) => (
+              <TableRow key={guest.id} onClick={() => handleRowClick(guest.id)}>
+                <TableCell>
+                  {guest.name}
+                  <br />
+                  <small>{`#${guest.id}`}</small>
+                </TableCell>
+                <TableCell>{new Date(guest.orderDate).toLocaleString()}</TableCell>
+                <TableCell>{new Date(guest.checkIn).toLocaleString()}</TableCell>
+                <TableCell>{new Date(guest.checkOut).toLocaleString()}</TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSpecialRequestClick(guest.specialRequest || guest.description);
+                    }}
+                  >
+                    View Notes
+                  </button>
+                </TableCell>
+                <TableCell>{guest.roomType}</TableCell>
+                <TableCell
+                  style={{
+                    color:
+                      guest.status === 'Booked'
+                        ? 'green'
+                        : guest.status === 'Cancelled'
+                        ? 'red'
+                        : guest.status === 'Pending'
+                        ? 'orange'
+                        : 'white',
+                  }}
+                >
+                  {guest.status}
+                </TableCell>
+                <TableCell>
+                  <ActionIcons>
+                    <FaTrashAlt
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteClick(guest.id);
+                      }}
+                    />
+                    <FaEllipsisV
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditClick(guest.id);
+                      }}
+                    />
+                  </ActionIcons>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <NoResults>No search results found</NoResults>
+      )}
+    </>
+  );
 };
 
 export default GuestTable;
