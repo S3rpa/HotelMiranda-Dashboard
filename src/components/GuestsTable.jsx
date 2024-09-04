@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaTrashAlt, FaEllipsisV } from 'react-icons/fa';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const Table = styled.table`
@@ -215,7 +215,7 @@ const GuestTable = ({ guests, handleSort, onSpecialRequestClick, onDeleteClick, 
                         onDeleteClick(guest.id);
                       }}
                     />
-                    <FaEllipsisV
+                    <FaEdit
                       onClick={(e) => {
                         e.stopPropagation();
                         onEditClick(guest.id);
