@@ -2,12 +2,40 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetUsers } from '../../../features/users/usersThunk';
-import { FaEllipsisV } from 'react-icons/fa';
+import { GetUsers, DeleteUser } from '../../../features/users/usersThunk';
+import UsersTable from '../../components/UsersTable';
 import Pagination from '../../components/Pagination';
+import { FaPlus } from 'react-icons/fa';
 
 const Container = styled.div`
   padding: 2rem;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+const NewUserButton = styled.button`
+  background-color: #135846;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #0a3c29;
+  }
+
+  & > svg {
+    margin-right: 0.5rem;
+  }
 `;
 
 const Tabs = styled.div`
@@ -30,83 +58,6 @@ const Tab = styled.button`
   }
 `;
 
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const TableHead = styled.thead`
-  background-color: #f5f5f5;
-  color: black;
-`;
-
-const TableRow = styled.tr`
-  border-bottom: 1px solid #ddd;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.09);
-    cursor: pointer;
-  }
-`;
-
-const TableHeader = styled.th`
-  padding: 1rem;
-  text-align: left;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #eaeaea;
-  }
-`;
-
-const TableBody = styled.tbody``;
-
-const TableCell = styled.td`
-  padding: 1rem;
-`;
-
-const StatusBadge = styled.span`
-  color: ${(props) => (props.state === 'ACTIVE' ? 'green' : 'red')};
-`;
-
-const UserRow = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const UserInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-`;
-
-const UserName = styled.span`
-  font-weight: bold;
-`;
-
-const UserDetails = styled.small`
-  color: #888;
-`;
-
-const AvatarPlaceholder = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: #aaa;
-  overflow: hidden;
-`;
-
-const AvatarImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
 const Users = () => {
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -125,26 +76,17 @@ const Users = () => {
   }, [dispatch, usersStatus]);
 
   const filteredUsers = users
-    .filter((user) => {
-      if (filter === 'all') return true;
-      return user.state === filter.toUpperCase();
-    })
-    .filter((user) => {
-      return (
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.work.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.telephone.includes(searchTerm)
-      );
-    })
-    .sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
-      }
-      return 0;
-    });
+  .filter((user) => filter === 'all' || user.state === filter.toUpperCase())
+  .filter((user) =>
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.work.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.telephone.includes(searchTerm)
+  )
+  .sort((a, b) => {
+    const key = sortConfig.key;
+    const direction = sortConfig.direction === 'asc' ? 1 : -1;
+    return a[key] > b[key] ? direction : a[key] < b[key] ? -direction : 0;
+  });
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
@@ -157,14 +99,6 @@ const Users = () => {
     navigate(`/users/${id}`);
   };
 
-  if (usersStatus === 'loading') {
-    return <div>Loading users...</div>;
-  }
-
-  if (usersStatus === 'failed') {
-    return <div>Error loading users.</div>;
-  }
-
   const handleSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -172,9 +106,26 @@ const Users = () => {
     }
     setSortConfig({ key, direction });
   };
-
+  const handleDelete = (userId) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      dispatch(DeleteUser(userId)).then(() => {
+        dispatch(GetUsers());
+      });
+    }
+  };
+  const handleCreate = () => {
+    navigate('/users/new');
+  };
+  const handleEdit = (user) => {
+    navigate(`/users/edit/${user.id}`);
+  };
   return (
     <Container>
+      <Header>
+        <NewUserButton onClick={handleCreate}>
+          <FaPlus /> Add User
+        </NewUserButton>
+      </Header>
       <Tabs>
         <Tab $active={filter === 'all'} onClick={() => setFilter('all')}>
           All Users
@@ -186,56 +137,14 @@ const Users = () => {
           Inactive Users
         </Tab>
       </Tabs>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader></TableHeader>
-            <TableHeader onClick={() => handleSort('name')}>Name</TableHeader>
-            <TableHeader onClick={() => handleSort('work')}>Job Desk</TableHeader>
-            <TableHeader onClick={() => handleSort('schedule')}>Schedule</TableHeader>
-            <TableHeader onClick={() => handleSort('telephone')}>Contact</TableHeader>
-            <TableHeader onClick={() => handleSort('state')}>Status</TableHeader>
-            <TableHeader>Actions</TableHeader>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {currentUsers.map((user) => (
-            <TableRow key={user.id} onClick={() => handleRowClick(user.id)}>
-              <TableCell>
-                <AvatarPlaceholder>
-                  <AvatarImage
-                    src={user.photo[Math.floor(Math.random() * user.photo.length)]}
-                    alt={`${user.name} profile`}
-                  />
-                </AvatarPlaceholder>
-              </TableCell>
-              <TableCell>
-                <UserRow>
-                  <UserInfo>
-                    <UserName>{user.name}</UserName>
-                    <UserDetails>
-                      #{user.id} - Joined on {new Date(user.start_date).toDateString()}
-                    </UserDetails>
-                  </UserInfo>
-                </UserRow>
-              </TableCell>
-              <TableCell>{user.work}</TableCell>
-              <TableCell>{user.schedule || 'Monday, Friday'}</TableCell>
-              <TableCell>
-                <a href={`tel:${user.telephone}`}>{user.telephone}</a>
-              </TableCell>
-              <TableCell>
-                <StatusBadge state={user.state}>
-                  {user.state}
-                </StatusBadge>
-              </TableCell>
-              <TableCell>
-                <FaEllipsisV />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <UsersTable
+        users={currentUsers}
+        handleRowClick={handleRowClick}
+        handleSort={handleSort}
+        sortConfig={sortConfig}
+        onDelete={handleDelete}
+        onEdit={handleEdit} 
+      />
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

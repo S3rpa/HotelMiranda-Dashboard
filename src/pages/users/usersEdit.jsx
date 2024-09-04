@@ -1,47 +1,41 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../components/authContext';
-import users  from '../../data/users';
+import { useSelector, useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { EditUser, CreateUser } from '../../../features/users/usersThunk';
 
 const Container = styled.div`
   padding: 2rem;
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-`;
-
-const Title = styled.h2`
-  margin-bottom: 1.5rem;
-  color: #333;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-`;
-
-const Label = styled.label`
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #333;
+  gap: 1rem;
 `;
 
 const Input = styled.input`
   padding: 0.5rem;
-  margin-bottom: 1rem;
+  font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 4px;
+`;
+
+const Select = styled.select`
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 `;
 
 const Button = styled.button`
-  padding: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
   background-color: #135846;
-  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
 
   &:hover {
@@ -49,76 +43,116 @@ const Button = styled.button`
   }
 `;
 
-const UsersEdit = () => {
-  const { state, dispatch } = useContext(AuthContext);
+const UserEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [user, setUser] = useState(null);
+  const users = useSelector((state) => state.users.data);
 
   useEffect(() => {
-    if (id) {
-        const foundUser = users.find((u) => u.id === parseInt(id));
-        if (foundUser) {
-            setUser(foundUser);
-        } else {
-            console.error("User not found with ID:", id);
-        }
-    } else {
-        console.error("No ID provided in URL");
+    const foundUser = users.find((u) => u.id === parseInt(id));
+    if (foundUser) {
+      setUser({ ...foundUser }); 
     }
-}, [id]);
+  }, [id, users]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
+    setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (user) {
-      users[user.id - 1] = user;
-      dispatch({ type: 'UPDATE_USER', payload: user });
-      alert('Perfil actualizado!');
-      navigate('/index');
+    try {
+      const resultAction = await dispatch(EditUser(user));
+      unwrapResult(resultAction);
+      alert('User updated successfully!');
+      navigate('/users');
+    } catch (error) {
+      console.error('Failed to update user:', error);
+      alert('Failed to update user.');
     }
   };
 
-  if (!user) {
-    return <p>Cargando datos del usuario...</p>;
-  }
+  if (!user && id) return <p>Loading...</p>;
 
   return (
     <Container>
-      <Title>Edit User</Title>
+      <h1>{id ? 'Update User' : 'Create User'}</h1>
       <Form onSubmit={handleSubmit}>
-        <Label>Nombre:</Label>
         <Input
           type="text"
           name="name"
           value={user.name}
           onChange={handleChange}
+          placeholder="User Name"
+          required
         />
-        <Label>Email:</Label>
+        <Input
+          type="text"
+          name="work"
+          value={user.work}
+          onChange={handleChange}
+          placeholder="Job Desk"
+          required
+        />
+        <Input
+          type="text"
+          name="schedule"
+          value={user.schedule}
+          onChange={handleChange}
+          placeholder="Schedule"
+          required
+        />
+        <Input
+          type="tel"
+          name="telephone"
+          value={user.telephone}
+          onChange={handleChange}
+          placeholder="Contact Number"
+          required
+        />
         <Input
           type="email"
           name="email"
           value={user.email}
           onChange={handleChange}
+          placeholder="Email Address"
+          required
         />
-        <Label>Teléfono:</Label>
         <Input
-          type="tel"
-          name="phone"
-          value={user.phone}
+          type="date"
+          name="start_date"
+          value={user.start_date}
           onChange={handleChange}
+          placeholder="Start Date"
+          required
         />
-        <Button type="submit">Actualizar Perfil</Button>
+        <Input
+          type="text"
+          name="description"
+          value={user.description}
+          onChange={handleChange}
+          placeholder="Description"
+          required
+        />
+        <Input
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleChange}
+          placeholder="Password"
+          required
+        />
+        <Select name="state" value={user.state} onChange={handleChange} required>
+          <option value="ACTIVE">Active</option>
+          <option value="INACTIVE">Inactive</option>
+        </Select>
+        <Button type="submit">{id ? 'Update User' : 'Create User'}</Button>
       </Form>
     </Container>
   );
 };
 
-export default UsersEdit;
+export default UserEdit;
