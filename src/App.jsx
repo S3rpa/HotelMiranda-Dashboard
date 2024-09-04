@@ -10,7 +10,7 @@ import Users from './pages/users/users';
 import UsersDetail from './pages/users/usersDetails';
 import UsersEdit from './pages/users/usersEdit';
 import NewUser from './pages/users/NewUser';
-import Contact from './pages/contact/contact';
+import ContactPage from './pages/contact/contact.tsx';
 import Login from './components/Login';
 import PrivateRoute from './components/privateRoute';
 import Sidebar from './components/sidebar';
@@ -53,7 +53,7 @@ const ProtectedRoutes = ({ isSidebarOpen, toggleSidebar, theme, toggleTheme }) =
           <Route path="/bookings/:id" element={<BookingDetails />} />
           <Route path="/rooms" element={<Room />} />
           <Route path="/rooms/:id" element={<RoomDetail />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/new" element={<NewUser />} />
           <Route path="/users/edit/:id" element={<UsersEdit />} />
