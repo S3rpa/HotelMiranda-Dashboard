@@ -12,14 +12,14 @@ const usersSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(GetUsers.pending, (state) => {
-                state.status = 'loading';
+                state.status = 'pending';
             })
             .addCase(GetUsers.fulfilled, (state, action) => {
-                state.status = 'succeeded';
+                state.status = 'fullfilled';
                 state.data = action.payload;
             })
             .addCase(GetUsers.rejected, (state, action) => {
-                state.status = 'failed';
+                state.status = 'rejected';
                 state.error = action.error.message;
             })
             .addCase(EditUser.fulfilled, (state, action) => {

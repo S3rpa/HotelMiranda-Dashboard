@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/authContext';
-import { users } from '../../../db.json';
+import users  from '../../data/users';
 
 const Container = styled.div`
   padding: 2rem;

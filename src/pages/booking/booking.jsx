@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetBookings, DeleteBooking } from '../../../features/bookings/bookingThunk';
 import GuestTable from '../../components/GuestsTable';
+import Pagination from '../../components/Pagination';
+import { FaEllipsisV, FaTrashAlt } from 'react-icons/fa';
 
 const Container = styled.div`
   padding: 2rem;
@@ -55,31 +57,6 @@ const Tab = styled.button`
   &:hover {
     background-color: #0a3c29;
     color: white;
-  }
-`;
-
-const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-`;
-
-const PaginationButton = styled.button`
-  background-color: #135846;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 0 0.5rem;
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-
-  &:hover:enabled {
-    background-color: #0a3c29;
   }
 `;
 
@@ -136,7 +113,7 @@ const Booking = () => {
 
   useEffect(() => {
     if (bookingsStatus === 'idle') {
-      dispatch(GetBookings());
+        dispatch(GetBookings());
     }
   }, [dispatch, bookingsStatus]);
 
@@ -177,6 +154,8 @@ const Booking = () => {
     currentPage * guestsPerPage
   );
 
+  const totalPages = Math.ceil(sortedGuests.length / guestsPerPage);
+
   const handleSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -187,14 +166,11 @@ const Booking = () => {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1); 
   };
 
-  const handlePageChange = (direction) => {
-    if (direction === 'next') {
-      setCurrentPage((prevPage) => prevPage + 1);
-    } else if (direction === 'prev') {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   const handleSpecialRequestClick = (request) => {
@@ -202,8 +178,15 @@ const Booking = () => {
   };
 
   const handleDelete = (guestId) => {
-    dispatch(DeleteBooking(guestId));
-    alert("Booking eliminada correctamente.");
+    if (window.confirm('Are you sure you want to delete this booking?')) {
+      dispatch(DeleteBooking(guestId)).then(() => {
+        dispatch(GetBookings());
+      });
+    }
+  };
+
+  const handleEditClick = (guestId) => {
+    navigate(`/bookings/update/${guestId}`);
   };
 
   const closePopup = () => {
@@ -245,23 +228,14 @@ const Booking = () => {
         handleSort={handleSort}
         onSpecialRequestClick={handleSpecialRequestClick}
         onDeleteClick={handleDelete}
+        onEditClick={handleEditClick}
+        onRowClick={(guestId) => navigate(`/bookings/${guestId}`)}
       />
-      <Pagination>
-        <PaginationButton
-          onClick={() => handlePageChange('prev')}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </PaginationButton>
-        <span>{currentPage}</span>
-        <PaginationButton
-          onClick={() => handlePageChange('next')}
-          disabled={currentPage * guestsPerPage >= sortedGuests.length}
-        >
-          Next
-        </PaginationButton>
-      </Pagination>
-
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange} 
+      />
       {selectedRequest && (
         <>
           <Overlay onClick={closePopup} />

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetUsers } from '../../../features/users/usersThunk';
 import { FaEllipsisV } from 'react-icons/fa';
+import Pagination from '../../components/Pagination';
 
 const Container = styled.div`
   padding: 2rem;
@@ -65,7 +66,7 @@ const TableCell = styled.td`
 `;
 
 const StatusBadge = styled.span`
-  color: ${(props) => (props.status === 'ACTIVE' ? 'green' : 'red')};
+  color: ${(props) => (props.state === 'ACTIVE' ? 'green' : 'red')};
 `;
 
 const UserRow = styled.div`
@@ -97,14 +98,25 @@ const AvatarPlaceholder = styled.div`
   justify-content: center;
   font-size: 20px;
   color: #aaa;
+  overflow: hidden;
+`;
+
+const AvatarImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Users = () => {
   const [filter, setFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.data);
   const usersStatus = useSelector((state) => state.users.status);
+  const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'asc' });
 
   useEffect(() => {
     if (usersStatus === 'idle') {
@@ -112,11 +124,34 @@ const Users = () => {
     }
   }, [dispatch, usersStatus]);
 
-  const filteredUsers = users.filter((user) => {
-    if (filter === 'active') return user.status === 'ACTIVE';
-    if (filter === 'inactive') return user.status === 'INACTIVE';
-    return true;
-  });
+  const filteredUsers = users
+    .filter((user) => {
+      if (filter === 'all') return true;
+      return user.state === filter.toUpperCase();
+    })
+    .filter((user) => {
+      return (
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.work.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.telephone.includes(searchTerm)
+      );
+    })
+    .sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const currentUsers = filteredUsers.slice(
+    (currentPage - 1) * usersPerPage,
+    currentPage * usersPerPage
+  );
 
   const handleRowClick = (id) => {
     navigate(`/users/${id}`);
@@ -130,47 +165,57 @@ const Users = () => {
     return <div>Error loading users.</div>;
   }
 
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
   return (
     <Container>
       <Tabs>
         <Tab $active={filter === 'all'} onClick={() => setFilter('all')}>
           All Users
         </Tab>
-        <Tab $active={filter === 'active'} onClick={() => setFilter('active')}>
+        <Tab $active={filter === 'ACTIVE'} onClick={() => setFilter('ACTIVE')}>
           Active Users
         </Tab>
-        <Tab $active={filter === 'inactive'} onClick={() => setFilter('inactive')}>
+        <Tab $active={filter === 'INACTIVE'} onClick={() => setFilter('INACTIVE')}>
           Inactive Users
         </Tab>
       </Tabs>
       <Table>
         <TableHead>
           <TableRow>
-            <TableHeader>
-              <input type="checkbox" />
-            </TableHeader>
-            <TableHeader>Name</TableHeader>
-            <TableHeader>Job Desk</TableHeader>
-            <TableHeader>Schedule</TableHeader>
-            <TableHeader>Contact</TableHeader>
-            <TableHeader>Status</TableHeader>
+            <TableHeader></TableHeader>
+            <TableHeader onClick={() => handleSort('name')}>Name</TableHeader>
+            <TableHeader onClick={() => handleSort('work')}>Job Desk</TableHeader>
+            <TableHeader onClick={() => handleSort('schedule')}>Schedule</TableHeader>
+            <TableHeader onClick={() => handleSort('telephone')}>Contact</TableHeader>
+            <TableHeader onClick={() => handleSort('state')}>Status</TableHeader>
             <TableHeader>Actions</TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredUsers.map((user) => (
+          {currentUsers.map((user) => (
             <TableRow key={user.id} onClick={() => handleRowClick(user.id)}>
               <TableCell>
-                <input type="checkbox" />
+                <AvatarPlaceholder>
+                  <AvatarImage
+                    src={user.photo[Math.floor(Math.random() * user.photo.length)]}
+                    alt={`${user.name} profile`}
+                  />
+                </AvatarPlaceholder>
               </TableCell>
               <TableCell>
                 <UserRow>
-                  <AvatarPlaceholder>
-                    {user.name[0]}
-                  </AvatarPlaceholder>
                   <UserInfo>
                     <UserName>{user.name}</UserName>
-                    <UserDetails>#{user.id} - Joined on {new Date(user.start_date).toDateString()}</UserDetails>
+                    <UserDetails>
+                      #{user.id} - Joined on {new Date(user.start_date).toDateString()}
+                    </UserDetails>
                   </UserInfo>
                 </UserRow>
               </TableCell>
@@ -180,8 +225,8 @@ const Users = () => {
                 <a href={`tel:${user.telephone}`}>{user.telephone}</a>
               </TableCell>
               <TableCell>
-                <StatusBadge status={user.status || 'INACTIVE'}>
-                  {user.status || 'INACTIVE'}
+                <StatusBadge state={user.state}>
+                  {user.state}
                 </StatusBadge>
               </TableCell>
               <TableCell>
@@ -191,6 +236,11 @@ const Users = () => {
           ))}
         </TableBody>
       </Table>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </Container>
   );
 };

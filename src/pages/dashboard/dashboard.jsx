@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../../components/sidebar';
-import { guest } from '../../../db.json'
+import guest  from '../../data/guest';
 import { BsFillHouseFill } from 'react-icons/bs';
 import { IoBed } from 'react-icons/io5';
 import { MdLogout, MdOutlineLogin } from 'react-icons/md';
@@ -158,7 +158,6 @@ const Dashboard = () => {
             </StatText>
           </StatCard>
         </StatsContainer>
-
         <CardContainer>
           <CalendarCard />
           <StatsCard />
