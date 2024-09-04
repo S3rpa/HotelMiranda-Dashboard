@@ -9,6 +9,7 @@ import { FaPlus } from 'react-icons/fa';
 
 const Container = styled.div`
   padding: 2rem;
+  background-color: #f7f7f7;
 `;
 
 const Header = styled.div`

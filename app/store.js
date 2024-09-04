@@ -1,12 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import bookingsReducer from '../features/bookings/bookingsSlice';
-import usersReducer from '../features/users/usersSlice';
-
-export const store = configureStore({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.store = void 0;
+var toolkit_1 = require("@reduxjs/toolkit");
+var contactSlice_1 = require("../features/contacts/contactSlice");
+exports.store = (0, toolkit_1.configureStore)({
     reducer: {
-        bookings: bookingsReducer,
-        users: usersReducer
+        contacts: contactSlice_1.default
     },
 });
-
-export default store;
+exports.default = exports.store;
