@@ -11,7 +11,6 @@ import UsersDetail from './pages/users/usersDetails';
 import UsersEdit from './pages/users/usersEdit';
 import NewUser from './pages/users/NewUser';
 import Contact from './pages/contact/contact';
-import ContactDetail from './pages/contact/contactDetails';
 import Login from './components/Login';
 import PrivateRoute from './components/privateRoute';
 import Sidebar from './components/sidebar';
@@ -55,7 +54,6 @@ const ProtectedRoutes = ({ isSidebarOpen, toggleSidebar, theme, toggleTheme }) =
           <Route path="/rooms" element={<Room />} />
           <Route path="/rooms/:id" element={<RoomDetail />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/contact/:id" element={<ContactDetail />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/new" element={<NewUser />} />
           <Route path="/users/edit/:id" element={<UsersEdit />} />

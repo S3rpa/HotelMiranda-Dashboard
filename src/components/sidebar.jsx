@@ -199,7 +199,7 @@ const Sidebar = ({ isopen, toggleSidebar }) => {
       </Logo>
       <Menu>
         <MenuItem>
-          <StyledNavLink to="/index">
+          <StyledNavLink to="/dashboard">
             <MenuIcon><LuLayoutDashboard /></MenuIcon>
             <MenuText>Dashboard</MenuText>
           </StyledNavLink>

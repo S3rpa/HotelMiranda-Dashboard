@@ -86,7 +86,7 @@ const Login = () => {
         payload: user,
       });
       localStorage.setItem('user', JSON.stringify(user));
-      navigate('/index');
+      navigate('/dashboard');
     } else {
       alert('Invalid credentials');
     }

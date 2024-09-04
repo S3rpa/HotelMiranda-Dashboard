@@ -57,13 +57,23 @@ const TopBar = ({ toggleSidebar }) => {
     '/bookings': 'Bookings',
     '/contact': 'Contact',
     '/users': 'Users',
+    '/bookings/new': 'New Booking', 
+    '/users/new': 'Add User',       
   };
 
   const getPageTitle = () => {
-    if (matchPath('/bookings/:id', location.pathname)) {
+    if (matchPath('/bookings/new', location.pathname)) {
+      return 'New Booking';
+    } else if (matchPath('/bookings/update/:id', location.pathname)) {
+      return 'Update Booking';
+    } else if (matchPath('/bookings/:id', location.pathname)) {
       return 'Booking Details';
+    } else if (matchPath('/users/new', location.pathname)) {
+      return 'Add User';
     } else if (matchPath('/users/edit/:id', location.pathname)) {
       return 'Edit User';
+    } else if (matchPath('/users/:id', location.pathname)) {
+      return 'User Details';
     } else {
       return pageTitles[location.pathname] || 'Unknown Page';
     }
@@ -71,8 +81,13 @@ const TopBar = ({ toggleSidebar }) => {
 
   const shouldShowBackButton = () => {
     return matchPath('/bookings/:id', location.pathname) ||
-      matchPath('/users/edit/:id', location.pathname);
+    matchPath('/bookings/update/:id', location.pathname) ||
+      matchPath('/bookings/new', location.pathname) ||  
+      matchPath('/users/edit/:id', location.pathname) ||
+      matchPath('/users/new', location.pathname) ||
+      matchPath('/users/:id', location.pathname);
   };
+
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
