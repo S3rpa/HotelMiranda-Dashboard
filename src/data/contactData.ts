@@ -1,11 +1,5 @@
-export interface Contact {
-    Contact_id: number;
-    Date: string;
-    Customer: string;
-    Comment: string;
-    gender: string;
-    ip_address: string;
-  }
+import { Contact } from '../../src/interfaces/contactInterfaces'
+
 const contact: { comments: Contact[] } = {
     comments: [
         {
