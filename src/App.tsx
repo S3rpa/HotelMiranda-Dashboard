@@ -4,8 +4,8 @@ import Booking from './pages/booking/booking'
 import UpdateBooking from './pages/booking/UpdateBooking'
 import NewBooking from './pages/booking/NewBooking'
 import BookingDetails from './pages/booking/bookingDetails'
-//import Room from './pages/room/room'
-//import RoomDetail from './pages/room/roomDetails'
+import Room from './pages/room/room'
+import RoomDetail from './pages/room/roomDetails'
 import Users from './pages/users/users'
 import UsersDetail from './pages/users/usersDetails'
 import UsersEdit from './pages/users/usersEdit'
@@ -27,11 +27,11 @@ interface Theme {
 }
 
 const AppContainer = styled.div`
-  display: flex
+  display: flex;
 `
 
 const AppContent = styled.div`
-  flex-grow: 1
+  flex-grow: 1;
 `
 
 const lightTheme: Theme = {
@@ -59,7 +59,7 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
 }) => (
   <ThemeProvider theme={theme}>
     <AppContainer>
-    <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <AppContent>
         <NavBar toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
         <Routes>
@@ -67,14 +67,16 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
           <Route path="/bookings" element={<Booking />} />
           <Route path="/bookings/new" element={<NewBooking />} />
           <Route path="/bookings/update/:id" element={<UpdateBooking />} />
-          <Route path="/bookings/:id" element={<BookingDetails />} />
-          
+          <Route path="/bookings/:id" element={<BookingDetails />} />     
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/new" element={<NewUser />} />
           <Route path="/users/edit/:id" element={<UsersEdit />} />
           <Route path="/users/:id" element={<UsersDetail />} />
-          <Route path="*" element={<Navigate to="/bookings" />} />
+          <Route path="/rooms" element={<Room />} />
+          <Route path="/rooms/:id" element={<RoomDetail />} />
+          
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </AppContent>
     </AppContainer>
@@ -82,13 +84,13 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
 )
 
 const App: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(true)
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpen)
   }
-  
+
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode)
   }
