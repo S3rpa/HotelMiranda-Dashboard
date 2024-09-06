@@ -1,4 +1,6 @@
-const guest = [
+import { Booking } from '../../src/interfaces/bookingInterfaces';
+
+const guest: Booking[] = [
     {
         "id": 1,
         "name": "Hillary Fewlass",
@@ -9,10 +11,9 @@ const guest = [
         "status": "Cancelled",
         "description": "In congue. Etiam justo. Etiam pretium iaculis justo.\n\nIn hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.\n\nNulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.",
         "price": "ILS",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 2,
@@ -25,9 +26,9 @@ const guest = [
         "description": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\n\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
         "price": "CNY",
         "amenities": [
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -40,10 +41,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.\n\nDuis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.",
         "price": "CNY",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 4,
@@ -55,7 +55,9 @@ const guest = [
         "status": "Booked",
         "description": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
         "price": "THB",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 5,
@@ -67,10 +69,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
         "price": "NGN",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 6,
@@ -83,7 +84,9 @@ const guest = [
         "description": "Fusce consequat. Nulla nisl. Nunc nisl.\n\nDuis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.",
         "price": "MAD",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -97,10 +100,9 @@ const guest = [
         "description": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.\n\nIn hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
         "price": "EUR",
         "amenities": [
-            {},
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -113,7 +115,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.",
         "price": "JPY",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 9,
@@ -126,9 +130,9 @@ const guest = [
         "description": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\n\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.",
         "price": "IDR",
         "amenities": [
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -142,10 +146,9 @@ const guest = [
         "description": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.",
         "price": "CNY",
         "amenities": [
-            {},
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -158,10 +161,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
         "price": "PLN",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 12,
@@ -173,10 +175,9 @@ const guest = [
         "status": "Cancelled",
         "description": "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.\n\nNulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
         "price": "IDR",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 13,
@@ -189,7 +190,9 @@ const guest = [
         "description": "In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.\n\nMaecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.\n\nMaecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.",
         "price": "THB",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -203,7 +206,9 @@ const guest = [
         "description": "In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.\n\nMaecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
         "price": "KRW",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -217,9 +222,9 @@ const guest = [
         "description": "Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.\n\nDonec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.\n\nDuis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.",
         "price": "MAD",
         "amenities": [
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -233,10 +238,9 @@ const guest = [
         "description": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.",
         "price": "CNY",
         "amenities": [
-            {},
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -250,10 +254,9 @@ const guest = [
         "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.",
         "price": "IDR",
         "amenities": [
-            {},
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -266,10 +269,9 @@ const guest = [
         "status": "Refund",
         "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
         "price": "CNY",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 19,
@@ -281,10 +283,9 @@ const guest = [
         "status": "Pending",
         "description": "Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.\n\nVestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\n\nIn congue. Etiam justo. Etiam pretium iaculis justo.",
         "price": "PLN",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 20,
@@ -296,7 +297,9 @@ const guest = [
         "status": "Refund",
         "description": "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
         "price": "CNY",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 21,
@@ -308,7 +311,9 @@ const guest = [
         "status": "Booked",
         "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
         "price": "EUR",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 22,
@@ -321,7 +326,9 @@ const guest = [
         "description": "Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.",
         "price": "EGP",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -334,10 +341,9 @@ const guest = [
         "status": "Pending",
         "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.\n\nQuisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.",
         "price": "YER",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 24,
@@ -350,9 +356,9 @@ const guest = [
         "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.\n\nMaecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.\n\nNullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.",
         "price": "IDR",
         "amenities": [
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -366,9 +372,9 @@ const guest = [
         "description": "Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nProin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.",
         "price": "CAD",
         "amenities": [
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -381,10 +387,9 @@ const guest = [
         "status": "Refund",
         "description": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.\n\nIn hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
         "price": "IDR",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 27,
@@ -397,7 +402,9 @@ const guest = [
         "description": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.\n\nSed ante. Vivamus tortor. Duis mattis egestas metus.\n\nAenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
         "price": "RUB",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -410,10 +417,9 @@ const guest = [
         "status": "Refund",
         "description": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
         "price": "BRL",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 29,
@@ -426,10 +432,9 @@ const guest = [
         "description": "Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
         "price": "RUB",
         "amenities": [
-            {},
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -442,7 +447,9 @@ const guest = [
         "status": "Booked",
         "description": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
         "price": "KHR",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 31,
@@ -454,10 +461,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\n\nIn congue. Etiam justo. Etiam pretium iaculis justo.",
         "price": "CNY",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 32,
@@ -470,7 +476,9 @@ const guest = [
         "description": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.\n\nQuisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.\n\nVestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
         "price": "CNY",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -483,7 +491,9 @@ const guest = [
         "status": "Booked",
         "description": "Sed ante. Vivamus tortor. Duis mattis egestas metus.",
         "price": "USD",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 34,
@@ -496,7 +506,9 @@ const guest = [
         "description": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.\n\nIn hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
         "price": "PHP",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -510,7 +522,9 @@ const guest = [
         "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.\n\nNam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.\n\nCurabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.",
         "price": "CNY",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -524,10 +538,9 @@ const guest = [
         "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
         "price": "CNY",
         "amenities": [
-            {},
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -541,9 +554,9 @@ const guest = [
         "description": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
         "price": "MXN",
         "amenities": [
-            {},
-            {},
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." },
         ]
     },
     {
@@ -556,10 +569,9 @@ const guest = [
         "status": "Pending",
         "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\n\nEtiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
         "price": "NOK",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 39,
@@ -571,7 +583,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
         "price": "IDR",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 40,
@@ -583,7 +597,9 @@ const guest = [
         "status": "Refund",
         "description": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.",
         "price": "CNY",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 41,
@@ -595,10 +611,9 @@ const guest = [
         "status": "Pending",
         "description": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.",
         "price": "CNY",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 42,
@@ -611,7 +626,9 @@ const guest = [
         "description": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
         "price": "THB",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -624,10 +641,9 @@ const guest = [
         "status": "Booked",
         "description": "Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.",
         "price": "RUB",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 44,
@@ -639,10 +655,9 @@ const guest = [
         "status": "Pending",
         "description": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.",
         "price": "CNY",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 45,
@@ -654,7 +669,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\n\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.\n\nSed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.",
         "price": "RUB",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 46,
@@ -666,7 +683,9 @@ const guest = [
         "status": "Pending",
         "description": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\n\nIn congue. Etiam justo. Etiam pretium iaculis justo.\n\nIn hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.",
         "price": "JPY",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 47,
@@ -679,7 +698,9 @@ const guest = [
         "description": "Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.\n\nInteger ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.\n\nNam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
         "price": "CNY",
         "amenities": [
-            {}
+            { name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+            { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+            { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -692,11 +713,9 @@ const guest = [
         "status": "Pending",
         "description": "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.\n\nPellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
         "price": "ARS",
-        "amenities": [
-            {},
-            {},
-            {},
-            {}
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }
         ]
     },
     {
@@ -709,7 +728,9 @@ const guest = [
         "status": "Refund",
         "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.",
         "price": "ILS",
-        "amenities": []
+        "amenities": [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     },
     {
         "id": 50,
@@ -721,10 +742,9 @@ const guest = [
         "status": "Cancelled",
         "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
         "price": "ALL",
-        "amenities": [
-            {},
-            {}
-        ]
+        amenities: [{ name: "Breakfast", isFree: true, description: "Complimentary continental breakfast." },
+        { name: "Spa", isFree: false, description: "Access to the hotel’s luxurious spa." },
+        { name: "Airport Shuttle", isFree: false, description: "Shuttle service to and from the airport for a fee." }]
     }
 ]
 export default guest
