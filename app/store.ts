@@ -7,11 +7,9 @@ export const store = configureStore({
   reducer: {
     contacts: contactReducer,
     users: usersReducer,
-    bookings: bookingReducer
+    bookings: bookingReducer,
   },
 })
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-
-export default store

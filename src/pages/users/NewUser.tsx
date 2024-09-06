@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { CreateUser } from '../../../features/users/usersThunk';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { AppDispatch } from '../../../app/store';
-import { Container, Form, Label, Input, Select, Button } from '../../components/newUserStyles';
+import { Container, Form, Label, Input, Select, Button } from '../../styles/users/newUserStyles';
 import { User } from '../../interfaces/userInterfaces';
 
 const NewUser: React.FC = () => {

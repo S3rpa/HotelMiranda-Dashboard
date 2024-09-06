@@ -20,7 +20,7 @@ import {
   Carousel,
   FixedWidthImage,
   CarouselButton,
-} from '../../components/userDetailStyles'
+} from '../../styles/users/userDetailStyles'
 import { User } from '../../interfaces/userInterfaces'
 
 const UserDetail: React.FC = () => {

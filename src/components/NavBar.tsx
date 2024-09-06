@@ -46,10 +46,10 @@ const ButtonGroup = styled.div`
 `
 
 interface TopBarProps {
-  toggleSidebar: () => void
+  toggleSidebar: () => void;
+  toggleTheme: () => void;
 }
-
-const TopBar: React.FC<TopBarProps> = ({ toggleSidebar }) => {
+const TopBar: React.FC<TopBarProps> = ({ toggleSidebar}) => {
   const location = useLocation()
   const { dispatch } = useContext(AuthContext)
   const navigate = useNavigate()
