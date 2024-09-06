@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { EditBooking } from '../../../features/bookings/bookingThunk'
 import { Booking } from '../../interfaces/bookingInterfaces'
-import { RootState, AppDispatch } from '../../../app/store' // Asegúrate de importar AppDispatch
+import { RootState, AppDispatch } from '../../../app/store'
 import {
   Container,
   Form,
