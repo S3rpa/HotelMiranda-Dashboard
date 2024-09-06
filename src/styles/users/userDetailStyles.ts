@@ -8,10 +8,10 @@ export const Container = styled.div`
 `;
 
 export const LeftSection = styled.div`
-  width: 40%;
+  width: 45%;
   background-color: white;
   border-radius: 0.75em;
-  padding: 2%;
+  padding: 6%;
   box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
