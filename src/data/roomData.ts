@@ -1,4 +1,7 @@
-[{ "id": 1, "room_name": "Suite", "amenities": "WiFi", "price": "$543", "offer": "$64", "status": "Available" },
+
+import { Room } from '../interfaces/roomInterfaces'
+const roomData: Room[] =[
+    { "id": 1, "room_name": "Suite", "amenities": "WiFi", "price": "$543", "offer": "$64", "status": "Available" },
 { "id": 2, "room_name": "Suite", "amenities": "WiFi", "price": "$311", "offer": "$84", "status": "Under Maintenance" },
 { "id": 3, "room_name": "Suite", "amenities": "Mini Bar", "price": "$33", "offer": "$32", "status": "Available" },
 { "id": 4, "room_name": "Suite", "amenities": "Room Service", "price": "$234", "offer": "$103", "status": "Booked" },
@@ -28,3 +31,5 @@
 { "id": 28, "room_name": "Suite", "amenities": "WiFi", "price": "$103", "offer": "$65", "status": "Booked" },
 { "id": 29, "room_name": "Suite", "amenities": "Mini Bar", "price": "$55", "offer": "$52", "status": "Under Maintenance" },
 { "id": 30, "room_name": "Suite", "amenities": "Mini Bar", "price": "$467", "offer": "$467", "status": "Available" }]
+
+export default roomData
