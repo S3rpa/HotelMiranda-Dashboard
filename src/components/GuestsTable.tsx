@@ -19,7 +19,7 @@ import {
   ModalBody,
   ModalFooter,
   CloseButtonFooter
-} from './bookingStyles'
+} from '../components/guestTableStyles'
 
 const GuestTable: React.FC<GuestTableProps> = ({
   guest,

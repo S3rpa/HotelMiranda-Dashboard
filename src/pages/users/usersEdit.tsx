@@ -5,7 +5,7 @@ import { unwrapResult } from '@reduxjs/toolkit'
 import { EditUser } from '../../../features/users/usersThunk'
 import { RootState, AppDispatch } from '../../../app/store'
 import { User } from '../../interfaces/userInterfaces'
-import { Container, Form, Input, Select, Button } from '../../components/userEditStyles'
+import { Container, Form, Input, Select, Button } from '../../styles/users/userEditStyles'
 
 const UserEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>()

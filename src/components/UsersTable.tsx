@@ -12,7 +12,7 @@ import {
   AvatarPlaceholder,
   AvatarImage,
   ActionsCell
-} from '../../src/components/userStyles';
+} from '../styles/users/userStyles';
 
 const UsersTable: React.FC<UsersTableProps> = ({ users, handleRowClick, handleSort, sortConfig, onDelete }) => {
   return (

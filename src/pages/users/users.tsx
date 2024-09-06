@@ -7,7 +7,7 @@ import Pagination from '../../components/Pagination'
 import { FaPlus } from 'react-icons/fa'
 import { RootState, AppDispatch } from '../../../app/store'
 import { User } from '../../interfaces/userInterfaces'
-import { Container, Header, NewUserButton, Tabs, Tab } from '../../components/userStyles'
+import { Container, Header, NewUserButton, Tabs, Tab } from '../../styles/users/userStyles'
 
 const Users: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'ACTIVE' | 'INACTIVE'>('all')
