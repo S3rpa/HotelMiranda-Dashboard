@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { PiBuildingFill } from "react-icons/pi";
 
 export const SidebarContainer = styled.div<{ $isopen: boolean }>`
