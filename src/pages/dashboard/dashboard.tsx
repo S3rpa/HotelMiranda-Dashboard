@@ -55,7 +55,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <MainContainer>
-      <Sidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <ContentContainer>
         <StatsContainer>
           <StatCard>

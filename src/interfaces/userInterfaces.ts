@@ -23,4 +23,5 @@ export interface User {
   handleSort: (key: keyof User) => void
   sortConfig: { key: keyof User; direction: 'asc' | 'desc' };
   onDelete: (id: number) => void
+  isDeleting?: number | null
 }

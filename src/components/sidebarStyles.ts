@@ -1,21 +1,23 @@
 import { styled } from 'styled-components';
 import { PiBuildingFill } from "react-icons/pi";
+import { NavLink } from 'react-router-dom';
 
-export const SidebarContainer = styled.div<{ $isopen: boolean }>`
-  width: ${(props) => (props.$isopen ? '20.625rem' : '0')};
+export const SidebarContainer = styled.div<{ isOpen: boolean }>`
+  width: ${(props) => (props.isOpen ? '20.625rem' : '0')};
   height: 109vh;
   background-color: #FFFFFF;
-  box-shadow: ${(props) => (props.$isopen ? '0.125rem 0 0.3125rem rgba(0, 0, 0, 0.1)' : 'none')}; 
+  box-shadow: ${(props) => (props.isOpen ? '0.125rem 0 0.3125rem rgba(0, 0, 0, 0.1)' : 'none')}; 
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: ${(props) => (props.$isopen ? '2.85rem 0' : '0')}; 
+  padding: ${(props) => (props.isOpen ? '2.85rem 0' : '0')}; 
   overflow: hidden;
   transition: width 0.3s, padding 0.3s;
+  position: relative;
 `;
 
-export const Logo = styled.div<{ $isopen: boolean }>`
-  display: ${(props) => (props.$isopen ? 'flex' : 'none')};
+export const Logo = styled.div<{ isOpen: boolean }>`
+  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
   align-items: center;
   margin-bottom: 2rem;
   padding-left: 1.5rem;
@@ -57,12 +59,19 @@ export const MenuItem = styled.li`
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: none;
+  }
 `;
 
 export const MenuIcon = styled.div`
   font-size: 1.5rem;
   color: #799283;
   margin-right: 1rem;
+  transition: color 0.3s ease;
 `;
 
 export const MenuText = styled.span`
@@ -70,7 +79,7 @@ export const MenuText = styled.span`
   color: #333;
 `;
 
-export const StyledNavLink = styled.div`
+export const StyledNavLink = styled(NavLink)`
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -78,9 +87,9 @@ export const StyledNavLink = styled.div`
   width: 100%;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
   position: relative;
-
+  
   &.active {
     color: #E23428;
 
@@ -94,7 +103,7 @@ export const StyledNavLink = styled.div`
       left: -2.5rem;
       top: 0;
       height: 100%;
-      width: 0.3125rem;
+      width: 6px;
       background-color: #E23428;
       border-radius: 0 0.25rem 0.25rem 0;
     }
@@ -107,29 +116,28 @@ export const StyledNavLink = styled.div`
   }
 `;
 
-export const ProfileSection = styled.div<{ $isopen: boolean }>`
-  top: 36.8125rem; 
-  left: 3.5rem; 
-  width: 12.5rem; 
-  height: 13.8125rem; 
+export const ProfileSection = styled.div<{ isOpen: boolean }>`
+  top: 36.8125rem;
+  left: 3.5rem;
+  width: 12.5rem;
+  height: 13.8125rem;
   margin-top: auto;
-  display: ${(props) => (props.$isopen ? 'flex' : 'none')};
+  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
   padding: 1rem;
   background-color: #FFFFFF;
   border-radius: 1rem;
   text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.14) 0px 1.25rem 1.88rem; 
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 1.25rem 1.88rem;
 `;
 
 export const ProfileImage = styled.img`
-  top: 36.8125rem; 
-  left: 8.625rem; 
+  top: 36.8125rem;
+  left: 8.625rem;
   width: 4.375rem;
-  height: 4.375rem; 
-  border-radius: 0.5rem; 
-  opacity: 1;
+  height: 4.375rem;
+  border-radius: 0.5rem;
   object-fit: cover;
 `;
 
@@ -146,15 +154,15 @@ export const ProfileEmail = styled.p`
 export const ContactButton = styled.button`
   background: #EBF1EF 0% 0% no-repeat padding-box;
   border-radius: 0.5rem;
-  opacity: 1;
-  top: 46.1875rem; 
-  left: 6rem;
-  width: 9.875rem; 
-  height: 2.9375rem; 
+  width: 9.875rem;
+  height: 2.9375rem;
   color: #135846;
   padding: 0.5rem 1rem;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+
+ 
 `;
 
 export const Footer = styled.div`
@@ -164,4 +172,3 @@ export const Footer = styled.div`
   color: #686868;
   margin-top: auto;
 `;
-

@@ -4,14 +4,17 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   esbuild: {
-    loader: {
-      '.js': 'jsx',  // Tell esbuild to treat .js files as JSX
-    },
+    loader: 'tsx',
     include: [
-      /\.js$/, // Process .js files with JSX syntax
+      /\.js$/,
+      /\.ts$/,
+      /\.tsx$/,
     ],
     exclude: [
-      /node_modules/, // Exclude node_modules
+      /node_modules/,
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx'],
   },
 });

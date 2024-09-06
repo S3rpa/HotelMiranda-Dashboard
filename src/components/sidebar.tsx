@@ -1,12 +1,6 @@
-import React, { useContext } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { AuthContext } from './authContext'
-import { LuLayoutDashboard } from "react-icons/lu"
-import { BiKey } from "react-icons/bi"
-import { LuCalendarCheck2 } from "react-icons/lu"
-import { IoPersonOutline } from "react-icons/io5"
-import { PiPuzzlePiece } from "react-icons/pi"
-import profilePic from '../assets/profilepic.jpg'
+import React, { useContext } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { AuthContext } from './authContext';
 import {
   SidebarContainer,
   Logo,
@@ -18,37 +12,43 @@ import {
   MenuItem,
   MenuIcon,
   MenuText,
-  StyledNavLink,
   ProfileSection,
   ProfileImage,
   ProfileName,
   ProfileEmail,
   ContactButton,
-  Footer
-} from './sidebarStyles'
+  Footer,
+  StyledNavLink
+} from './sidebarStyles';
+import { LuLayoutDashboard } from 'react-icons/lu';
+import { BiKey } from 'react-icons/bi';
+import { LuCalendarCheck2 } from 'react-icons/lu';
+import { IoPersonOutline } from 'react-icons/io5';
+import { PiPuzzlePiece } from 'react-icons/pi';
+import profilePic from '../assets/profilepic.jpg';
 
 interface SidebarProps {
-  isopen: boolean
-  toggleSidebar: () => void
+  isOpen: boolean;
+  toggleSidebar: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isopen, toggleSidebar }) => {
-  const { state } = useContext(AuthContext)
-  const navigate = useNavigate()
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+  const { state } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const userId = state?.user?.id
+  const userId = state?.user?.id;
 
   const handleEditProfile = () => {
     if (userId && userId !== 0) {
-      navigate(`/users/edit/${userId}`)
+      navigate(`/users/edit/${userId}`);
     } else {
-      console.error("User ID is not available or invalid")
+      console.error("User ID is not available or invalid");
     }
-  }
+  };
 
   return (
-    <SidebarContainer $isopen={isopen}>
-      <Logo $isopen={isopen}>
+    <SidebarContainer isOpen={isOpen}>
+      <Logo isOpen={isOpen}>
         <LogoIcon />
         <LogoText>
           <LogoTitle>travl</LogoTitle>
@@ -57,38 +57,38 @@ const Sidebar: React.FC<SidebarProps> = ({ isopen, toggleSidebar }) => {
       </Logo>
       <Menu>
         <MenuItem>
-          <NavLink to="/dashboard">
+          <StyledNavLink to="/dashboard">
             <MenuIcon><LuLayoutDashboard /></MenuIcon>
             <MenuText>Dashboard</MenuText>
-          </NavLink>
+          </StyledNavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/bookings">
+          <StyledNavLink to="/bookings">
             <MenuIcon><LuCalendarCheck2 /></MenuIcon>
             <MenuText>Bookings</MenuText>
-          </NavLink>
+          </StyledNavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/rooms">
+          <StyledNavLink to="/rooms">
             <MenuIcon><BiKey /></MenuIcon>
             <MenuText>Room</MenuText>
-          </NavLink>
+          </StyledNavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/contact">
+          <StyledNavLink to="/contact">
             <MenuIcon><IoPersonOutline /></MenuIcon>
             <MenuText>Contact</MenuText>
-          </NavLink>
+          </StyledNavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/users">
+          <StyledNavLink to="/users">
             <MenuIcon><PiPuzzlePiece /></MenuIcon>
             <MenuText>Users</MenuText>
-          </NavLink>
+          </StyledNavLink>
         </MenuItem>
       </Menu>
       {state?.user && (
-        <ProfileSection $isopen={isopen}>
+        <ProfileSection isOpen={isOpen}>
           <ProfileImage src={profilePic} />
           <ProfileName>{state.user.name}</ProfileName>
           <ProfileEmail>{state.user.email}</ProfileEmail>
@@ -101,7 +101,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isopen, toggleSidebar }) => {
         <p>Made with ♥ by Peterdraw</p>
       </Footer>
     </SidebarContainer>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

@@ -59,7 +59,7 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
 }) => (
   <ThemeProvider theme={theme}>
     <AppContainer>
-      <Sidebar isopen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+    <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <AppContent>
         <NavBar toggleSidebar={toggleSidebar} toggleTheme={toggleTheme} />
         <Routes>
@@ -82,13 +82,13 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
 )
 
 const App: React.FC = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen)
+    setIsOpen(!isOpen);
   }
-
+  
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode)
   }
@@ -104,7 +104,7 @@ const App: React.FC = () => {
               element={
                 <PrivateRoute>
                   <ProtectedRoutes
-                    isSidebarOpen={isSidebarOpen}
+                    isSidebarOpen={isOpen}
                     toggleSidebar={toggleSidebar}
                     theme={isDarkMode ? darkTheme : lightTheme}
                     toggleTheme={toggleTheme}

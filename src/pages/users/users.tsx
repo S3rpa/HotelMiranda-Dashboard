@@ -18,7 +18,7 @@ const Users: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
   const users = useSelector((state: RootState) => state.users.data)
   const usersStatus = useSelector((state: RootState) => state.users.status)
-  
+
   const [sortConfig, setSortConfig] = useState<{ key: keyof User; direction: 'asc' | 'desc' }>({
     key: 'name',
     direction: 'asc',
