@@ -7,10 +7,11 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   color: #333;
+  font-size: 1rem; /* Tamaño de fuente por defecto para mejorar legibilidad */
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.8rem; /* Aumenta tamaño de la fuente */
   color: #333;
   margin-bottom: 2rem;
 `;
@@ -48,6 +49,7 @@ export const TabNav = styled.div`
     cursor: pointer;
     font-weight: bold;
     color: #333;
+    font-size: 1.1rem; /* Aumenta el tamaño de fuente para mejor visibilidad */
 
     &:hover,
     &.active {
@@ -66,7 +68,12 @@ export const Table = styled.table`
     padding: 1.5%;
     border-bottom: 0.1em solid #ddd;
     text-align: left;
-    font-size: 1rem;
+    font-size: 1.1rem; /* Aumenta el tamaño de las celdas de la tabla */
+    color: #333;
+  }
+
+  th {
+    background-color: #f1f1f1; /* Mejor contraste para encabezados */
   }
 `;
 
@@ -75,6 +82,7 @@ export const PublishButton = styled.button`
   border: none;
   color: #28a745;
   cursor: pointer;
+  font-size: 1rem;
 
   &:hover {
     color: #218838;
@@ -86,29 +94,9 @@ export const ArchiveButton = styled.button`
   border: none;
   color: #dc3545;
   cursor: pointer;
+  font-size: 1rem;
 
   &:hover {
     color: #c82333;
-  }
-`;
-
-export const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-`;
-
-export const PageButton = styled.button<{ $active: boolean }>`
-  padding: 0.5rem 1rem;
-  margin: 0 0.5rem;
-  background-color: ${({ $active }) => ($active ? '#135846' : 'white')};
-  color: ${({ $active }) => ($active ? 'white' : '#333')};
-  border: 1px solid #ddd;
-  cursor: pointer;
-  border-radius: 5px;
-
-  &:hover {
-    background-color: #135846;
-    color: white;
   }
 `;

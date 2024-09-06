@@ -39,7 +39,7 @@ export const ActionIcons = styled.div`
   display: flex;
   gap: 0.5rem;
   font-size: 1.2rem;
-  color: white;
+  color: black;
 
   & > * {
     cursor: pointer;

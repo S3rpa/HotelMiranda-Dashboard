@@ -11,10 +11,22 @@ import {
   StatusBadge,
   AvatarPlaceholder,
   AvatarImage,
-  ActionsCell
-} from '../styles/users/userStyles';
+  ActionsCell,
+} from '../styles/users/userStyles'
+import { useNavigate } from 'react-router-dom'
 
-const UsersTable: React.FC<UsersTableProps> = ({ users, handleRowClick, handleSort, sortConfig, onDelete }) => {
+const UsersTable: React.FC<UsersTableProps> = ({
+  users,
+  handleRowClick,
+  handleSort,
+  onDelete,
+}) => {
+  const navigate = useNavigate()
+
+  const handleEditClick = (id: number) => {
+    navigate(`/users/edit/${id}`)
+  }
+
   return (
     <Table>
       <TableHead>
@@ -35,7 +47,10 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, handleRowClick, handleSo
               <TableCell onClick={() => handleRowClick(user.id)}>
                 <AvatarPlaceholder>
                   {user.photo && user.photo.length > 0 ? (
-                    <AvatarImage src={user.photo[Math.floor(Math.random() * user.photo.length)]} alt={`${user.name} profile`} />
+                    <AvatarImage
+                      src={user.photo[Math.floor(Math.random() * user.photo.length)]}
+                      alt={`${user.name} profile`}
+                    />
                   ) : (
                     <span>{user.name[0]}</span>
                   )}
@@ -57,7 +72,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, handleRowClick, handleSo
               </TableCell>
               <TableCell>
                 <ActionsCell>
-                  <FaEdit onClick={() => handleRowClick(user.id)} />
+                  <FaEdit onClick={() => handleEditClick(user.id)} />
                   <FaTrashAlt onClick={() => onDelete(user.id)} />
                 </ActionsCell>
               </TableCell>

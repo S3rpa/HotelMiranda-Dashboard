@@ -19,6 +19,7 @@ export const SearchInput = styled.input`
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-left: 1rem;
+  background-color: #f7f7f7;
 `;
 
 export const NewBookingButton = styled.button`

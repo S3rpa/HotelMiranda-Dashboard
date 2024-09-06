@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { publishComment, archiveComment } from '../../../features/contacts/contactSlice'
@@ -13,9 +14,8 @@ import {
   Table,
   PublishButton,
   ArchiveButton,
-  PaginationContainer,
-  PageButton
-} from '../../components/contactStyles'
+} from '../../styles/contact/contactStyles'
+import Pagination from '../../components/Pagination'
 
 const ContactPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -117,17 +117,11 @@ const ContactPage: React.FC = () => {
             ))}
           </tbody>
         </Table>
-        <PaginationContainer>
-          {[...Array(totalPages)].map((_, index) => (
-            <PageButton
-              key={index}
-              $active={currentPage === index + 1}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </PageButton>
-          ))}
-        </PaginationContainer>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </TableContainer>
     </Container>
   )

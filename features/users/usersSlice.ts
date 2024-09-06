@@ -1,5 +1,7 @@
+// usersSlice.ts
+
 import { createSlice } from '@reduxjs/toolkit'
-import { GetUsers, EditUser, DeleteUser, CreateUser } from './usersThunk'
+import { GetUsers, DeleteUser, EditUser, CreateUser } from './usersThunk'
 import { UsersState } from '../../src/interfaces/userInterfaces'
 
 const initialState: UsersState = {
@@ -25,13 +27,13 @@ const usersSlice = createSlice({
                 state.status = 'rejected'
                 state.error = action.error.message || 'Failed to fetch users'
             })
+            .addCase(DeleteUser.fulfilled, (state, action) => {
+                state.data = state.data.filter(user => user.id !== action.payload)
+            })
             .addCase(EditUser.fulfilled, (state, action) => {
                 state.data = state.data.map(user =>
                     user.id === action.payload.id ? action.payload : user
                 )
-            })
-            .addCase(DeleteUser.fulfilled, (state, action) => {
-                state.data = state.data.filter(user => user.id !== action.payload)
             })
             .addCase(CreateUser.fulfilled, (state, action) => {
                 state.data.push(action.payload)

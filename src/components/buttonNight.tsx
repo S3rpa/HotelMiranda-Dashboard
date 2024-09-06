@@ -26,18 +26,19 @@ const SwitchToggle = styled.span<SwitchToggleProps>`
   bottom: 0;
   background-color: ${(props) => (props.theme === 'light' ? '#ccc' : '#135846')};
   border-radius: 2.125em;
+  transition: background-color 0.4s;
 
   &::before {
     position: absolute;
     content: '';
     height: 1.625em;
     width: 1.625em;
-    left: 0.25em;
+    left: ${(props) => (props.theme === 'light' ? '0.25em' : 'calc(100% - 1.875em)')};
     bottom: 0.25em;
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
-    transform: ${(props) => (props.theme === 'light' ? 'translateX(0)' : 'translateX(26px)')};
+    transform: translateX(0); /* Se elimina la transformación */
   }
 `;
 
