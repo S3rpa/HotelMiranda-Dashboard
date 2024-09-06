@@ -30,11 +30,11 @@ const NewUser: React.FC = () => {
         }
 
         const newUser: User = {
-            id: 0,  // This will be replaced by the backend
+            id: 0,
             name,
             work,
             schedule,
-            photo: [], // Assuming this will be empty for now
+            photo: [],
             email,
             telephone,
             start_date: startDate,
@@ -45,7 +45,7 @@ const NewUser: React.FC = () => {
 
         try {
             const resultAction = await dispatch(CreateUser(newUser));
-            const result = unwrapResult(resultAction); // Handle the result
+            const result = unwrapResult(resultAction);
             alert('User added successfully!');
             navigate('/users');
         } catch (error) {
