@@ -1,14 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
+interface SwitchToggleProps {
+  theme: 'light' | 'dark';
+}
+
+interface ThemeToggleSwitchProps {
+  isDarkMode: boolean;
+  onToggle: () => void;
+}
+
 const SwitchContainer = styled.label`
   position: relative;
   display: inline-block;
   width: 3.75em;
-  height: 2.125em; 
+  height: 2.125em;
 `;
 
-const SwitchToggle = styled.span`
+const SwitchToggle = styled.span<SwitchToggleProps>`
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -20,11 +29,11 @@ const SwitchToggle = styled.span`
 
   &::before {
     position: absolute;
-    content: "";
-     height: 1.625em;
-    width: 1.625em;   
-    left: 0.25em;     
-    bottom: 0.25em;   
+    content: '';
+    height: 1.625em;
+    width: 1.625em;
+    left: 0.25em;
+    bottom: 0.25em;
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
@@ -32,7 +41,7 @@ const SwitchToggle = styled.span`
   }
 `;
 
-const ThemeToggleSwitch = ({ isDarkMode, onToggle }) => {
+const ThemeToggleSwitch: React.FC<ThemeToggleSwitchProps> = ({ isDarkMode, onToggle }) => {
   return (
     <SwitchContainer onClick={onToggle}>
       <SwitchToggle theme={isDarkMode ? 'dark' : 'light'} />
