@@ -1,48 +1,55 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { User } from '../../src/interfaces/userInterfaces'
-import users from '../../src/data/users'
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { User } from '../../src/interfaces/userInterfaces';
+import { apiService } from '../../src/utils/apiService';
 
-export const GetUsers = createAsyncThunk('users/getUsers', async () => {
-    return [...users]
-})
+export const GetUsers = createAsyncThunk<User[], void, { rejectValue: string }>(
+  'users/getUsers',
+  async (_, { rejectWithValue }) => {
+    const response = await apiService<User[]>('/api/users');
 
-
-export const DeleteUser = createAsyncThunk('users/deleteUser', async (userId: number) => {
-    const userIndex = users.findIndex(user => user.id === userId)
-    if (userIndex !== -1) {
-        users.splice(userIndex, 1)
-        return userId
-    } else {
-        throw new Error(`No se encontró el usuario con ID ${userId}`)
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
-})
 
-export const GetUser = createAsyncThunk('users/getUser', async (id: number) => {
-    const user = users.find(user => user.id === id)
-    if (user) {
-        return user
-    } else {
-        throw new Error(`User with id ${id} not found`)
+    return response.data!;
+  }
+);
+
+export const CreateUser = createAsyncThunk<User, Omit<User, 'id'>, { rejectValue: string }>(
+  'users/createUser',
+  async (newUser, { rejectWithValue }) => {
+    const response = await apiService<User>('/api/users', 'POST', newUser);
+
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
-})
 
-export const EditUser = createAsyncThunk('users/editUser', async (updatedUser: User) => {
-    const usersCopy = [...users]
-    const index = usersCopy.findIndex(user => user.id === updatedUser.id)
+    return response.data!;
+  }
+);
 
-    if (index !== -1) {
-        usersCopy[index] = { ...usersCopy[index], ...updatedUser }
-        return usersCopy[index]
-    } else {
-        throw new Error(`Failed to update user with id ${updatedUser.id}`)
+export const EditUser = createAsyncThunk<User, User, { rejectValue: string }>(
+  'users/editUser',
+  async (updatedUser, { rejectWithValue }) => {
+    const response = await apiService<User>(`/api/users/${updatedUser.id}`, 'PUT', updatedUser);
+
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
-})
 
-export const CreateUser = createAsyncThunk('users/createUser', async (newUser: User) => {
-    const usersCopy = [...users]
-    const newId = usersCopy.length ? usersCopy[usersCopy.length - 1].id + 1 : 1
-    const userToAdd = { ...newUser, id: newId }
+    return response.data!;
+  }
+);
 
-    usersCopy.push(userToAdd) 
-    return userToAdd
-})
+export const DeleteUser = createAsyncThunk<number, number, { rejectValue: string }>(
+  'users/deleteUser',
+  async (userId, { rejectWithValue }) => {
+    const response = await apiService<{ message: string }>(`/api/users/${userId}`, 'DELETE');
+
+    if (response.error) {
+      return rejectWithValue(response.error);
+    }
+
+    return userId;
+  }
+);
