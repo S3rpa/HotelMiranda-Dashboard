@@ -30,16 +30,13 @@ export const apiService = async <T>(
     const response = await fetch(`${apiUrl}${endpoint}`, config);
 
     if (!response.ok) {
-      // Manejar errores HTTP
-      const errorData = await response.json();
+      const errorData= await response.json();
       return { error: errorData.message || 'Error en la solicitud a la API' };
     }
 
-    // Suponemos que la respuesta es JSON
     const data: T = await response.json();
     return { data };
   } catch (error) {
-    // Manejar errores de red u otros errores
     return { error: (error as Error).message || 'Error en la solicitud' };
   }
 };
