@@ -1,63 +1,55 @@
-import { createAsyncThunk } from "@reduxjs/toolkit"
-import { Booking } from '../../src/interfaces/bookingInterfaces'
-import guest from '../../src/data/guest'
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { Booking } from '../../src/interfaces/bookingInterfaces';
+import { apiService } from '../../src/utils/apiService';
 
-export const GetBookings = createAsyncThunk<Booking[]>(
-    "bookings/getBookings",
-    async () => {
-        return [...guest]
-    }
-)
+export const GetBookings = createAsyncThunk<Booking[], void, { rejectValue: string }>(
+  'bookings/getBookings',
+  async (_, { rejectWithValue }) => {
+    const response = await apiService<Booking[]>('/api/bookings');
 
-export const EditBooking = createAsyncThunk<
-  Booking,  // Tipo de dato que devuelve
-  Booking,  // Tipo de argumento que recibe
-  { rejectValue: string }  // Manejo de errores
->(
-  'bookings/editBooking',
-  async (updatedBooking, { rejectWithValue }) => {
-    try {
-      const index = guest.findIndex((booking) => booking.id === updatedBooking.id)
-      if (index !== -1) {
-        guest[index] = updatedBooking  // Actualización simulada
-        return updatedBooking
-      } else {
-        throw new Error(`No se encontró la reserva con id ${updatedBooking.id}`)
-      }
-    } catch (error) {
-      return rejectWithValue((error as Error).message)
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
+
+    return response.data!;
   }
-)
-
-export const DeleteBooking = createAsyncThunk<number, number, { rejectValue: string }>(
-    "bookings/deleteBooking",
-    async (bookingId, { rejectWithValue }) => {
-        try {
-            const index = guest.findIndex(booking => booking.id === bookingId)
-            if (index !== -1) {
-                const updatedGuests = guest.filter(booking => booking.id !== bookingId)
-                return bookingId
-            } else {
-                throw new Error(`Failed to delete booking with id ${bookingId}`)
-            }
-        } catch (error) {
-            return rejectWithValue((error as Error).message)
-        }
-    }
-)
+);
 
 export const CreateBooking = createAsyncThunk<Booking, Omit<Booking, 'id'>, { rejectValue: string }>(
-    "bookings/createBooking",
-    async (newBooking, { rejectWithValue }) => {
-        try {
-            const newId = guest.length ? guest[guest.length - 1].id + 1 : 1
-            const bookingToAdd: Booking = { ...newBooking, id: newId }
+  'bookings/createBooking',
+  async (newBooking, { rejectWithValue }) => {
+    const response = await apiService<Booking>('/api/bookings', 'POST', newBooking);
 
-            const updatedGuests = [...guest, bookingToAdd]
-            return bookingToAdd
-        } catch (error) {
-            return rejectWithValue((error as Error).message)
-        }
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
-)
+
+    return response.data!;
+  }
+);
+
+export const EditBooking = createAsyncThunk<Booking, Booking, { rejectValue: string }>(
+  'bookings/editBooking',
+  async (updatedBooking, { rejectWithValue }) => {
+    const response = await apiService<Booking>(`/api/bookings/${updatedBooking.id}`, 'PUT', updatedBooking);
+
+    if (response.error) {
+      return rejectWithValue(response.error);
+    }
+
+    return response.data!;
+  }
+);
+
+export const DeleteBooking = createAsyncThunk<number, number, { rejectValue: string }>(
+  'bookings/deleteBooking',
+  async (bookingId, { rejectWithValue }) => {
+    const response = await apiService<{ message: string }>(`/api/bookings/${bookingId}`, 'DELETE');
+
+    if (response.error) {
+      return rejectWithValue(response.error);
+    }
+
+    return bookingId;
+  }
+);

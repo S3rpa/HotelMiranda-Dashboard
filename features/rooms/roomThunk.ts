@@ -1,55 +1,55 @@
-// src/features/rooms/roomsThunk.ts
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Room } from '../../src/interfaces/roomInterfaces';
-import roomData from '../../src/data/roomData';
+import { apiService } from '../../src/utils/apiService';
 
-// Obtener todas las habitaciones
-export const GetRooms = createAsyncThunk('rooms/getRooms', async () => {
-    return [...roomData];
-});
+export const GetRooms = createAsyncThunk<Room[], void, { rejectValue: string }>(
+  'rooms/getRooms',
+  async (_, { rejectWithValue }) => {
+    const response = await apiService<Room[]>('/api/rooms');
 
-// Eliminar una habitación
-export const DeleteRoom = createAsyncThunk('rooms/deleteRoom', async (roomId: number) => {
-    const roomsCopy = [...roomData]; 
-    const index = roomsCopy.findIndex(room => room.id === roomId);
-
-    if (index !== -1) {
-        roomsCopy.splice(index, 1); 
-        return roomId;
-    } else {
-        throw new Error(`Failed to delete room with id ${roomId}`);
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
-});
 
-// Obtener una sola habitación
-export const GetRoom = createAsyncThunk('rooms/getRoom', async (id: number) => {
-    const room = roomData.find(room => room.id === id);
-    if (room) {
-        return room;
-    } else {
-        throw new Error(`Room with id ${id} not found`);
+    return response.data!;
+  }
+);
+
+export const CreateRoom = createAsyncThunk<Room, Omit<Room, 'id'>, { rejectValue: string }>(
+  'rooms/createRoom',
+  async (newRoom, { rejectWithValue }) => {
+    const response = await apiService<Room>('/api/rooms', 'POST', newRoom);
+
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
-});
 
-// Editar una habitación existente
-export const EditRoom = createAsyncThunk('rooms/editRoom', async (updatedRoom: Room) => {
-    const roomsCopy = [...roomData]; 
-    const index = roomsCopy.findIndex(room => room.id === updatedRoom.id);
+    return response.data!;
+  }
+);
 
-    if (index !== -1) {
-        roomsCopy[index] = { ...roomsCopy[index], ...updatedRoom }; 
-        return roomsCopy[index];
-    } else {
-        throw new Error(`Failed to update room with id ${updatedRoom.id}`);
+export const EditRoom = createAsyncThunk<Room, Room, { rejectValue: string }>(
+  'rooms/editRoom',
+  async (updatedRoom, { rejectWithValue }) => {
+    const response = await apiService<Room>(`/api/rooms/${updatedRoom.id}`, 'PUT', updatedRoom);
+
+    if (response.error) {
+      return rejectWithValue(response.error);
     }
-});
 
-// Crear una nueva habitación
-export const CreateRoom = createAsyncThunk('rooms/createRoom', async (newRoom: Room) => {
-    const roomsCopy = [...roomData];
-    const newId = roomsCopy.length ? roomsCopy[roomsCopy.length - 1].id + 1 : 1;
-    const roomToAdd = { ...newRoom, id: newId };
+    return response.data!;
+  }
+);
 
-    roomsCopy.push(roomToAdd);
-    return roomToAdd;
-});
+export const DeleteRoom = createAsyncThunk<number, number, { rejectValue: string }>(
+  'rooms/deleteRoom',
+  async (roomId, { rejectWithValue }) => {
+    const response = await apiService<{ message: string }>(`/api/rooms/${roomId}`, 'DELETE');
+
+    if (response.error) {
+      return rejectWithValue(response.error);
+    }
+
+    return roomId;
+  }
+);

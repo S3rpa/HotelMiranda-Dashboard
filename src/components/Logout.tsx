@@ -1,21 +1,24 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { LogoutButton } from './LogoutStyles'
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LogoutButton } from './LogoutStyles';
+import { AuthContext } from './authContext';
 
-interface LogoutProps {
-  setAuth: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const Logout: React.FC<LogoutProps> = ({ setAuth }) => {
-  const navigate = useNavigate()
+const Logout: React.FC = () => {
+  const navigate = useNavigate();
+  const { dispatch } = useContext(AuthContext);
 
   const handleLogout = () => {
-    localStorage.removeItem('auth')
-    setAuth(false)
-    navigate('/')
-  }
+    // Eliminar el token del localStorage
+    localStorage.removeItem('token');
 
-  return <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
-}
+    // Actualizar el contexto de autenticación
+    dispatch({ type: 'LOGOUT' });
 
-export default Logout
+    // Redirigir al usuario a la página de inicio de sesión
+    navigate('/login');
+  };
+
+  return <LogoutButton onClick={handleLogout}>Cerrar Sesión</LogoutButton>;
+};
+
+export default Logout;
