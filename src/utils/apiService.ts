@@ -10,14 +10,14 @@ export const apiService = async <T>(
   method: string = 'GET',
   body?: any
 ): Promise<ApiResponse<T>> => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token'); 
 
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
 
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token}`; 
   }
 
   const config: RequestInit = {
@@ -30,7 +30,7 @@ export const apiService = async <T>(
     const response = await fetch(`${apiUrl}${endpoint}`, config);
 
     if (!response.ok) {
-      const errorData= await response.json();
+      const errorData = await response.json();
       return { error: errorData.message || 'Error en la solicitud a la API' };
     }
 
