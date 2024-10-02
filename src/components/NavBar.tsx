@@ -23,7 +23,7 @@ const TopBar: React.FC<TopBarProps> = ({ toggleSidebar}) => {
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   const pageTitles: { [key: string]: string } = {
-    '/index': 'Dashboard',
+    '/dashboard': 'Dashboard',
     '/rooms': 'Rooms',
     '/bookings': 'Bookings',
     '/contact': 'Contact',

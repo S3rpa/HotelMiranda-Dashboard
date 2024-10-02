@@ -1,8 +1,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { publishComment, archiveComment } from '../../../features/contacts/contactSlice'
-import { fetchContacts } from '../../../features/contacts/contactThunk'
+import { fetchContacts, archiveComment, publishComment } from '../../../features/contacts/contactThunk'
 import { RootState, AppDispatch } from '../../../app/store'
 import { Contact } from '../../interfaces/contactInterfaces'
 import {

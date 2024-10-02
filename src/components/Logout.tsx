@@ -8,13 +8,10 @@ const Logout: React.FC = () => {
   const { dispatch } = useContext(AuthContext);
 
   const handleLogout = () => {
-    // Eliminar el token del localStorage
     localStorage.removeItem('token');
 
-    // Actualizar el contexto de autenticación
     dispatch({ type: 'LOGOUT' });
 
-    // Redirigir al usuario a la página de inicio de sesión
     navigate('/login');
   };
 

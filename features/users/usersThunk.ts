@@ -5,51 +5,75 @@ import { apiService } from '../../src/utils/apiService';
 export const GetUsers = createAsyncThunk<User[], void, { rejectValue: string }>(
   'users/getUsers',
   async (_, { rejectWithValue }) => {
-    const response = await apiService<User[]>('/api/users');
+    try {
+      console.log('Intentando obtener usuarios...');
+      const response = await apiService<User[]>('/users', 'GET');
 
-    if (response.error) {
-      return rejectWithValue(response.error);
+      if (response.error) {
+        console.error('Error al obtener usuarios:', response.error);
+        return rejectWithValue(response.error);
+      }
+
+      return response.data!;
+
+    } catch (error: any) {
+      console.error('Error inesperado al obtener usuarios:', error);
+      return rejectWithValue('Error inesperado al obtener usuarios');
     }
-
-    return response.data!;
   }
 );
 
 export const CreateUser = createAsyncThunk<User, Omit<User, 'id'>, { rejectValue: string }>(
   'users/createUser',
   async (newUser, { rejectWithValue }) => {
-    const response = await apiService<User>('/api/users', 'POST', newUser);
+    try {
+      const response = await apiService<User>('/users', 'POST', newUser);
 
-    if (response.error) {
-      return rejectWithValue(response.error);
+      if (response.error) {
+        console.error('Error al crear el usuario:', response.error);
+        return rejectWithValue(response.error);
+      }
+
+      return response.data!;
+    } catch (error: any) {
+      console.error('Error inesperado al crear el usuario:', error);
+      return rejectWithValue('Error al crear el usuario');
     }
-
-    return response.data!;
   }
 );
 
 export const EditUser = createAsyncThunk<User, User, { rejectValue: string }>(
   'users/editUser',
   async (updatedUser, { rejectWithValue }) => {
-    const response = await apiService<User>(`/api/users/${updatedUser.id}`, 'PUT', updatedUser);
+    try {
+      const response = await apiService<User>(`/users/${updatedUser.id}`, 'PUT', updatedUser);
+      if (response.error) {
+        console.error('Error al actualizar el usuario:', response.error);
+        return rejectWithValue(response.error);
+      }
 
-    if (response.error) {
-      return rejectWithValue(response.error);
+      return response.data!;
+    } catch (error: any) {
+      console.error('Error inesperado al actualizar el usuario:', error);
+      return rejectWithValue('Error al actualizar el usuario');
     }
-
-    return response.data!;
   }
 );
 
 export const DeleteUser = createAsyncThunk<number, number, { rejectValue: string }>(
   'users/deleteUser',
   async (userId, { rejectWithValue }) => {
-    const response = await apiService<{ message: string }>(`/api/users/${userId}`, 'DELETE');
+    try {
+      const response = await apiService<{ message: string }>(`/users/${userId}`, 'DELETE');
+      if (response.error) {
+        console.error('Error al eliminar el usuario:', response.error);
+        return rejectWithValue(response.error);
+      }
 
-    if (response.error) {
-      return rejectWithValue(response.error);
+      return userId;
+    } catch (error: any) {
+      console.error('Error inesperado al eliminar el usuario:', error);
+      return rejectWithValue('Error al eliminar el usuario');
     }
-
-    return userId;
   }
 );
