@@ -1,5 +1,5 @@
 export interface User {
-  id: number
+  _id: string
   name: string
   work: string
   schedule: string
@@ -19,9 +19,9 @@ export interface User {
   
   export interface UsersTableProps {
   users: User[]
-  handleRowClick: (id: number) => void
+  handleRowClick: (id: string) => void
   handleSort: (key: keyof User) => void
   sortConfig: { key: keyof User; direction: 'asc' | 'desc' };
-  onDelete: (id: number) => void
+  onDelete: (id: string) => void
   isDeleting?: number | null
 }

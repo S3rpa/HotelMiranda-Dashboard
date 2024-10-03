@@ -25,7 +25,7 @@ const Login: React.FC = () => {
       const apiUrl = (import.meta as any).env.VITE_API_URL || '';  
   
       // Hacer una solicitud POST a la API de login
-      const response = await fetch(`${apiUrl}/login`, {
+      const response = await fetch(`${apiUrl}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

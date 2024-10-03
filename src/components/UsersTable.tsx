@@ -23,8 +23,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleEditClick = (id: number) => {
-    navigate(`/users/edit/${id}`);
+  const handleEditClick = (_id: string) => {
+    navigate(`/users/edit/${_id}`);
   };
 
   return (
@@ -47,8 +47,9 @@ const UsersTable: React.FC<UsersTableProps> = ({
       <TableBody>
         {users.length > 0 ? (
           users.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell onClick={() => handleRowClick(user.id)}>
+            <TableRow key={user._id}>
+              {/* Foto de usuario */}
+              <TableCell onClick={() => handleRowClick(user._id)}>
                 <AvatarPlaceholder>
                   {user.photo && user.photo.length > 0 ? (
                     <AvatarImage
@@ -64,32 +65,35 @@ const UsersTable: React.FC<UsersTableProps> = ({
                   )}
                 </AvatarPlaceholder>
               </TableCell>
-              <TableCell onClick={() => handleRowClick(user.id)}>
+              
+              {/* Información de usuario */}
+              <TableCell onClick={() => handleRowClick(user._id)}>
                 <div>
                   <strong>{user.name}</strong>
                   <small>
-                    {" "}
-                    #{user.id} - Joined on{" "}
+                    {" "}#{user._id} - Joined on{" "}
                     {new Date(user.start_date).toDateString()}
                   </small>
                 </div>
               </TableCell>
-              <TableCell onClick={() => handleRowClick(user.id)}>
+              <TableCell onClick={() => handleRowClick(user._id)}>
                 {user.work}
               </TableCell>
-              <TableCell onClick={() => handleRowClick(user.id)}>
+              <TableCell onClick={() => handleRowClick(user._id)}>
                 {user.schedule || "Monday, Friday"}
               </TableCell>
-              <TableCell onClick={() => handleRowClick(user.id)}>
+              <TableCell onClick={() => handleRowClick(user._id)}>
                 <a href={`tel:${user.telephone}`}>{user.telephone}</a>
               </TableCell>
-              <TableCell onClick={() => handleRowClick(user.id)}>
+              <TableCell onClick={() => handleRowClick(user._id)}>
                 <StatusBadge $state={user.state}>{user.state}</StatusBadge>
               </TableCell>
+              
+              {/* Acciones (editar/eliminar) */}
               <TableCell>
                 <ActionsCell>
-                  <FaEdit onClick={() => handleEditClick(user.id)} />
-                  <FaTrashAlt onClick={() => onDelete(user.id)} />
+                  <FaEdit onClick={() => handleEditClick(user._id.toString())} />
+                  <FaTrashAlt onClick={() => onDelete(user._id)} />
                 </ActionsCell>
               </TableCell>
             </TableRow>

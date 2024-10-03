@@ -6,13 +6,13 @@ export async function apiService<T>(
   const apiUrl = (import.meta as any).env.VITE_API_URL || 'https://drsb8tyzjf.execute-api.eu-west-3.amazonaws.com/dev';
 
   try {
-    const token = localStorage.getItem('token'); // Obtener el token almacenado
+    const token = localStorage.getItem('token');
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
 
     if (token) {
-      headers['Authorization'] = `Bearer ${token}`; // Incluir el token de autorización
+      headers['Authorization'] = `Bearer ${token}`;
     }
 
     const response = await fetch(`${apiUrl}${endpoint}`, {

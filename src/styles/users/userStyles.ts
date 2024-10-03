@@ -4,6 +4,7 @@ export const Container = styled.div`
   padding: 2rem;
   background-color: #f7f7f7;
   color: #333;
+  height: 100%;
 `;
 
 export const Header = styled.div`

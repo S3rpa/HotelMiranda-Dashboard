@@ -2,20 +2,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { User } from '../../src/interfaces/userInterfaces';
 import { apiService } from '../../src/utils/apiService';
 
+// Obtener todos los usuarios (GET /api/users)
 export const GetUsers = createAsyncThunk<User[], void, { rejectValue: string }>(
   'users/getUsers',
   async (_, { rejectWithValue }) => {
     try {
-      console.log('Intentando obtener usuarios...');
-      const response = await apiService<User[]>('/users', 'GET');
-
+      const response = await apiService<User[]>('/api/users', 'GET');
       if (response.error) {
-        console.error('Error al obtener usuarios:', response.error);
         return rejectWithValue(response.error);
       }
-
       return response.data!;
-
     } catch (error: any) {
       console.error('Error inesperado al obtener usuarios:', error);
       return rejectWithValue('Error inesperado al obtener usuarios');
@@ -23,56 +19,53 @@ export const GetUsers = createAsyncThunk<User[], void, { rejectValue: string }>(
   }
 );
 
+// Crear un nuevo usuario (POST /api/users)
 export const CreateUser = createAsyncThunk<User, Omit<User, 'id'>, { rejectValue: string }>(
   'users/createUser',
   async (newUser, { rejectWithValue }) => {
     try {
-      const response = await apiService<User>('/users', 'POST', newUser);
-
+      const response = await apiService<User>('/api/users', 'POST', newUser);
       if (response.error) {
-        console.error('Error al crear el usuario:', response.error);
         return rejectWithValue(response.error);
       }
-
       return response.data!;
     } catch (error: any) {
       console.error('Error inesperado al crear el usuario:', error);
-      return rejectWithValue('Error al crear el usuario');
+      return rejectWithValue('Error inesperado al crear el usuario');
     }
   }
 );
 
+// Actualizar un usuario por ID (PUT /api/users/:id)
 export const EditUser = createAsyncThunk<User, User, { rejectValue: string }>(
   'users/editUser',
   async (updatedUser, { rejectWithValue }) => {
     try {
-      const response = await apiService<User>(`/users/${updatedUser.id}`, 'PUT', updatedUser);
+      const response = await apiService<User>(`/api/users/${updatedUser._id}`, 'PUT', updatedUser);
       if (response.error) {
-        console.error('Error al actualizar el usuario:', response.error);
         return rejectWithValue(response.error);
       }
-
       return response.data!;
     } catch (error: any) {
       console.error('Error inesperado al actualizar el usuario:', error);
-      return rejectWithValue('Error al actualizar el usuario');
+      return rejectWithValue('Error inesperado al actualizar el usuario');
     }
   }
 );
 
-export const DeleteUser = createAsyncThunk<number, number, { rejectValue: string }>(
+// Eliminar un usuario por ID (DELETE /api/users/:id)
+export const DeleteUser = createAsyncThunk<string, string, { rejectValue: string }>(
   'users/deleteUser',
-  async (userId, { rejectWithValue }) => {
+  async (_id, { rejectWithValue }) => {
     try {
-      const response = await apiService<{ message: string }>(`/users/${userId}`, 'DELETE');
+      const response = await apiService<{ message: string }>(`/api/users/${_id}`, 'DELETE');
+
       if (response.error) {
-        console.error('Error al eliminar el usuario:', response.error);
         return rejectWithValue(response.error);
       }
 
-      return userId;
+      return _id;
     } catch (error: any) {
-      console.error('Error inesperado al eliminar el usuario:', error);
       return rejectWithValue('Error al eliminar el usuario');
     }
   }

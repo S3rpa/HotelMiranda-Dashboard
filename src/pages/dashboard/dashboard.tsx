@@ -45,7 +45,7 @@ const Dashboard: React.FC = () => {
         const token = localStorage.getItem('token');
         const apiUrl = (import.meta as any).env.VITE_API_URL || ''; 
 
-        const response = await fetch(`${apiUrl}/dashboard`, {
+        const response = await fetch(`${apiUrl}/api/dashboard`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
