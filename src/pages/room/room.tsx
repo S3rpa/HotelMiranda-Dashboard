@@ -55,9 +55,9 @@ const Rooms: React.FC = () => {
     setSortConfig({ key, direction });
   };
 
-  const handleDelete = (roomId: number) => {
+  const handleDelete = (id: number) => {
     if (window.confirm('Are you sure you want to delete this room?')) {
-      dispatch(DeleteRoom(roomId)).then(() => {
+      dispatch(DeleteRoom(id.toString())).then(() => {
         dispatch(GetRooms());
       });
     }

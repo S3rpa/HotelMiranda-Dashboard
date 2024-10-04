@@ -3,6 +3,9 @@ import { styled } from 'styled-components'
 export const Container = styled.div`
   padding: 2rem;
   background-color: #f7f7f7;
+  h2{
+    color: #333;
+    }
 `
 
 export const Form = styled.form`
@@ -17,7 +20,7 @@ export const Label = styled.label`
   color: #333;
 `
 export const h2 = styled.h2`
-  color: pink;
+  color: ;
 `
 
 export const Input = styled.input`

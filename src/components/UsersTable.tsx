@@ -92,7 +92,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
               {/* Acciones (editar/eliminar) */}
               <TableCell>
                 <ActionsCell>
-                  <FaEdit onClick={() => handleEditClick(user._id.toString())} />
+                  <FaEdit onClick={() => handleEditClick(user._id)} />
                   <FaTrashAlt onClick={() => onDelete(user._id)} />
                 </ActionsCell>
               </TableCell>

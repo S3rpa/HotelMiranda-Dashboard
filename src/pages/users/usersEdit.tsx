@@ -1,50 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { unwrapResult } from '@reduxjs/toolkit'
-import { EditUser } from '../../../features/users/usersThunk'
-import { RootState, AppDispatch } from '../../../app/store'
-import { User } from '../../interfaces/userInterfaces'
-import { Container, Form, Input, Select, Button } from '../../styles/users/userEditStyles'
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { EditUser } from '../../../features/users/usersThunk';
+import { RootState, AppDispatch } from '../../../app/store';
+import { User } from '../../interfaces/userInterfaces';
+import { Container, Form, Input, Select, Button } from '../../styles/users/userEditStyles';
 
 const UserEdit: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
-  const [user, setUser] = useState<User | null>(null)
-  const users = useSelector((state: RootState) => state.users.data)
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const [user, setUser] = useState<User | null>(null);
+  const users = useSelector((state: RootState) => state.users.data);
 
   useEffect(() => {
-    const foundUser = users.find((u) => u.id === parseInt(id!))
+    const foundUser = users.find((u) => u._id === id);
     if (foundUser) {
-      setUser({ ...foundUser })
+      setUser({ ...foundUser });
     }
-  }, [id, users])
+  }, [id, users]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setUser((prevUser) => (prevUser ? { ...prevUser, [name]: value } : null))
-  }
+    const { name, value } = e.target;
+    setUser((prevUser) => (prevUser ? { ...prevUser, [name]: value } : null));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!user) return
+    e.preventDefault();
+    if (!user) return;
     try {
-      const resultAction = await dispatch(EditUser(user))
-      unwrapResult(resultAction)
-      alert('User updated successfully!')
-      navigate('/users')
+      const resultAction = await dispatch(EditUser(user));
+      unwrapResult(resultAction);
+      alert('User updated successfully!');
+      navigate('/users');
     } catch (error) {
-      console.error('Failed to update user:', error)
-      alert('Failed to update user.')
+      console.error('Failed to update user:', error);
+      alert('Failed to update user.');
     }
-  }
+  };
 
-  if (!user && id) return <p>Loading...</p>
+  if (!user && id) return <p>Loading...</p>;
 
   return (
     <Container>
-      <h1>{id ? 'Update User' : 'Create User'}</h1>
+      <h1>Update User</h1>
       <Form onSubmit={handleSubmit}>
         <Input
           type="text"
@@ -114,10 +114,10 @@ const UserEdit: React.FC = () => {
           <option value="ACTIVE">Active</option>
           <option value="INACTIVE">Inactive</option>
         </Select>
-        <Button type="submit">{id ? 'Update User' : 'Create User'}</Button>
+        <Button type="submit">Update User</Button>
       </Form>
     </Container>
-  )
-}
+  );
+};
 
-export default UserEdit
+export default UserEdit;

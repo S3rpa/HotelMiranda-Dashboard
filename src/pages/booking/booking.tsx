@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { GetBookings, DeleteBooking } from '../../../features/bookings/bookingThunk'
-import GuestTable from '../../components/GuestsTable'
-import Pagination from '../../components/Pagination'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetBookings, DeleteBooking } from '../../../features/bookings/bookingThunk';
+import GuestTable from '../../components/GuestsTable';
+import Pagination from '../../components/Pagination';
 import {
   Container,
   Header,
@@ -13,111 +13,113 @@ import {
   Tab,
   SpecialRequestPopup,
   Overlay,
-} from '../../styles/booking/bookingStyles'
-import type { Booking, SortConfig, BookingsState } from '../../interfaces/bookingInterfaces'
-import { RootState, AppDispatch } from '../../../app/store'
+} from '../../styles/booking/bookingStyles';
+import type { Booking, SortConfig, BookingsState } from '../../interfaces/bookingInterfaces';
+import { RootState, AppDispatch } from '../../../app/store';
 
 const Booking: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  const [filter, setFilter] = useState<string>('all')
-  const [searchTerm, setSearchTerm] = useState<string>('')
-  const [currentPage, setCurrentPage] = useState<number>(1)
-
-  // Asegurarse de que sortConfig está inicializado correctamente
+  const dispatch = useDispatch<AppDispatch>();
+  const [filter, setFilter] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: 'orderDate',
     direction: 'desc',
-  })
+  });
+  const [selectedRequest, setSelectedRequest] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  const [selectedRequest, setSelectedRequest] = useState<string | null>(null)
-  const navigate = useNavigate()
+  const bookings = useSelector((state: RootState) => state.bookings.data) as Booking[];
+  const bookingsStatus = useSelector((state: RootState) => state.bookings.status) as BookingsState['status'];
 
-  const bookings = useSelector((state: RootState) => state.bookings.data) as Booking[]
-  const bookingsStatus = useSelector((state: RootState) => state.bookings.status) as BookingsState['status']
-
-  const guestsPerPage = 10
+  const guestsPerPage = 10;
 
   useEffect(() => {
     if (bookingsStatus === 'idle') {
-      dispatch(GetBookings())
+      dispatch(GetBookings());
     }
-  }, [dispatch, bookingsStatus])
+  }, [dispatch, bookingsStatus]);
+
+  // Verificar que bookings está recibiendo datos válidos
+  useEffect(() => {
+    console.log('Bookings data:', bookings); // Verifica que los datos estén disponibles
+  }, [bookings]);
 
   const filteredGuests = Array.isArray(bookings)
     ? bookings
         .filter((guest) => {
+          if (!guest.status) return false; // Verifica que el status existe
           if (filter === 'pending') {
-            return guest.status.toLowerCase() === 'pending'
+            return guest.status?.toLowerCase() === 'pending';
           }
           if (filter === 'booked') {
-            return guest.status.toLowerCase() === 'booked'
+            return guest.status?.toLowerCase() === 'booked';
           }
           if (filter === 'cancelled') {
-            return guest.status.toLowerCase() === 'cancelled'
+            return guest.status?.toLowerCase() === 'cancelled';
           }
           if (filter === 'refund') {
-            return guest.status.toLowerCase() === 'refund'
+            return guest.status?.toLowerCase() === 'refund';
           }
-          return true
+          return true;
         })
-        .filter((guest) => guest.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    : []
+    : [];
 
   const sortedGuests = filteredGuests.sort((a, b) => {
-    const key = sortConfig.key
-    const direction = sortConfig.direction
-  
+    const key = sortConfig.key;
+    const direction = sortConfig.direction;
+
     if (a[key] && b[key]) {
       if (a[key] < b[key]) {
-        return direction === 'asc' ? -1 : 1
+        return direction === 'asc' ? -1 : 1;
       }
       if (a[key] > b[key]) {
-        return direction === 'asc' ? 1 : -1
+        return direction === 'asc' ? 1 : -1;
       }
     }
-    return 0
-  })
+    return 0;
+  });
 
   const paginatedGuests = sortedGuests.slice(
     (currentPage - 1) * guestsPerPage,
     currentPage * guestsPerPage
-  )
+  );
 
-  const totalPages = Math.ceil(sortedGuests.length / guestsPerPage)
+  const totalPages = Math.ceil(sortedGuests.length / guestsPerPage);
 
   const handleSort = (key: keyof Booking) => {
-    const direction = sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc'
-    setSortConfig({ key, direction })
-  }
+    const direction = sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    setSortConfig({ key, direction });
+  };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-    setCurrentPage(1)
-  }
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
+  };
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
-  }
+    setCurrentPage(pageNumber);
+  };
 
   const handleSpecialRequestClick = (request: string) => {
-    setSelectedRequest(request)
-  }
+    setSelectedRequest(request);
+  };
 
-  const handleDelete = (guestId: number) => {
+  const handleDelete = (guestId: string) => {
     if (window.confirm('Are you sure you want to delete this booking?')) {
       dispatch(DeleteBooking(guestId)).then(() => {
-        dispatch(GetBookings())
-      })
+        dispatch(GetBookings());
+      });
     }
-  }
+  };
 
-  const handleEditClick = (guestId: number) => {
-    navigate(`/bookings/update/${guestId}`)
-  }
+  const handleEditClick = (guestId: string) => {
+    navigate(`/bookings/update/${guestId}`);
+  };
 
   const closePopup = () => {
-    setSelectedRequest(null)
-  }
+    setSelectedRequest(null);
+  };
 
   return (
     <Container>
@@ -155,12 +157,12 @@ const Booking: React.FC = () => {
         onSpecialRequestClick={handleSpecialRequestClick}
         onDeleteClick={handleDelete}
         onEditClick={handleEditClick}
-        onRowClick={(guestId: number) => navigate(`/bookings/${guestId}`)}
+        onRowClick={(guestId: string) => navigate(`/bookings/${guestId}`)}
       />
-      <Pagination 
+      <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={handlePageChange} 
+        onPageChange={handlePageChange}
       />
       {selectedRequest && (
         <>
@@ -172,7 +174,7 @@ const Booking: React.FC = () => {
         </>
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default Booking
+export default Booking;

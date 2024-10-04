@@ -20,7 +20,7 @@ export const GetUsers = createAsyncThunk<User[], void, { rejectValue: string }>(
 );
 
 // Crear un nuevo usuario (POST /api/users)
-export const CreateUser = createAsyncThunk<User, Omit<User, 'id'>, { rejectValue: string }>(
+export const CreateUser = createAsyncThunk<User, Omit<User, '_id'>, { rejectValue: string }>(
   'users/createUser',
   async (newUser, { rejectWithValue }) => {
     try {
