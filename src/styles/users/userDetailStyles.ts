@@ -2,32 +2,33 @@ import { styled } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  padding: 5%;
+  padding: 2rem;
   background-color: #f7f7f7;
-  min-height: 94.7vh;
+  gap: 1em;
+  flex: 1;
 `;
 
 export const LeftSection = styled.div`
-  width: 45%;
+  flex: 1;
   background-color: white;
   border-radius: 0.75em;
-  padding: 6%;
+  padding: 2%;
   box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  height: 74.5vh;
+  min-height: 55vh;
 `;
 
 export const RightSection = styled.div`
-  width: 55%;
+  flex: 1;
   background-color: white;
   border-radius: 0.75em;
   box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1);
   position: relative;
-  height: 80vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 55vh;
 `;
 
 export const UserInfo = styled.div`
@@ -36,7 +37,7 @@ export const UserInfo = styled.div`
 `;
 
 export const UserName = styled.h1`
-  font-size: 1.5em;
+  font-size: 1.4em;
   color: #333;
 `;
 
@@ -75,16 +76,16 @@ export const Description = styled.p`
 `;
 
 export const ShortDescription = styled.p`
-  font-size: 1.2em;
+  font-size: 1.1em;
   color: rgba(255, 255, 255, 1);
   position: absolute;
-  bottom: 10%;
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
   width: 80%;
   background-color: rgba(0, 0, 0, 0.7);
-  padding: 1em;
+  padding: 0.8em;
   border-radius: 0.5em;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -95,16 +96,16 @@ export const Status = styled.div<{ color: string }>`
   color: white;
   padding: 0.5em 1em;
   border-radius: 0.5em;
-  font-size: 0.9em;
+  font-size: 0.85em;
   text-align: center;
   position: absolute;
-  top: 1em;
-  right: 1em;
+  top: 0.8em;
+  right: 0.8em;
   z-index: 10;
 `;
 
 export const Carousel = styled.div`
-  background-color: #e0e0e0;
+  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -115,10 +116,9 @@ export const Carousel = styled.div`
 `;
 
 export const FixedWidthImage = styled.img`
-  width: 1000px;
+  width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 0.75em;
+  object-fit: contain;
 `;
 
 export const CarouselButton = styled.button<{ $position: 'left' | 'right' }>`

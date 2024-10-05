@@ -1,42 +1,36 @@
-const apiUrl = process.env.REACT_APP_API_URL;
-
-interface ApiResponse<T> {
-  data?: T;
-  error?: string;
-}
-
-export const apiService = async <T>(
+export async function apiService<T>(
   endpoint: string,
   method: string = 'GET',
   body?: any
-): Promise<ApiResponse<T>> => {
-  const token = localStorage.getItem('token'); 
-
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-  };
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`; 
-  }
-
-  const config: RequestInit = {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-  };
+): Promise<{ data?: T; error?: string }> {
+  const apiUrl = (import.meta as any).env.VITE_API_URL || 'https://drsb8tyzjf.execute-api.eu-west-3.amazonaws.com/dev';
 
   try {
-    const response = await fetch(`${apiUrl}${endpoint}`, config);
+    const token = localStorage.getItem('token');
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${apiUrl}${endpoint}`, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
-      return { error: errorData.message || 'Error en la solicitud a la API' };
+      return { error: errorData.message || 'Error de servidor' };
     }
 
-    const data: T = await response.json();
+    const data = await response.json();
     return { data };
+
   } catch (error) {
-    return { error: (error as Error).message || 'Error en la solicitud' };
+    console.error('Error en apiService:', error);
+    return { error: 'Error de red o servidor' };
   }
-};
+}

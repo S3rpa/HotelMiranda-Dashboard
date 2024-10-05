@@ -13,6 +13,8 @@ import {
   Select,
   Button
 } from '../../styles/booking/newBookingStyles'
+import { toast } from 'react-toastify';
+
 
 const NewBooking: React.FC = () => {
   const [name, setName] = useState<string>('')
@@ -43,12 +45,11 @@ const NewBooking: React.FC = () => {
     dispatch(CreateBooking(newBooking))
       .then(unwrapResult)
       .then(() => {
-        alert('Booking added successfully!')
+        toast.success('Reserva creada exitosamente');
         navigate('/bookings')
       })
-      .catch((error: any) => {
-        console.error('Error adding booking:', error)
-        alert('Failed to add booking.')
+      .catch((error) => {
+        toast.error('Error al crear la reserva');
       })
   }
 

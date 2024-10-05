@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { GetUsers, DeleteUser } from '../../../features/users/usersThunk'
-import UsersTable from '../../components/UsersTable'
-import Pagination from '../../components/Pagination'
-import { FaPlus } from 'react-icons/fa'
-import { RootState, AppDispatch } from '../../../app/store'
-import { User } from '../../interfaces/userInterfaces'
-import { Container, Header, NewUserButton, Tabs, Tab } from '../../styles/users/userStyles'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetUsers, DeleteUser } from '../../../features/users/usersThunk';
+import UsersTable from '../../components/UsersTable';
+import Pagination from '../../components/Pagination';
+import { FaPlus } from 'react-icons/fa';
+import { RootState, AppDispatch } from '../../../app/store';
+import { User } from '../../interfaces/userInterfaces';
+import { Container, Header, NewUserButton, Tabs, Tab } from '../../styles/users/userStyles';
 
 const Users: React.FC = () => {
-  const [filter, setFilter] = useState<'all' | 'ACTIVE' | 'INACTIVE'>('all')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const usersPerPage = 10
-  const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
-  const users = useSelector((state: RootState) => state.users.data)
-  const usersStatus = useSelector((state: RootState) => state.users.status)
+  const [filter, setFilter] = useState<'all' | 'ACTIVE' | 'INACTIVE'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const users = useSelector((state: RootState) => state.users.data);
+  const usersStatus = useSelector((state: RootState) => state.users.status);
 
   const [sortConfig, setSortConfig] = useState<{ key: keyof User; direction: 'asc' | 'desc' }>({
     key: 'name',
     direction: 'asc',
-  })
+  });
 
   useEffect(() => {
     if (usersStatus === 'idle') {
-      dispatch(GetUsers())
+      dispatch(GetUsers());
     }
-  }, [dispatch, usersStatus])
+  }, [dispatch, usersStatus]);
 
   const filteredUsers = users
     .filter((user: User) => filter === 'all' || user.state === filter)
@@ -38,40 +38,39 @@ const Users: React.FC = () => {
       user.telephone.includes(searchTerm)
     )
     .sort((a: User, b: User) => {
-      const key = sortConfig.key
-      const direction = sortConfig.direction === 'asc' ? 1 : -1
-      return a[key] > b[key] ? direction : a[key] < b[key] ? -direction : 0
-    })
+      const key = sortConfig.key;
+      const direction = sortConfig.direction === 'asc' ? 1 : -1;
+      return a[key] > b[key] ? direction : a[key] < b[key] ? -direction : 0;
+    });
 
-  const totalPages = Math.ceil(filteredUsers.length / usersPerPage)
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const currentUsers = filteredUsers.slice(
     (currentPage - 1) * usersPerPage,
     currentPage * usersPerPage
-  )
+  );
 
-  const handleRowClick = (id: number) => {
-    navigate(`/users/${id}`)
-  }
+  const handleRowClick = (_id: string) => {
+    navigate(`/users/${_id}`);
+  };
 
-  const handleSort = (key: keyof User) => {
-    let direction: 'asc' | 'desc' = 'asc'
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc'
-    }
-    setSortConfig({ key, direction })
-  }
-
-  const handleDelete = (userId: number) => {
+  const handleDelete = (_id: string) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      dispatch(DeleteUser(userId)).then(() => {
-        dispatch(GetUsers())
-      })
+      dispatch(DeleteUser(_id)).then(() => {
+        dispatch(GetUsers());
+      });
     }
-  }
+  };
 
   const handleCreate = () => {
-    navigate('/users/new')
-  }
+    navigate('/users/new');
+  };
+
+  const handleSort = (key: keyof User) => {
+    setSortConfig({
+      key,
+      direction: sortConfig.direction === 'asc' ? 'desc' : 'asc',
+    });
+  };
 
   return (
     <Container>
@@ -104,7 +103,7 @@ const Users: React.FC = () => {
         onPageChange={setCurrentPage}
       />
     </Container>
-  )
-}
+  );
+};
 
-export default Users
+export default Users;

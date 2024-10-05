@@ -36,10 +36,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const { state } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const userId = state?.user?.id;
-
+  const userId = state?.user?.userId;
   const handleEditProfile = () => {
-    if (userId && userId !== 0) {
+    if (userId && userId !== '0') {
       navigate(`/users/edit/${userId}`);
     } else {
       console.error("User ID is not available or invalid");

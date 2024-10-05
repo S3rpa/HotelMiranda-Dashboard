@@ -29,8 +29,7 @@ const NewUser: React.FC = () => {
             return;
         }
 
-        const newUser: User = {
-            id: 0,
+        const newUser: Omit<User, '_id'> = {
             name,
             work,
             schedule,
@@ -42,7 +41,6 @@ const NewUser: React.FC = () => {
             state,
             password,
         };
-
         try {
             const resultAction = await dispatch(CreateUser(newUser));
             const result = unwrapResult(resultAction);

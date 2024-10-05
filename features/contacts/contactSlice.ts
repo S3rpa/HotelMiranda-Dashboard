@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchContacts, publishComment, archiveComment } from './contactThunk';
 import { Contact, ContactState } from '../../src/interfaces/contactInterfaces';
+import { fetchContacts, publishComment, archiveComment } from './contactThunk';
 
 const initialState: ContactState = {
   data: [],

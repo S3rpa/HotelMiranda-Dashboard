@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { FaTrashAlt, FaEdit } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
-import { Booking, GuestTableProps } from '../../src/interfaces/bookingInterfaces'
+import React, { useState } from 'react';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { Booking, GuestTableProps } from '../../src/interfaces/bookingInterfaces';
 import {
   Table,
   TableHead,
@@ -18,28 +18,33 @@ import {
   CloseButton,
   ModalBody,
   ModalFooter,
-  CloseButtonFooter
-} from '../components/guestTableStyles'
+  CloseButtonFooter,
+} from '../components/guestTableStyles';
 
 const GuestTable: React.FC<GuestTableProps> = ({
   guest,
   handleSort,
   onSpecialRequestClick,
   onDeleteClick,
-  onEditClick
+  onEditClick,
 }) => {
-  const navigate = useNavigate()
-  const [modalOpen, setModalOpen] = useState(false)
-  const [modalContent, setModalContent] = useState('')
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string>('');
 
-  const handleRowClick = (id: number) => {
-    navigate(`/bookings/${id}`)
-  }
+  const handleRowClick = (id: string) => {
+    navigate(`/bookings/${id}`);
+  };
 
-  const handleSpecialRequestClick = (description: string) => {
-    setModalContent(description)
-    setModalOpen(true)
-  }
+  const handleSpecialRequestClick = (description?: string) => {
+    if (description) {
+      setModalContent(description);
+      setModalOpen(true);
+    } else {
+      setModalContent('No special request available');
+      setModalOpen(true);
+    }
+  };
 
   return (
     <>
@@ -61,23 +66,23 @@ const GuestTable: React.FC<GuestTableProps> = ({
         <Table>
           <TableHead>
             <TableRow>
-              <TableHeader onClick={() => handleSort('name')}>Guest</TableHeader>
+              <TableHeader onClick={() => handleSort('user')}>Guest</TableHeader>
               <TableHeader onClick={() => handleSort('orderDate')}>Order Date</TableHeader>
               <TableHeader onClick={() => handleSort('checkIn')}>Check In</TableHeader>
               <TableHeader onClick={() => handleSort('checkOut')}>Check Out</TableHeader>
               <TableHeader>Special Request</TableHeader>
-              <TableHeader onClick={() => handleSort('roomType')}>Room Type</TableHeader>
+              <TableHeader onClick={() => handleSort('room')}>Room Type</TableHeader>
               <TableHeader onClick={() => handleSort('status')}>Status</TableHeader>
               <TableHeader>Actions</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>
             {guest.map((booking) => (
-              <TableRow key={booking.id} onClick={() => handleRowClick(booking.id)}>
+              <TableRow key={booking._id} onClick={() => handleRowClick(booking._id)}>
                 <TableCell>
-                  {booking.name}
+                  {booking.user || 'Unknown User'}
                   <br />
-                  <small>{`#${booking.id}`}</small>
+                  <small>{`#${booking._id}`}</small>
                 </TableCell>
                 <TableCell>{new Date(booking.orderDate).toLocaleString()}</TableCell>
                 <TableCell>{new Date(booking.checkIn).toLocaleString()}</TableCell>
@@ -85,14 +90,14 @@ const GuestTable: React.FC<GuestTableProps> = ({
                 <TableCell>
                   <button
                     onClick={(e) => {
-                      e.stopPropagation()
-                      handleSpecialRequestClick(booking.description)
+                      e.stopPropagation();
+                      handleSpecialRequestClick(booking.specialRequest);
                     }}
                   >
-                    View Notes
+                    {booking.specialRequest ? 'View Notes' : 'No Notes'}
                   </button>
                 </TableCell>
-                <TableCell>{booking.roomType}</TableCell>
+                <TableCell>{booking.room || 'N/A'}</TableCell>
                 <TableCell
                   style={{
                     color:
@@ -102,7 +107,7 @@ const GuestTable: React.FC<GuestTableProps> = ({
                         ? 'red'
                         : booking.status === 'Pending'
                         ? 'orange'
-                        : 'white',
+                        : 'grey',
                   }}
                 >
                   {booking.status}
@@ -111,14 +116,14 @@ const GuestTable: React.FC<GuestTableProps> = ({
                   <ActionIcons>
                     <FaTrashAlt
                       onClick={(e) => {
-                        e.stopPropagation()
-                        onDeleteClick(booking.id)
+                        e.stopPropagation();
+                        onDeleteClick(booking._id);
                       }}
                     />
                     <FaEdit
                       onClick={(e) => {
-                        e.stopPropagation()
-                        onEditClick(booking.id)
+                        e.stopPropagation();
+                        onEditClick(booking._id);
                       }}
                     />
                   </ActionIcons>
@@ -131,7 +136,7 @@ const GuestTable: React.FC<GuestTableProps> = ({
         <NoResults>No search results found</NoResults>
       )}
     </>
-  )
-}
+  );
+};
 
-export default GuestTable
+export default GuestTable;
