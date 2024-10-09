@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { Booking, GuestTableProps } from '../../src/interfaces/bookingInterfaces';
+import { Booking, GuestTableProps } from '../interfaces/bookingInterfaces';
 import {
   Table,
   TableHead,
@@ -77,10 +77,10 @@ const GuestTable: React.FC<GuestTableProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {guest.map((booking) => (
+            {guest.map((booking: Booking) => (
               <TableRow key={booking._id} onClick={() => handleRowClick(booking._id)}>
                 <TableCell>
-                  {booking.user || 'Unknown User'}
+                  {booking.user.name || 'Unknown User'} 
                   <br />
                   <small>{`#${booking._id}`}</small>
                 </TableCell>
