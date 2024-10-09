@@ -1,8 +1,8 @@
 export interface Room {
-    id: number;
+    _id: number;
     room_name: string;
-    amenities: string;
-    price: string;
+    amenities: string[];
+    price: number;
     offer: string;
     status: 'Available' | 'Booked' | 'Under Maintenance';
   }

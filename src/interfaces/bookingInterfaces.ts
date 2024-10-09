@@ -4,27 +4,26 @@ export interface Amenity {
     description: string
 }
 export interface Booking {
-    id: number
-    name: string
-    orderDate: string
-    checkIn: string
-    checkOut: string
-    roomType: string
-    status: 'Booked' | 'Pending' | 'Cancelled' | 'Refund'
-    description: string
-    price: string
-    amenities: Amenity[]
-    specialRequest?: string
+  _id: string;
+  id: string;
+  user: string;
+  room: string;
+  orderDate: string;
+  checkIn: string;
+  checkOut: string;
+  status: 'Booked' | 'Pending' | 'Cancelled' | 'Refund';
+  price: number;
+  specialRequest?: string;
 }
 
 export interface GuestTableProps {
-    guest: Booking[]
-    handleSort: (key: keyof Booking) => void
-    onSpecialRequestClick: (description: string) => void
-    onDeleteClick: (id: number) => void
-    onEditClick: (id: number) => void
-    onRowClick: (id: number) => void
-  }
+  guest: Booking[];
+  handleSort: (key: keyof Booking) => void;
+  onSpecialRequestClick: (request: string) => void;
+  onDeleteClick: (id: string) => void; 
+  onEditClick: (id: string) => void; 
+  onRowClick: (id: string) => void;
+}
 
   export interface BookingsState {
     data: Booking[]

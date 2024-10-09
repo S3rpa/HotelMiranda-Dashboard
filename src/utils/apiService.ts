@@ -1,9 +1,9 @@
 export async function apiService<T>(
   endpoint: string,
-  method: string = 'GET',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   body?: any
 ): Promise<{ data?: T; error?: string }> {
-  const apiUrl = (import.meta as any).env.VITE_API_URL || 'https://drsb8tyzjf.execute-api.eu-west-3.amazonaws.com/dev';
+  const apiUrl = (import.meta as any).env.VITE_API_URL || 'https://u7yl46hyr3.execute-api.eu-west-3.amazonaws.com/dev';
 
   try {
     const token = localStorage.getItem('token');
@@ -21,12 +21,19 @@ export async function apiService<T>(
       body: body ? JSON.stringify(body) : undefined,
     });
 
+    console.log("Response status:", response.status);
+
     if (!response.ok) {
-      const errorData = await response.json();
-      return { error: errorData.message || 'Error de servidor' };
+      try {
+        const errorData = await response.json();
+        return { error: errorData.message || 'Error de servidor' };
+      } catch (jsonError) {
+        console.error('Error al parsear el error del servidor:', jsonError);
+        return { error: 'Error desconocido del servidor' };
+      }
     }
 
-    const data = await response.json();
+    const data: T = await response.json();
     return { data };
 
   } catch (error) {

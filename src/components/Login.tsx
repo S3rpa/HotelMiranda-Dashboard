@@ -5,9 +5,14 @@ import { FaHotel } from 'react-icons/fa';
 import { LoginContainer, LoginForm, Title, Input, Button } from './LoginStyles';
 import { toast } from 'react-toastify';
 import { apiService } from '../utils/apiService';
+import { jwtDecode } from 'jwt-decode';
 
-// No necesitas definir ImportMeta, Vite ya lo maneja automáticamente
-// const ImportMeta = { env: { VITE_API_URL: string } }; // Esto no es necesario
+interface DecodedToken {
+  exp: number;
+  userId: string;
+  name: string;
+  email: string;
+}
 
 const Login: React.FC = () => {
   const { dispatch } = useContext(AuthContext);
@@ -19,50 +24,35 @@ const Login: React.FC = () => {
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
   
+    const loginData = { email, password };
     setLoading(true);
-    console.log('Enviando solicitud de login:', { email, password });
-    try {
-      const apiUrl = (import.meta as any).env.VITE_API_URL || '';  
-  
-      // Hacer una solicitud POST a la API de login
-      const response = await fetch(`${apiUrl}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-  
-      const data = await response.json();
-      console.log('Respuesta del backend:', data);
-  
-      if (!response.ok) {
-        console.error('Error en el inicio de sesión:', data.message || 'Error en la autenticación');
-        throw new Error(data.message || 'Error en la autenticación');
-      }
-  
-      // Guardar el token en el localStorage
-      console.log('Guardando el token en localStorage:', data.accessToken);
-      localStorage.setItem('token', data.accessToken);
-  
-      // Actualizar el estado de autenticación con dispatch
-      dispatch({
-        type: 'LOGIN',
-        payload: { user: data.user },
-      });
-  
-      // Mostrar mensaje de éxito
-      toast.success('Inicio de sesión exitoso');
-  
-      // Redirigir al dashboard
-      navigate('/dashboard');
-    } catch (error: any) {
-      console.error('Error al iniciar sesión:', error);
-      toast.error(error.message || 'Error de red o servidor');
-    } finally {
+
+    const { data, error } = await apiService<{ accessToken: string; user: { id: string; email: string; name: string; } }>('/api/login', 'POST', loginData);
+
+    if (error) {
+      toast.error(error);
       setLoading(false);
+      return;
     }
-  };
+
+    // Si el login es exitoso y recibes un token
+    if (data?.accessToken) {
+      // Guardar el token en localStorage
+      localStorage.setItem('token', data.accessToken);
+
+      // Decodificar el token para obtener los datos del usuario
+      const decodedToken: DecodedToken = jwtDecode<DecodedToken>(data.accessToken);
+
+      // Despachar la acción con el usuario decodificado
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { user: decodedToken } });
+
+      // Mostrar mensaje de éxito y redirigir al dashboard
+      toast.success('Inicio de sesión exitoso');
+      navigate('/dashboard'); // Redirección al dashboard
+    }
+
+    setLoading(false);
+};
 
   return (
     <LoginContainer>
