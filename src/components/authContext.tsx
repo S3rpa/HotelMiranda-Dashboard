@@ -1,12 +1,14 @@
 import { createContext, useReducer, useEffect, useState, ReactNode } from 'react';
-import * as jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 interface DecodedToken {
     exp: number;
     userId: string;
     name: string;
     email: string; 
-  }
+}
 
 interface AuthState {
     isAuthenticated: boolean;
@@ -14,7 +16,7 @@ interface AuthState {
 }
 
 interface AuthAction {
-    type: 'LOGIN' | 'LOGOUT';
+    type: 'LOGIN' | 'LOGOUT' | 'LOGIN_SUCCESS';
     payload?: { user: DecodedToken };
 }
 
@@ -25,7 +27,7 @@ const initialState: AuthState = {
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
     switch (action.type) {
-        case 'LOGIN':
+        case 'LOGIN_SUCCESS':
             return {
                 ...state,
                 isAuthenticated: true,
@@ -43,6 +45,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
     }
 };
 
+// Contexto de autenticación
 export const AuthContext = createContext<{
     state: AuthState;
     dispatch: React.Dispatch<AuthAction>;
@@ -58,32 +61,16 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-
         if (token) {
-
-            try {
-                const decodedToken: DecodedToken = (jwt_decode as any).default(token);
-                const currentTime = Date.now() / 1000;
-                if (decodedToken.exp < currentTime) {
-                    // El token ha expirado
-                    localStorage.removeItem('token');
-                    setLoading(false);
-                } else {
-                    dispatch({ type: 'LOGIN', payload: { user: decodedToken } });
-                    setLoading(false);
-                }
-            } catch (error) {
-                // Si hay un error al decodificar el token
-                localStorage.removeItem('token');
-                setLoading(false);
-            }
-        } else {
-            setLoading(false);
+          const decodedToken: DecodedToken = jwtDecode<DecodedToken>(token);
+          dispatch({ type: 'LOGIN_SUCCESS', payload: { user: decodedToken } });
         }
-    }, []);
+        setLoading(false);
+      }, []); 
 
     if (loading) {
         return null;
