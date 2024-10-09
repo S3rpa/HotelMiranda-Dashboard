@@ -40,15 +40,10 @@ const Booking: React.FC = () => {
     }
   }, [dispatch, bookingsStatus]);
 
-  // Verificar que bookings está recibiendo datos válidos
-  useEffect(() => {
-    console.log('Bookings data:', bookings); // Verifica que los datos estén disponibles
-  }, [bookings]);
-
   const filteredGuests = Array.isArray(bookings)
     ? bookings
         .filter((guest) => {
-          if (!guest.status) return false; // Verifica que el status existe
+          if (!guest.status) return false;
           if (filter === 'pending') {
             return guest.status?.toLowerCase() === 'pending';
           }

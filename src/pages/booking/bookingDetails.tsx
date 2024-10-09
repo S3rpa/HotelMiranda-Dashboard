@@ -1,95 +1,142 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../app/store'
-import { Booking } from '../../interfaces/bookingInterfaces'
-import room1 from '../../assets/room1.jpg'
-import room2 from '../../assets/room2.jpg'
-import room3 from '../../assets/room3.jpg'
-import room4 from '../../assets/room4.jpg'
-import { 
-  Container, 
-  LeftSection, 
-  RightSection, 
-  GuestInfo, 
-  GuestName, 
-  BookingId, 
-  CheckInOut, 
-  InfoLabel, 
-  InfoValue, 
-  RoomInfo, 
-  Price, 
-  Description, 
-  Status, 
-  Carousel, 
-  FixedWidthImage, 
-  ShortDescription, 
-  CarouselButton, 
-  Amenities, 
-  Amenity 
-} from '../../styles/booking/bookingDetailsStyles'
+import React, { useState } from 'react';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { Booking, GuestTableProps } from '../../interfaces/bookingInterfaces';
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell,
+  ActionIcons,
+  NoResults,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  CloseButton,
+  ModalBody,
+  ModalFooter,
+  CloseButtonFooter,
+} from '../../components/guestTableStyles';
 
-const BookingDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
-  const guests = useSelector((state: RootState) => state.bookings.data)
-  const guest = guests.find((g) => g.id === parseInt(id!)) as Booking
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+const GuestTable: React.FC<GuestTableProps> = ({
+  guest,
+  handleSort,
+  onSpecialRequestClick,
+  onDeleteClick,
+  onEditClick,
+}) => {
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string>('');
 
-  if (!guest) {
-    return <p>No se encontró una reserva con el ID proporcionado.</p>
-  }
+  const handleRowClick = (id: string) => {
+    navigate(`/bookings/${id}`);
+  };
 
-  const roomImages = [room1, room2, room3, room4]
-
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => prevIndex === roomImages.length - 1 ? 0 : prevIndex + 1)
-  }
-
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) => prevIndex === 0 ? roomImages.length - 1 : prevIndex - 1)
-  }
+  const handleSpecialRequestClick = (description?: string) => {
+    if (description) {
+      setModalContent(description);
+      setModalOpen(true);
+    } else {
+      setModalContent('No special request available');
+      setModalOpen(true);
+    }
+  };
 
   return (
-    <Container>
-      <LeftSection>
-        <GuestInfo>
-          <GuestName>{guest.name}</GuestName>
-          <BookingId>ID {guest.id}</BookingId>
-          <CheckInOut>
-            <div>
-              <InfoLabel>Check In</InfoLabel>
-              <InfoValue>{new Date(guest.checkIn).toLocaleString()}</InfoValue>
-            </div>
-            <div>
-              <InfoLabel>Check Out</InfoLabel>
-              <InfoValue>{new Date(guest.checkOut).toLocaleString()}</InfoValue>
-            </div>
-          </CheckInOut>
-          <RoomInfo>
-            <InfoLabel>Room Info</InfoLabel>
-            <InfoValue>{guest.roomType} - {guest.id}</InfoValue>
-          </RoomInfo>
-          <Price>{guest.price}</Price>
-          <Description>{guest.description}</Description>
-          <InfoLabel>Facilities</InfoLabel>
-          <Amenities>
-            {guest.amenities?.map((amenity, index) => (
-              <Amenity key={index}>{amenity.name}</Amenity>
+    <>
+      {modalOpen && (
+        <ModalOverlay onClick={() => setModalOpen(false)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalHeader>
+              <ModalTitle>Special Request</ModalTitle>
+              <CloseButton onClick={() => setModalOpen(false)}>&times;</CloseButton>
+            </ModalHeader>
+            <ModalBody>{modalContent}</ModalBody>
+            <ModalFooter>
+              <CloseButtonFooter onClick={() => setModalOpen(false)}>Close</CloseButtonFooter>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+      {guest.length > 0 ? (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeader onClick={() => handleSort('user')}>Guest</TableHeader>
+              <TableHeader onClick={() => handleSort('orderDate')}>Order Date</TableHeader>
+              <TableHeader onClick={() => handleSort('checkIn')}>Check In</TableHeader>
+              <TableHeader onClick={() => handleSort('checkOut')}>Check Out</TableHeader>
+              <TableHeader>Special Request</TableHeader>
+              <TableHeader onClick={() => handleSort('room')}>Room Type</TableHeader>
+              <TableHeader onClick={() => handleSort('status')}>Status</TableHeader>
+              <TableHeader>Actions</TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {guest.map((booking: Booking) => (
+              <TableRow key={booking._id} onClick={() => handleRowClick(booking._id)}>
+                <TableCell>
+                  {booking.user.name || 'Unknown User'} 
+                  <br />
+                  <small>{`#${booking._id}`}</small>
+                </TableCell>
+                <TableCell>{new Date(booking.orderDate).toLocaleString()}</TableCell>
+                <TableCell>{new Date(booking.checkIn).toLocaleString()}</TableCell>
+                <TableCell>{new Date(booking.checkOut).toLocaleString()}</TableCell>
+                <TableCell>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSpecialRequestClick(booking.specialRequest);
+                    }}
+                  >
+                    {booking.specialRequest ? 'View Notes' : 'No Notes'}
+                  </button>
+                </TableCell>
+                <TableCell>{booking.room || 'N/A'}</TableCell>
+                <TableCell
+                  style={{
+                    color:
+                      booking.status === 'Booked'
+                        ? 'green'
+                        : booking.status === 'Cancelled'
+                        ? 'red'
+                        : booking.status === 'Pending'
+                        ? 'orange'
+                        : 'grey',
+                  }}
+                >
+                  {booking.status}
+                </TableCell>
+                <TableCell>
+                  <ActionIcons>
+                    <FaTrashAlt
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteClick(booking._id);
+                      }}
+                    />
+                    <FaEdit
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditClick(booking._id);
+                      }}
+                    />
+                  </ActionIcons>
+                </TableCell>
+              </TableRow>
             ))}
-          </Amenities>
-        </GuestInfo>
-      </LeftSection>
-      <RightSection>
-        <Status color="#4caf50">{guest.status.toUpperCase()}</Status>
-        <Carousel>
-          <ShortDescription>{guest.description}</ShortDescription>
-          <FixedWidthImage src={roomImages[currentImageIndex]} alt="Room" />
-          <CarouselButton $position="left" onClick={handlePrevImage}>{'<'}</CarouselButton>
-          <CarouselButton $position="right" onClick={handleNextImage}>{'>'}</CarouselButton>
-        </Carousel>
-      </RightSection>
-    </Container>
-  )
-}
+          </TableBody>
+        </Table>
+      ) : (
+        <NoResults>No search results found</NoResults>
+      )}
+    </>
+  );
+};
 
-export default BookingDetails
+export default GuestTable;
