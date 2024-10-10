@@ -40,10 +40,6 @@ const Booking: React.FC = () => {
     }
   }, [dispatch, bookingsStatus]);
 
-  useEffect(() => {
-    console.log('Bookings data:', bookings);
-  }, [bookings]);
-
   const filteredGuests = bookings.filter((guest) => {
     if (!guest.status) return false;
     if (filter === 'pending') return guest.status === 'Pending';
@@ -59,9 +55,8 @@ const Booking: React.FC = () => {
     
     if (a[key] !== undefined && b[key] !== undefined) {
       if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
-      if (a[key] !== undefined && b[key] !== undefined && a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+      if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
     }
-    if (a[key] !== undefined && b[key] !== undefined && a[key] > b[key]) return direction === 'asc' ? 1 : -1;
     return 0;
   });
 

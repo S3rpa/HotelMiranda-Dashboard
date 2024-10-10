@@ -53,7 +53,7 @@ const BookingDetails: React.FC = () => {
     <Container>
       <LeftSection>
         <GuestInfo>
-          <GuestName>{guest.user.toString()}</GuestName>
+          <GuestName>{guest.user.name}</GuestName>
           <BookingId>ID {guest.id}</BookingId>
           <CheckInOut>
             <div>

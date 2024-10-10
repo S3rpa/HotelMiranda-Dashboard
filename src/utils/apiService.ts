@@ -21,8 +21,6 @@ export async function apiService<T>(
       body: body ? JSON.stringify(body) : undefined,
     });
 
-    console.log("Response status:", response.status);
-
     if (!response.ok) {
       try {
         const errorData = await response.json();
