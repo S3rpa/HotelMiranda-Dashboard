@@ -5,9 +5,9 @@ export interface Amenity {
 }
 
 export interface User {
-  id: string;
+  _id: string;
   name: string;
-  email: string;
+  email?: string;
 }
 
 export interface Booking {
@@ -22,14 +22,16 @@ export interface Booking {
   price: number;
   specialRequest?: string;
   amenities?: Amenity[];
+  roomType?: string;
+  description?: string;
 }
 
 export interface GuestTableProps {
   guest: Booking[];
   handleSort: (key: keyof Booking) => void;
   onSpecialRequestClick: (request: string) => void;
-  onDeleteClick: (id: string) => void; 
-  onEditClick: (id: string) => void; 
+  onDeleteClick: (id: string) => void;
+  onEditClick: (id: string) => void;
   onRowClick: (id: string) => void;
 }
 
