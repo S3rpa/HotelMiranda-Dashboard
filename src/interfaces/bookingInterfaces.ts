@@ -3,10 +3,15 @@ export interface Amenity {
     isFree: boolean
     description: string
 }
+export interface User {
+  _id: string;
+  name: string;
+  email?: string;
+}
 export interface Booking {
   _id: string;
   id: string;
-  user: string;
+  user: User;
   room: string;
   orderDate: string;
   checkIn: string;
@@ -14,6 +19,9 @@ export interface Booking {
   status: 'Booked' | 'Pending' | 'Cancelled' | 'Refund';
   price: number;
   specialRequest?: string;
+  amenities?: Amenity[];
+  roomType?: string;
+  description?: string;
 }
 
 export interface GuestTableProps {

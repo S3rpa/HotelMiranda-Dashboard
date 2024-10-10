@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../app/store'
-import { Booking } from '../../interfaces/bookingInterfaces'
-import room1 from '../../assets/room1.jpg'
-import room2 from '../../assets/room2.jpg'
-import room3 from '../../assets/room3.jpg'
-import room4 from '../../assets/room4.jpg'
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
+import { Booking } from '../../interfaces/bookingInterfaces';
+import room1 from '../../assets/room1.jpg';
+import room2 from '../../assets/room2.jpg';
+import room3 from '../../assets/room3.jpg';
+import room4 from '../../assets/room4.jpg';
 import { 
   Container, 
   LeftSection, 
@@ -27,33 +27,33 @@ import {
   CarouselButton, 
   Amenities, 
   Amenity 
-} from '../../styles/booking/bookingDetailsStyles'
+} from '../../styles/booking/bookingDetailsStyles';
 
 const BookingDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
-  const guests = useSelector((state: RootState) => state.bookings.data)
-  const guest = guests.find((g) => g.id === parseInt(id!)) as Booking
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const { id } = useParams<{ id: string }>();
+  const guests = useSelector((state: RootState) => state.bookings.data);
+  const guest = guests.find((g) => g._id === id) as Booking;
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!guest) {
-    return <p>No se encontró una reserva con el ID proporcionado.</p>
+    return <p>No se encontró una reserva con el ID proporcionado.</p>;
   }
 
-  const roomImages = [room1, room2, room3, room4]
+  const roomImages = [room1, room2, room3, room4];
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => prevIndex === roomImages.length - 1 ? 0 : prevIndex + 1)
-  }
+    setCurrentImageIndex((prevIndex) => (prevIndex === roomImages.length - 1 ? 0 : prevIndex + 1));
+  };
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) => prevIndex === 0 ? roomImages.length - 1 : prevIndex - 1)
-  }
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? roomImages.length - 1 : prevIndex - 1));
+  };
 
   return (
     <Container>
       <LeftSection>
         <GuestInfo>
-          <GuestName>{guest.name}</GuestName>
+          <GuestName>{guest.user.toString()}</GuestName>
           <BookingId>ID {guest.id}</BookingId>
           <CheckInOut>
             <div>
@@ -67,11 +67,11 @@ const BookingDetails: React.FC = () => {
           </CheckInOut>
           <RoomInfo>
             <InfoLabel>Room Info</InfoLabel>
-            <InfoValue>{guest.roomType} - {guest.id}</InfoValue>
+            <InfoValue>{guest.roomType} - {guest.room}</InfoValue>
           </RoomInfo>
           <Price>{guest.price}</Price>
           <Description>{guest.description}</Description>
-          <InfoLabel>Facilities</InfoLabel>
+          <InfoLabel>Amenities</InfoLabel>
           <Amenities>
             {guest.amenities?.map((amenity, index) => (
               <Amenity key={index}>{amenity.name}</Amenity>
@@ -89,7 +89,7 @@ const BookingDetails: React.FC = () => {
         </Carousel>
       </RightSection>
     </Container>
-  )
-}
+  );
+};
 
-export default BookingDetails
+export default BookingDetails;

@@ -8,7 +8,7 @@ import { DetailContainer, RoomInfo, RoomImageSection, RoomName, RoomDetails, Sta
 const RoomDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const rooms = useSelector((state: RootState) => state.rooms.data);
-  const room = rooms.find((room: Room) => room.id === parseInt(id || '', 10));
+  const room = rooms.find((room: Room) => room._id === parseInt(id || '', 10));
 
   if (!room) {
     return <p>Room not found</p>;

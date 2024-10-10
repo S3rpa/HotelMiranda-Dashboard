@@ -40,51 +40,32 @@ const Booking: React.FC = () => {
     }
   }, [dispatch, bookingsStatus]);
 
-  // Verificar que bookings está recibiendo datos válidos
   useEffect(() => {
-    console.log('Bookings data:', bookings); // Verifica que los datos estén disponibles
+    console.log('Bookings data:', bookings);
   }, [bookings]);
 
-  const filteredGuests = Array.isArray(bookings)
-    ? bookings
-        .filter((guest) => {
-          if (!guest.status) return false; // Verifica que el status existe
-          if (filter === 'pending') {
-            return guest.status?.toLowerCase() === 'pending';
-          }
-          if (filter === 'booked') {
-            return guest.status?.toLowerCase() === 'booked';
-          }
-          if (filter === 'cancelled') {
-            return guest.status?.toLowerCase() === 'cancelled';
-          }
-          if (filter === 'refund') {
-            return guest.status?.toLowerCase() === 'refund';
-          }
-          return true;
-        })
-    : [];
+  const filteredGuests = bookings.filter((guest) => {
+    if (!guest.status) return false;
+    if (filter === 'pending') return guest.status === 'Pending';
+    if (filter === 'booked') return guest.status === 'Booked';
+    if (filter === 'cancelled') return guest.status === 'Cancelled';
+    if (filter === 'refund') return guest.status === 'Refund';
+    return true;
+  });
 
   const sortedGuests = filteredGuests.sort((a, b) => {
     const key = sortConfig.key;
     const direction = sortConfig.direction;
-
-    if (a[key] && b[key]) {
-      if (a[key] < b[key]) {
-        return direction === 'asc' ? -1 : 1;
-      }
-      if (a[key] > b[key]) {
-        return direction === 'asc' ? 1 : -1;
-      }
+    
+    if (a[key] !== undefined && b[key] !== undefined) {
+      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+      if (a[key] !== undefined && b[key] !== undefined && a[key] > b[key]) return direction === 'asc' ? 1 : -1;
     }
+    if (a[key] !== undefined && b[key] !== undefined && a[key] > b[key]) return direction === 'asc' ? 1 : -1;
     return 0;
   });
 
-  const paginatedGuests = sortedGuests.slice(
-    (currentPage - 1) * guestsPerPage,
-    currentPage * guestsPerPage
-  );
-
+  const paginatedGuests = sortedGuests.slice((currentPage - 1) * guestsPerPage, currentPage * guestsPerPage);
   const totalPages = Math.ceil(sortedGuests.length / guestsPerPage);
 
   const handleSort = (key: keyof Booking) => {

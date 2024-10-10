@@ -77,10 +77,10 @@ const GuestTable: React.FC<GuestTableProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {guest.map((booking) => (
+            {guest.map((booking: Booking) => (
               <TableRow key={booking._id} onClick={() => handleRowClick(booking._id)}>
                 <TableCell>
-                  {booking.user || 'Unknown User'}
+                  {typeof booking.user === 'object' && booking.user !== null ? booking.user.name : 'Unknown User'}
                   <br />
                   <small>{`#${booking._id}`}</small>
                 </TableCell>

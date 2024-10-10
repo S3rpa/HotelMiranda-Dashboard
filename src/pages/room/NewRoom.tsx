@@ -25,7 +25,7 @@ const NewRoom: React.FC = () => {
             return;
         }
 
-        const newRoom: Omit<Room, 'id'> = {
+        const newRoom: Omit<Room, '_id'> = {
             room_name: roomName,
             amenities: amenities.split(',').map(item => item.trim()),
             price: parseFloat(price),
